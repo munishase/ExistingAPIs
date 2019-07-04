@@ -1,0 +1,170 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "ASE API Management",
+    "description": "The powerful console to manage backend",
+    "license": {
+      "name": "ASE",
+      "url": "http://www.aseit.com.au/"
+    }
+  },
+  "host": "localhost:3000",
+  "basePath": "",
+  "tags": [
+    {
+      "name": "StorageGrid",
+      "description": "API for ASE automation for the system"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "securityDefinitions": {
+    "Bearer": {
+      "description": "The authorization header is expected to contain the Bearer token (a JWT prefixed with \\'Bearer \\') of the user whose favourite resources we are acting on.",
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "security": {
+    "Bearer": []
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/processstoragegrid": {
+      "post": {
+        "tags": [
+          "StorageGrid"
+        ],
+        "description": "Create new tenant account, keys and s3 bucket",
+        "parameters": [
+          {
+            "name": "storagegridparams",
+            "in": "body",
+            "description": "Storage Grid tenant name and bucket name",
+            "schema": {
+              "$ref": "#/definitions/StorageGridInputParams"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "New Storage account details has been configured",
+            "schema": {
+              "$ref": "#/definitions/StorageGridSuccessOutputParams"
+            }
+          },
+          "400": {
+            "description": "Some issue occured while configuring Storagegrid",
+            "schema": {
+              "$ref": "#/definitions/StorageGridFailureOutputParams"
+            }
+          },
+          "403": {
+            "description": "You do not have necessary permissions for the resource"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "StorageGridInputParams": {
+      "required": [
+        "tenantname",
+        "bucketname"
+      ],
+      "properties": {
+        "tenantname": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "bucketname": {
+          "type": "string",
+          "uniqueItems": true
+        }
+      }
+    },
+    "StorageGridSuccessOutputParams": {
+      "required": [
+        "success",
+        "message"
+      ],
+      "properties": {
+        "tenantname": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "tenantpassword": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "bucketname": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "tenantaccountid": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "tenantaccesskey": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "tenantsecretaccesskey": {
+          "type": "string",
+          "uniqueItems": true
+        }
+      }
+    },
+    "StorageGridFailureOutputParams": {
+      "required": [
+        "success",
+        "message"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "errors": {
+          "properties": {
+            "status": {
+              "type": "string",
+              "uniqueItems": true
+            },
+            "description": {
+              "type": "string",
+              "uniqueItems": true
+            },
+            "actualdetail": {
+              "properties": {
+                "type": "object",
+                "uniqueItems": true
+              }
+            },
+            "param": {
+              "properties": {
+                "type": "object",
+                "uniqueItems": true
+              }
+            },
+            "datetime": {
+              "type": "string",
+              "uniqueItems": true
+            }
+          }
+        }
+      }
+    }
+  }
+}

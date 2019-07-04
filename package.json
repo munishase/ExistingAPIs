@@ -1,0 +1,54 @@
+{
+  "name": "apis",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./src/server.ts",
+  "scripts": {
+    "tsc": "tsc",
+    "dev": "ts-node-dev --respawn --transpileOnly ./src/server.ts",
+    "prod": "tsc && copy package.json .\\build\\ && copy  package-lock.json .\\build\\ && copy config.json .\\build\\ && node ./build/src/server.js",
+    "prod1": "npm install --force ./build/",
+    "build": "webpack --config webpack.config.js --mode production"
+  },
+  "author": "",
+  "license": "ASE IT POC",
+  "dependencies": {
+    "@types/express": "^4.16.1",
+    "@types/node": "7.0.22",
+    "@types/swagger-ui-express": "^3.0.0",
+    "apis": "file:build",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "express-openapi-validate": "^0.4.4",
+    "fs": "0.0.1-security",
+    "js-yaml": "^3.13.1",
+    "json-loader": "^0.5.7",
+    "jsonwebtoken": "^8.5.1",
+    "path": "^0.12.7",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4",
+    "sessionstorage": "^0.1.0",
+    "swagger-jsdoc": "^3.2.9",
+    "swagger-ui-express": "^4.0.4",
+    "ts-node-dev": "^1.0.0-pre.30",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
+    "babel-loader": "^8.0.6",
+    "ts-loader": "^6.0.1",
+    "typescript": "^3.3.3333",
+    "webpack": "^4.32.2",
+    "webpack-cli": "^3.3.2",
+    "webpack-dev-server": "^3.4.1"
+  },
+  "browser": {
+    "colors": false,
+    "events": "eventemitter3",
+    "checkForModuleDuplicates": false,
+    "url": "./shims/url",
+    "tracer": false
+  }
+}

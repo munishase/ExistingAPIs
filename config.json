@@ -1,0 +1,69 @@
+{
+  "development": {
+    "StorageGrid": {
+      "Urls": {
+        "BaseUrl": "https://storgrid-nms-dev.aseit.com.au/api"
+      },
+      "Username": "munish.singla.dev",
+      "Password": "munish5dev",
+      "Cookie": true,
+      "CsrfToken": false,
+      "Tenant": {
+        "DefaultUsername": "root",
+        "UserPassword": "munish123",
+        "Capabilities": [
+          "management",
+          "s3"
+        ],
+        "Policy": {
+          "UseAccountIdentitySource": true,
+          "AllowPlatformServices": true,
+          "QuotaObjectBytes": 100000000000
+        },
+        "Cookie": true,
+        "CsrfToken": false,
+        "Bucket": {
+          "Region": "us-east-1",
+          "S3_Bucket_Name": "test33-demo-bucket",
+          "Compliance": {
+            "AutoDelete": false,
+            "LegalHold": false,
+            "RetentionPeriodMinutes": 2629800,
+            "Access_Key_Id": "0YH990DB41BN1RI0TY2E",
+            "Secret_Access_Key": "kqmf+GjgMPu30fDtVU8DYqqHz7hZrU/JUeVm3v1Z"
+          }
+        }
+      }
+    },
+    "Veeam": {
+      "Urls": {
+        "BaseUrl": "https://storcloud-vac-dev.syd.nsw.au.imase.io:1281"
+      },
+      "Username": "TESTING.ASEIT.NET\\munish.singla",
+      "Password": "munishtest2019",
+      "CloudConnectAgentUid": "86749222-e160-4a8e-bb1a-678bc27d7046",
+      "DefaultValues": {
+        "BackupProtectionEnabled": true,
+        "BackupProtectionPeriod": 2,
+        "MaxConcurrentTask": 2,
+        "ExpirationEnabled": false
+      }
+    },
+    "Netsuite": {
+      "Urls": {
+        "BaseUrl": "https://36326.restlets.api.netsuite.com/app/site/hosting/restlet.nl"
+      },
+      "AccountNumber": "36326",
+      "Username": "munish.singla@aseit.com.au",
+      "Password": "L*M*1PK!phBC",
+      "RoleId": "1016"
+    },
+    "PrivateKey": {
+      "Value": "v6A7>o$2rfw5sdfdfg^-{e)>m!?)BIwa=I^'6x^rB?}a2aJsgmCBrfdgsdgh,jTkJ3K&_Cnz@d^R/",
+      "Subject": "help@aseit.com.au",
+      "Issuer": "ASE",
+      "Audience": "http://www.aseit.com.au",
+      "ExpiresIn": "12h"
+    }
+  }
+}
