@@ -170,7 +170,47 @@
           }
         }
       }
+    },
+    "/authenticatestitch": {
+      "post": {
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthenticateStitchdataInputParams"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Stitchdata token has been successfully generated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticateStitchdataSuccessOutputParams"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Some issue occured while generating Stitchdata token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessRequestFailureOutputParams"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have necessary permissions for the resource"
+          }
+        }
+      }
     }
+
   },
   "components": {
     "schemas": {
@@ -556,6 +596,84 @@
         ],
         "items": {
           "$ref": "#/components/schemas/NetsuiteCreateClientFailureOutputParams"
+        }
+      },
+      "AuthenticateStitchdataInputParams": {
+        "type": "object",
+        "required": [
+          "stitch_auth_code"
+        ],
+        "properties": {
+          "stitch_auth_code": {
+            "type": "string",
+            "uniqueItems": true
+          }
+        }
+      },
+      "AuthenticateStitchdataSuccessOutputParams": {
+        "type": "object",
+        "required": [
+          "success",
+          "message"
+        ],
+        "properties": {
+          "module": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "access_token": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "token_type": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "stitch_account_id": {
+            "type": "string",
+            "uniqueItems": true
+          }
+        }
+      },
+      "AuthenticateStitchdataFailureOutputParams": {
+        "type": "object",
+        "required": [
+          "success",
+          "message"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "logs": {
+            "properties": {
+              "status": {
+                "type": "string",
+                "uniqueItems": true
+              },
+              "description": {
+                "type": "string",
+                "uniqueItems": true
+              },
+              "actualdetail": {
+                "properties": {
+                  "type": "object",
+                  "uniqueItems": true
+                }
+              },
+              "param": {
+                "properties": {
+                  "type": "object",
+                  "uniqueItems": true
+                }
+              },
+              "datetime": {
+                "type": "string",
+                "uniqueItems": true
+              }
+            }
+          }
         }
       }
     },

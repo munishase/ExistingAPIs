@@ -1,6 +1,7 @@
 import StorageGridHttpRequests from './StorageGridHttpRequests';
 import VeeamHttpRequests from './VeeamHttpRequests';
 import NetsuiteHttpRequests from './NetSuiteHttpRequests';
+import StitchdataHttpRequests from './StitchdataHttpRequests';
 import { Logger } from '../class/Logger'
 import Common from '../class/Common';
 import { EnumPartOf } from '../Enum/EnumPartOf'
@@ -54,6 +55,13 @@ class ServicesWrapper {
         Logger.cleanLogs();
         let netsuiteResponse = await NetsuiteHttpRequests.createnetsuiteclientAsync(requestBody, webResponse);
         return Common.beautifyResult(netsuiteResponse, webResponse, EnumPartOf.Individual);
+    }
+
+    //call Netsuite createnetsuiteclientAsync
+    async checkStitchLogin(requestBody: any, webResponse: any) {
+        Logger.cleanLogs();
+        let stitchdataResponse = await StitchdataHttpRequests.stitchdataToken(requestBody);
+        return Common.beautifyResult(stitchdataResponse, webResponse, EnumPartOf.Individual);
     }
 }
 

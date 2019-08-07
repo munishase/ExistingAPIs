@@ -144,6 +144,17 @@ class Router {
     });
 
 
+    router.post('/authenticatestitch', (req, res) => {
+      res.header("Access-Control-Allow-Origin", "*");
+      if (!req.body.stitch_auth_code) {
+        return res.status(400).send({
+          message: 'STITCH AUTHORIZATION CODE is required.'
+        });
+      } 
+      return ServicesWrapper.checkStitchLogin(req.body, res);
+    });
+
+
     server.use('/', router);
   }
 

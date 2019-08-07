@@ -58,6 +58,17 @@
       "Password": "L*M*1PK!phBC",
       "RoleId": "1016"
     },
+    "Stitchdata": {
+      "Urls": {
+        "BaseUrl": "https://api.stitchdata.com"
+      },
+      "Username": "TESTING.ASEIT.NET\\munish.singla",
+      "Password": "munishtest2019",
+      "ClientId": "oc_8b5592809654988c94a04a0ed6fd84cd",
+      "ClientSecret": "os_369a3cdcb1b8b81a00eac088a1858384",
+      "GrantType": "authorization_code",
+      "ContentType": "application/x-www-form-urlencoded"
+    },
     "PrivateKey": {
       "Value": "v6A7>o$2rfw5sdfdfg^-{e)>m!?)BIwa=I^'6x^rB?}a2aJsgmCBrfdgsdgh,jTkJ3K&_Cnz@d^R/",
       "Subject": "help@aseit.com.au",

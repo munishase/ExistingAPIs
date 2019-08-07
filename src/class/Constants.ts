@@ -52,6 +52,14 @@ class Constants {
     readonly NetsuiteRecordType: string = "customer";
     //
 
+
+    //Stitchdata
+    readonly StitchdataAuthURL: string = "/oauth/token";
+    readonly StitchdataAuthError: string = "Stitchdata Authorization failed";
+    readonly StitchdataTokenRemovedError: string = "Stitchdata Token removed failure";
+
+    readonly StitchdataAuthSuccess: string = "Stitchdata Authorization completed";
+    readonly StitchdataTokenRemovedSuccess: string = "Stitchdata Token removed successfully";
 }
 
 

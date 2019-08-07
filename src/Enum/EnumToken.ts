@@ -1,5 +1,6 @@
 export enum EnumToken {
   TenantToken = "TenantToken",
   StorageGridToken = "StorageGridToken",
-  VeeamToken = "VeeamToken"
+  VeeamToken = "VeeamToken",
+  StitchdataToken = "Stitchdata"
 }
