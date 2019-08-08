@@ -26,8 +26,7 @@ export class StitchdataBaseLayer extends BaseLayer {
     //Generate new Token for Stitch
     private generateStitchdataToken() {
 
-        this.stitchdata.ClientId = this.environmentConfig.Stitchdata.ClientId;
-        this.stitchdata.ClientSecret = this.environmentConfig.Stitchdata.ClientSecret;
+        this.assignStitchdataEssentials();
         this.stitchdata.GrantType = this.environmentConfig.Stitchdata.GrantType;
         this.stitchdata.ContentType = this.environmentConfig.Stitchdata.ContentType;
 
@@ -40,7 +39,7 @@ export class StitchdataBaseLayer extends BaseLayer {
             },
             form:
             {
-                client_secret: this.stitchdata.ClientSecret,
+                client_secret: this.stitchdata.PartnerSecret,
                 code: this.stitchdata.AuthorizationCode,
                 grant_type: this.stitchdata.GrantType
             }
@@ -60,7 +59,7 @@ export class StitchdataBaseLayer extends BaseLayer {
                     stitchdata.AccountId = jsonResponse.stitch_account_id;
                     stitchdata.Token = jsonResponse.access_token;
                     stitchdata.TokenType = jsonResponse.token_type;
-                    sessionstorage.setItem(EnumToken.StitchdataToken, jsonResponse.access_token)
+                    //temporary commented sessionstorage.setItem(EnumToken.StitchdataToken, jsonResponse.access_token)
                     Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Stitchdata, Constants.StitchdataAuthSuccess, response, ""))
                     return true;
                 })
@@ -69,6 +68,13 @@ export class StitchdataBaseLayer extends BaseLayer {
                     return false;
                 });
         }
+    }
+
+
+    //Setup stitch object essentials
+    protected assignStitchdataEssentials() {
+        this.stitchdata.PartnerId = this.environmentConfig.Stitchdata.PartnerId;
+        this.stitchdata.PartnerSecret = this.environmentConfig.Stitchdata.PartnerSecret;
     }
 
     //remove token

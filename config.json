@@ -62,10 +62,8 @@
       "Urls": {
         "BaseUrl": "https://api.stitchdata.com"
       },
-      "Username": "TESTING.ASEIT.NET\\munish.singla",
-      "Password": "munishtest2019",
-      "ClientId": "oc_8b5592809654988c94a04a0ed6fd84cd",
-      "ClientSecret": "os_369a3cdcb1b8b81a00eac088a1858384",
+      "PartnerId": "oc_8b5592809654988c94a04a0ed6fd84cd",
+      "PartnerSecret": "os_369a3cdcb1b8b81a00eac088a1858384",
       "GrantType": "authorization_code",
       "ContentType": "application/x-www-form-urlencoded"
     },

@@ -144,16 +144,44 @@ class Router {
     });
 
 
-    router.post('/authenticatestitch', (req, res) => {
+    router.post('/generatetokenforexistingstitchdataaccount', (req, res) => {
       res.header("Access-Control-Allow-Origin", "*");
       if (!req.body.stitch_auth_code) {
         return res.status(400).send({
           message: 'STITCH AUTHORIZATION CODE is required.'
         });
       } 
-      return ServicesWrapper.checkStitchLogin(req.body, res);
+      return ServicesWrapper.generateTokenForExistingStitchdataAccount(req.body, res);
     });
 
+
+    router.post('/registeraccountforstitchdata', (req, res) => {
+
+      res.header("Access-Control-Allow-Origin", "*");
+      if (!req.body.firstname) {
+        return res.status(400).send({
+          message: 'First Name is required.'
+        });
+      } 
+      else if (!req.body.lastname) {
+        return res.status(400).send({
+          message: 'Last Name is required.'
+        });
+      } 
+      else if (!req.body.company) {
+        return res.status(400).send({
+          message: 'Company name is required.'
+        });
+      } 
+      else if (!req.body.email) {
+        return res.status(400).send({
+          message: 'Email address is required.'
+        });
+      } 
+      return ServicesWrapper.registerAccountForStitchdata(req.body, res);
+
+    });
+    
 
     server.use('/', router);
   }

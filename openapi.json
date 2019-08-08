@@ -17,6 +17,7 @@
   "paths": {
     "/processstoragegrid": {
       "post": {
+        "tags":["Storagegrid"],
         "requestBody": {
           "required": true,
           "content": {
@@ -56,7 +57,8 @@
     },
     "/processveeam": {
       "post": {
-        "requestBody": {
+      "tags":["Veeam"],
+      "requestBody": {
           "required": true,
           "content": {
             "application/json": {
@@ -95,6 +97,7 @@
     },
     "/createnetsuiteclient": {
       "post": {
+        "tags":["Netsuite"],
         "requestBody": {
           "required": true,
           "content": {
@@ -171,14 +174,55 @@
         }
       }
     },
-    "/authenticatestitch": {
+    "/generatetokenforexistingstitchdataaccount": {
       "post": {
+        "tags":["Stitchdata"],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/AuthenticateStitchdataInputParams"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Stitchdata token has been successfully generated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticateStitchdataSuccessOutputParams"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Some issue occured while generating Stitchdata token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessRequestFailureOutputParams"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have necessary permissions for the resource"
+          }
+        }
+      }
+    },
+    "/registeraccountforstitchdata": {
+      "post": {
+        "tags":["Stitchdata"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterAccountStitchdataInputParams"
               }
             }
           }
@@ -673,6 +717,33 @@
                 "uniqueItems": true
               }
             }
+          }
+        }
+      },
+      "RegisterAccountStitchdataInputParams": {
+        "type": "object",
+        "required": [
+          "firstname",
+          "lastname",
+          "company",
+          "email"
+        ],
+        "properties": {
+          "firstname": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "lastname": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "company": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "email": {
+            "type": "string",
+            "uniqueItems": true
           }
         }
       }

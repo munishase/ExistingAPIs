@@ -1,6 +1,6 @@
 export class Stitchdata {
-    ClientId: string;
-    ClientSecret: string;
+    PartnerId: string;
+    PartnerSecret: string;
     GrantType: string;
     ContentType: string;
     AuthorizationCode: string;
@@ -8,8 +8,8 @@ export class Stitchdata {
     TokenType: string;
     AccountId: string;
     constructor() {
-        this.ClientId = "";
-        this.ClientSecret = "";
+        this.PartnerId = "";
+        this.PartnerSecret = "";
         this.GrantType = ""
         this.ContentType = ""
         this.AuthorizationCode = ""

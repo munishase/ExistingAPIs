@@ -5,8 +5,7 @@ import StitchdataHttpRequests from './StitchdataHttpRequests';
 import { Logger } from '../class/Logger'
 import Common from '../class/Common';
 import { EnumPartOf } from '../Enum/EnumPartOf'
-import { StorageGridSuccessResponse } from '../class/StorageGridSuccessResponse';
-import { StorageGrid } from '../class/StorageGrid';
+
 
 // this class is wrapper to call other services methods
 class ServicesWrapper {
@@ -57,10 +56,18 @@ class ServicesWrapper {
         return Common.beautifyResult(netsuiteResponse, webResponse, EnumPartOf.Individual);
     }
 
-    //call Netsuite createnetsuiteclientAsync
-    async checkStitchLogin(requestBody: any, webResponse: any) {
+    //generate token for existing account in Stitchdata 
+    async generateTokenForExistingStitchdataAccount(requestBody: any, webResponse: any) {
         Logger.cleanLogs();
-        let stitchdataResponse = await StitchdataHttpRequests.stitchdataToken(requestBody);
+        let stitchdataResponse = await StitchdataHttpRequests.generateTokenForExistingStitchdataAccount(requestBody);
+        return Common.beautifyResult(stitchdataResponse, webResponse, EnumPartOf.Individual);
+    }
+
+
+    //register new account in Stitchdata
+    async registerAccountForStitchdata(requestBody: any, webResponse: any) {
+        Logger.cleanLogs();
+        let stitchdataResponse = await StitchdataHttpRequests.registerAccountForStitchdata(requestBody);
         return Common.beautifyResult(stitchdataResponse, webResponse, EnumPartOf.Individual);
     }
 }

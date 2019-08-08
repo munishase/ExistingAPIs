@@ -55,11 +55,15 @@ class Constants {
 
     //Stitchdata
     readonly StitchdataAuthURL: string = "/oauth/token";
+    readonly StitchdataCreateAccountURL: string = "/v3/accounts";
+
     readonly StitchdataAuthError: string = "Stitchdata Authorization failed";
     readonly StitchdataTokenRemovedError: string = "Stitchdata Token removed failure";
+    readonly StitchdataCreateAccountError: string = "Stitchdata Account creation failed";
 
     readonly StitchdataAuthSuccess: string = "Stitchdata Authorization completed";
     readonly StitchdataTokenRemovedSuccess: string = "Stitchdata Token removed successfully";
+    readonly StitchdataCreateAccountSuccess: string = "Stitchdata Account creation completed";
 }
 
 
