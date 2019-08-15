@@ -8,7 +8,7 @@ import { EnumCurrentStatus } from '../Enum/EnumCurrentStatus'
 import Constants from '../class/Constants'
 import { EnumModule } from '../Enum/EnumModule';
 import { EnumToken } from '../Enum/EnumToken';
-var querystring = require('querystring');
+
 
 
 export class StitchdataBaseLayer extends BaseLayer {

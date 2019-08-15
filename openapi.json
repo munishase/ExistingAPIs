@@ -17,7 +17,9 @@
   "paths": {
     "/processstoragegrid": {
       "post": {
-        "tags":["Storagegrid"],
+        "tags": [
+          "Storagegrid"
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -57,8 +59,10 @@
     },
     "/processveeam": {
       "post": {
-      "tags":["Veeam"],
-      "requestBody": {
+        "tags": [
+          "Veeam"
+        ],
+        "requestBody": {
           "required": true,
           "content": {
             "application/json": {
@@ -97,7 +101,9 @@
     },
     "/createnetsuiteclient": {
       "post": {
-        "tags":["Netsuite"],
+        "tags": [
+          "Netsuite"
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -176,7 +182,9 @@
     },
     "/generatetokenforexistingstitchdataaccount": {
       "post": {
-        "tags":["Stitchdata"],
+        "tags": [
+          "Stitchdata"
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -216,7 +224,9 @@
     },
     "/registeraccountforstitchdata": {
       "post": {
-        "tags":["Stitchdata"],
+        "tags": [
+          "Stitchdata"
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -253,8 +263,91 @@
           }
         }
       }
+    },
+    "/retrievesourcesfromstitchdata": {
+      "post": {
+        "tags": [
+          "Stitchdata"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RetrieveSourcesFromStitchdataInputParams"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Stitchdata source has been successfully retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RetrieveSourcesFromStitchdataOutputParams"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Some issue occured while retrieving sources for Stitchdata",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessRequestFailureOutputParams"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have necessary permissions for the resource"
+          }
+        }
+      }
+    },
+    "/retrievedestinationfromstitchdata": {
+      "post": {
+        "tags": [
+          "Stitchdata"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RetrieveSourcesFromStitchdataInputParams"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Stitchdata destination has been successfully retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RetrieveSourcesFromStitchdataOutputParams"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Some issue occured while retrieving destination for Stitchdata",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessRequestFailureOutputParams"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have necessary permissions for the resource"
+          }
+        }
+      }
     }
-
   },
   "components": {
     "schemas": {
@@ -520,7 +613,7 @@
           "clientid": {
             "type": "string",
             "uniqueItems": true
-          }          ,
+          },
           "clientName": {
             "type": "string",
             "uniqueItems": true
@@ -665,11 +758,23 @@
             "type": "string",
             "uniqueItems": true
           },
-          "access_token": {
+          "firstname": {
             "type": "string",
             "uniqueItems": true
           },
-          "token_type": {
+          "lastname": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "company": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "email": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "access_token": {
             "type": "string",
             "uniqueItems": true
           },
@@ -743,6 +848,39 @@
           },
           "email": {
             "type": "string",
+            "uniqueItems": true
+          }
+        }
+      },
+      "RetrieveSourcesFromStitchdataInputParams": {
+        "type": "object",
+        "required": [
+          "access_token"
+        ],
+        "properties": {
+          "access_token": {
+            "type": "string",
+            "uniqueItems": true
+          }
+        }
+      },
+      "RetrieveSourcesFromStitchdataOutputParams": {
+        "type": "object",
+        "required": [
+          "success",
+          "message"
+        ],
+        "properties": {
+          "module": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "access_token": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "message": {
+            "type": "object",
             "uniqueItems": true
           }
         }

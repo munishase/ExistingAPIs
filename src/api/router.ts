@@ -183,6 +183,29 @@ class Router {
     });
     
 
+    router.post('/retrievesourcesfromstitchdata', (req, res) => {
+        
+      res.header("Access-Control-Allow-Origin", "*");
+      if (!req.body.access_token) {
+        return res.status(400).send({
+          message: 'Access Token is required.'
+        });
+      } 
+
+      return ServicesWrapper.retrievesourcesfromstitchdata(req.body, res);
+    });
+
+    router.post('/retrievedestinationfromstitchdata', (req, res) => {
+      
+      if (!req.body.access_token) {
+        return res.status(400).send({
+          message: 'Access Token is required.'
+        });
+      } 
+      return ServicesWrapper.retrievedestinationfromstitchdata(req.body, res);
+    });
+    
+
     server.use('/', router);
   }
 

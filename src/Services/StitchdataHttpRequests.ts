@@ -5,9 +5,12 @@ import { Logger } from '../class/Logger'
 import { EnumCurrentStatus } from '../Enum/EnumCurrentStatus'
 import Constants from '../class/Constants'
 import { StitchdataBaseLayer } from './StitchdataBaseLayer'
-import { StitchdataSuccessResponse } from '../class/StitchdataSuccessResponse'
+import { StitchdataAccountAuthorizationSuccessResponse } from '../class/StitchdataAccountAuthorizationSuccessResponse'
+import { StitchdataAccountCreationSuccessResponse } from '../class/StitchdataAccountCreationSuccessResponse'
 import { EnumModule } from '../Enum/EnumModule';
 import { EnumToken } from '../Enum/EnumToken';
+import { StitchdataCreateAccount } from '../class/StitchdataCreateAccount';
+import { StitchdataGetRequestSuccessResponse } from '../class/StitchdataGetRequestSuccessResponse';
 
 class StitchdataHttpRequests extends StitchdataBaseLayer {
 
@@ -27,23 +30,28 @@ class StitchdataHttpRequests extends StitchdataBaseLayer {
       Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Stitchdata, Constants.StitchdataAuthSuccess, err, ""));
     });
 
-    return new StitchdataSuccessResponse(this.stitchdata);
+    return new StitchdataAccountAuthorizationSuccessResponse(this.stitchdata);
   };
 
 
-  //Here we are creating tenant Account
-  //prerequisite: Storage Grid Token in Header
+  //Here we are creating new Account
   async registerAccountForStitchdata(RequestBody: any) {
 
     this.assignStitchdataEssentials();
+    let stitchdataCreateAccount: StitchdataCreateAccount = new StitchdataCreateAccount();
+
+    stitchdataCreateAccount.FirstName = RequestBody.firstname;
+    stitchdataCreateAccount.LastName = RequestBody.lastname;
+    stitchdataCreateAccount.Email = RequestBody.company;
+    stitchdataCreateAccount.Company = RequestBody.email;
 
     let body = {
       "partner_id": this.stitchdata.PartnerId,
       "partner_secret": this.stitchdata.PartnerSecret,
-      "first_name": RequestBody.firstname,
-      "last_name": RequestBody.lastname,
-      "company": RequestBody.company,
-      "email": RequestBody.email,
+      "first_name": stitchdataCreateAccount.FirstName,
+      "last_name": stitchdataCreateAccount.LastName,
+      "company": stitchdataCreateAccount.Email,
+      "email": stitchdataCreateAccount.Company,
     }
 
     let options = {
@@ -67,7 +75,60 @@ class StitchdataHttpRequests extends StitchdataBaseLayer {
     })
 
 
-    return new StitchdataSuccessResponse(this.stitchdata);
+    return new StitchdataAccountCreationSuccessResponse(this.stitchdata, stitchdataCreateAccount);
+  };
+
+
+  //Here we are retrieving all the sources from new Account
+  async retrievesourcesfromstitchdata(RequestBody: any) {
+
+    let options = {
+      url: this.baseUrl(Constants.StitchdataRetrieveSourcesURL),
+      method: 'GET',
+      headers: {
+        'Authorization': RequestBody.access_token,
+        'content-type': 'application/json'
+      },
+      json: true
+    };
+
+    let responseStitchdata;
+    await httppromise(options).then(function (response: any) {
+
+      responseStitchdata = response;
+      Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Stitchdata, Constants.StitchdataRetrieveSourcesSuccess, response, options));
+    }).catch(function (err: any) {
+      Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Stitchdata, Constants.StitchdataRetrieveSourcesError, err, options));
+    })
+
+    
+    return new StitchdataGetRequestSuccessResponse(RequestBody.access_token, responseStitchdata);
+  };
+
+
+  //Here we are retrieving all the sources from new Account
+  async retrievedestinationfromstitchdata(RequestBody: any) {
+
+    let options = {
+      url: this.baseUrl(Constants.StitchdataRetrieveDestinationsURL),
+      method: 'GET',
+      headers: {
+        'Authorization': RequestBody.access_token,
+        'content-type': 'application/json'
+      },
+      json: true
+    };
+
+    let responseStitchdata;
+    await httppromise(options).then(function (response: any) {
+
+      responseStitchdata = response;
+      Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Stitchdata, Constants.StitchdataRetrieveSourcesSuccess, response, options));
+    }).catch(function (err: any) {
+      Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Stitchdata, Constants.StitchdataRetrieveSourcesError, err, options));
+    })
+
+    return new StitchdataGetRequestSuccessResponse(RequestBody.access_token, responseStitchdata);
   };
 }
 

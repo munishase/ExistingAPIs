@@ -2,7 +2,7 @@ import { Stitchdata } from './Stitchdata'
 import { EnumModule } from '../Enum/EnumModule'
 import { BaseResponse } from './BaseResponse'
 
-export class StitchdataSuccessResponse extends BaseResponse {
+export class StitchdataAccountAuthorizationSuccessResponse extends BaseResponse {
     access_token: string;
     token_type: string;
     stitch_account_id: string;

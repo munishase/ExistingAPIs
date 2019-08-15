@@ -70,6 +70,22 @@ class ServicesWrapper {
         let stitchdataResponse = await StitchdataHttpRequests.registerAccountForStitchdata(requestBody);
         return Common.beautifyResult(stitchdataResponse, webResponse, EnumPartOf.Individual);
     }
+
+
+    //retreive all sources in Stitchdata
+    async retrievesourcesfromstitchdata(requestBody: any, webResponse: any) {
+        Logger.cleanLogs();
+        let stitchdataResponse = await StitchdataHttpRequests.retrievesourcesfromstitchdata(requestBody);
+        return Common.beautifyResult(stitchdataResponse, webResponse, EnumPartOf.Individual);
+    }
+
+
+    //retreive all destination in Stitchdata
+    async retrievedestinationfromstitchdata(requestBody: any, webResponse: any) {
+        Logger.cleanLogs();
+        let stitchdataResponse = await StitchdataHttpRequests.retrievedestinationfromstitchdata(requestBody);
+        return Common.beautifyResult(stitchdataResponse, webResponse, EnumPartOf.Individual);
+    }
 }
 
 export default new ServicesWrapper();
