@@ -1,6 +1,6 @@
-import { StorageGrid } from './StorageGrid'
-import { EnumModule } from '../Enum/EnumModule'
-import { BaseResponse } from './BaseResponse'
+import { StorageGrid } from '../StorageGrid'
+import { EnumModule } from '../../Enum/EnumModule'
+import { BaseResponse } from '../BaseResponse'
 
 export class StorageGridSuccessResponse extends BaseResponse {
     tenantname: string;

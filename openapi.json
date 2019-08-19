@@ -243,7 +243,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AuthenticateStitchdataSuccessOutputParams"
+                  "$ref": "#/components/schemas/RegisterAccountForStitchdataSuccessOutputParams"
                 }
               }
             }
@@ -748,6 +748,31 @@
         }
       },
       "AuthenticateStitchdataSuccessOutputParams": {
+        "type": "object",
+        "required": [
+          "success",
+          "message"
+        ],
+        "properties": {
+          "module": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "access_token": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "token_type": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "stitch_account_id": {
+            "type": "string",
+            "uniqueItems": true
+          }
+        }
+      },
+      "RegisterAccountForStitchdataSuccessOutputParams": {
         "type": "object",
         "required": [
           "success",

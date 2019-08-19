@@ -8,8 +8,7 @@ import Constants from '../class/Constants'
 import { EnumModule } from '../Enum/EnumModule';
 import { VeeamBaseLayer } from './VeeamBaseLayer';
 import Common from '../class/Common';
-import { NetsuiteSuccessResponse } from '../class/NetsuiteSuccessResponse';
-import { VeeamSuccessResponse } from '../class/VeeamSuccessResponse';
+import { VeeamSuccessResponse } from '../class/Response/VeeamSuccessResponse';
 import { EnumToken } from '../Enum/EnumToken';
 
 export class VeeamHttpRequests extends VeeamBaseLayer {

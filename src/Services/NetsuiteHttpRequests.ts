@@ -1,5 +1,5 @@
 import { NetsuiteClient } from '../class/NetsuiteClient';
-import { NetsuiteSuccessResponse } from '../class/NetsuiteSuccessResponse';
+import { NetsuiteSuccessResponse } from '../class/Response/NetsuiteSuccessResponse';
 import { NetsuiteBaseLayer } from './NetsuiteBaseLayer';
 const httppromise = require('request-promise');
 import { Log } from '../class/Log'
@@ -7,7 +7,6 @@ import { Logger } from '../class/Logger'
 import { EnumCurrentStatus } from '../Enum/EnumCurrentStatus'
 import Constants from '../class/Constants'
 import { EnumModule } from '../Enum/EnumModule'
-import { StorageGridSuccessResponse } from '../class/StorageGridSuccessResponse';
 import { EnumCurrency } from '../Enum/EnumCurrency';
 import { EnumCustomForm } from '../Enum/EnumCustomForm';
 import { EnumClientStatus } from '../Enum/EnumClientStatus';

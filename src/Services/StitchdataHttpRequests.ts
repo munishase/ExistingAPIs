@@ -5,12 +5,11 @@ import { Logger } from '../class/Logger'
 import { EnumCurrentStatus } from '../Enum/EnumCurrentStatus'
 import Constants from '../class/Constants'
 import { StitchdataBaseLayer } from './StitchdataBaseLayer'
-import { StitchdataAccountAuthorizationSuccessResponse } from '../class/StitchdataAccountAuthorizationSuccessResponse'
-import { StitchdataAccountCreationSuccessResponse } from '../class/StitchdataAccountCreationSuccessResponse'
+import { StitchdataAccountAuthorizationSuccessResponse } from '../class/Response/StitchdataAccountAuthorizationSuccessResponse'
+import { StitchdataAccountCreationSuccessResponse } from '../class/Response/StitchdataAccountCreationSuccessResponse'
 import { EnumModule } from '../Enum/EnumModule';
-import { EnumToken } from '../Enum/EnumToken';
 import { StitchdataCreateAccount } from '../class/StitchdataCreateAccount';
-import { StitchdataGetRequestSuccessResponse } from '../class/StitchdataGetRequestSuccessResponse';
+import { StitchdataGetRequestSuccessResponse } from '../class/Response/StitchdataGetRequestSuccessResponse';
 
 class StitchdataHttpRequests extends StitchdataBaseLayer {
 

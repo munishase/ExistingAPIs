@@ -1,6 +1,6 @@
-import { Stitchdata } from './Stitchdata'
-import { EnumModule } from '../Enum/EnumModule'
-import { BaseResponse } from './BaseResponse'
+import { Stitchdata } from '../Stitchdata'
+import { EnumModule } from '../../Enum/EnumModule'
+import { BaseResponse } from '../BaseResponse'
 
 export class StitchdataAccountAuthorizationSuccessResponse extends BaseResponse {
     access_token: string;

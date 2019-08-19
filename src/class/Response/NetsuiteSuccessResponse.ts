@@ -1,6 +1,6 @@
-import { NetsuiteClient } from './NetsuiteClient'
-import { EnumModule } from '../Enum/EnumModule'
-import { BaseResponse } from './BaseResponse'
+import { NetsuiteClient } from '../NetsuiteClient'
+import { EnumModule } from '../../Enum/EnumModule'
+import { BaseResponse } from '../BaseResponse'
 
 export class NetsuiteSuccessResponse extends BaseResponse {
     entityId:string;

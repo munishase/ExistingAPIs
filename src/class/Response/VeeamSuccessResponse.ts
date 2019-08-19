@@ -1,7 +1,6 @@
-import { NetsuiteClient } from './NetsuiteClient'
-import { EnumModule } from '../Enum/EnumModule'
-import { BaseResponse } from './BaseResponse'
-import { Veeam } from './Veeam';
+import { EnumModule } from '../../Enum/EnumModule'
+import { BaseResponse } from '../BaseResponse'
+import { Veeam } from '../Veeam';
 
 export class VeeamSuccessResponse extends BaseResponse {
     id: string;

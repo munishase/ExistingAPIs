@@ -1,6 +1,5 @@
-import { Stitchdata } from './Stitchdata'
-import { EnumModule } from '../Enum/EnumModule'
-import { StitchdataCreateAccount } from './StitchdataCreateAccount';
+import { Stitchdata } from '../Stitchdata'
+import { StitchdataCreateAccount } from '../StitchdataCreateAccount';
 
 export class StitchdataAccountCreationSuccessResponse extends StitchdataCreateAccount {
     access_token: string;

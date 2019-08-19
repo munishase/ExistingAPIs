@@ -7,7 +7,7 @@ import Constants from '../class/Constants'
 import { StitchdataBaseLayer } from './StitchdataBaseLayer'
 import { StitchdataAccountAuthorizationSuccessResponse } from '../class/StitchdataAccountAuthorizationSuccessResponse'
 import { EnumModule } from '../Enum/EnumModule';
-import { EnumToken } from '../Enum/EnumToken';
+
 
 class StitchdataHttpRequests extends StitchdataBaseLayer {
 

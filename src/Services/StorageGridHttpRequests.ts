@@ -6,9 +6,8 @@ import { EnumCurrentStatus } from '../Enum/EnumCurrentStatus'
 import Constants from '../class/Constants'
 import Common from '../class/Common';
 import { StorageGridBaseLayer } from './StorageGridBaseLayer'
-import { StorageGridSuccessResponse } from '../class/StorageGridSuccessResponse'
+import { StorageGridSuccessResponse } from '../class/Response/StorageGridSuccessResponse'
 import { EnumModule } from '../Enum/EnumModule';
-import { NetsuiteSuccessResponse } from '../class/NetsuiteSuccessResponse';
 import { EnumToken } from '../Enum/EnumToken';
 
 class StorageGridHttpRequests extends StorageGridBaseLayer {
