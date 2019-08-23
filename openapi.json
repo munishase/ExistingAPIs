@@ -347,6 +347,122 @@
           }
         }
       }
+    },
+    "/retrievetenantsforactiveport": {
+      "get": {
+        "tags": [
+          "ActivePort"
+        ],
+        "responses": {
+          "200": {
+            "description": "ActivePort token  has been successfully generated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenerateTokenForActivePortOutputParams"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Some issue occured while generating ActivePort token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessRequestFailureOutputParams"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have necessary permissions for the resource"
+          }
+        }
+      }
+    },
+    "/createnewtenantforactiveport": {
+      "post": {
+        "tags": [
+          "ActivePort"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTenantForActivePortInputParams"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "ActivePort tenant has been successfully created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenerateTokenForActivePortOutputParams"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Some issue occured while creating ActivePort tenant",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessRequestFailureOutputParams"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have necessary permissions for the resource"
+          }
+        }
+      }
+    },
+    "/updateexistingtenantforactiveport": {
+      "put": {
+        "tags": [
+          "ActivePort"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTenantForActivePortInputParams"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "ActivePort tenant has been successfully created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenerateTokenForActivePortOutputParams"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Some issue occured while creating ActivePort tenant",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessRequestFailureOutputParams"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have necessary permissions for the resource"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -906,6 +1022,102 @@
           },
           "message": {
             "type": "object",
+            "uniqueItems": true
+          }
+        }
+      },
+      "RetrieveTenantsForActivePortOutputParams": {
+        "type": "object",
+        "required": [
+          "success",
+          "message"
+        ],
+        "properties": {
+          "module": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "message": {
+            "type": "object",
+            "uniqueItems": true
+          }
+        }
+      },
+      "CreateTenantForActivePortInputParams": {
+        "type": "object",
+        "required": [
+          "id",
+          "tenantId",
+          "description",
+          "name",
+          "servicesList"
+        ],
+        "properties": {
+          "description": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "name": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "servicesList": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          }
+        }
+      },
+      "CreateTenantForActivePortOutputParams": {
+        "type": "object",
+        "required": [
+          "success",
+          "message"
+        ],
+        "properties": {
+          "module": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "id_token": {
+            "type": "string",
+            "uniqueItems": true
+          }
+        }
+      },
+      "UpdateTenantForActivePortInputParams": {
+        "type": "object",
+        "required": [
+          "id",
+          "tenantId",
+          "description",
+          "name",
+          "servicesList"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "tenantId": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "description": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "name": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "servicesList": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
             "uniqueItems": true
           }
         }

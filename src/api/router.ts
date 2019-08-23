@@ -150,7 +150,7 @@ class Router {
         return res.status(400).send({
           message: 'STITCH AUTHORIZATION CODE is required.'
         });
-      } 
+      }
       return ServicesWrapper.generateTokenForExistingStitchdataAccount(req.body, res);
     });
 
@@ -162,49 +162,106 @@ class Router {
         return res.status(400).send({
           message: 'First Name is required.'
         });
-      } 
+      }
       else if (!req.body.lastname) {
         return res.status(400).send({
           message: 'Last Name is required.'
         });
-      } 
+      }
       else if (!req.body.company) {
         return res.status(400).send({
           message: 'Company name is required.'
         });
-      } 
+      }
       else if (!req.body.email) {
         return res.status(400).send({
           message: 'Email address is required.'
         });
-      } 
+      }
       return ServicesWrapper.registerAccountForStitchdata(req.body, res);
 
     });
-    
+
 
     router.post('/retrievesourcesfromstitchdata', (req, res) => {
-        
+
       res.header("Access-Control-Allow-Origin", "*");
       if (!req.body.access_token) {
         return res.status(400).send({
           message: 'Access Token is required.'
         });
-      } 
+      }
 
       return ServicesWrapper.retrievesourcesfromstitchdata(req.body, res);
     });
 
+
     router.post('/retrievedestinationfromstitchdata', (req, res) => {
-      
+
       if (!req.body.access_token) {
         return res.status(400).send({
           message: 'Access Token is required.'
         });
-      } 
+      }
       return ServicesWrapper.retrievedestinationfromstitchdata(req.body, res);
     });
-    
+
+
+    router.get('/retrievetenantsforactiveport', (req, res) => {
+      return ServicesWrapper.retrievetenantsforactiveport(req.body, res);
+    });
+
+
+    router.post('/createnewtenantforactiveport', (req, res) => {
+
+      if (!req.body.description) {
+        return res.status(400).send({
+          message: 'Description is required.'
+        });
+      }
+      else if (!req.body.name) {
+        return res.status(400).send({
+          message: 'Name is required.'
+        });
+      }
+      else if (!req.body.servicesList) {
+        return res.status(400).send({
+          message: 'servicesList is required.'
+        });
+      }
+      return ServicesWrapper.createnewtenantforactiveport(req.body, res);
+    });
+
+
+    router.put('/updateexistingtenantforactiveport', (req, res) => {
+
+      if (!req.body.description) {
+        return res.status(400).send({
+          message: 'Description is required.'
+        });
+      }
+      else if (!req.body.name) {
+        return res.status(400).send({
+          message: 'Name is required.'
+        });
+      }
+      else if (!req.body.servicesList) {
+        return res.status(400).send({
+          message: 'servicesList is required.'
+        });
+      }
+      else if (!req.body.id) {
+        return res.status(400).send({
+          message: 'Id is required.'
+        });
+      }
+      else if (!req.body.tenantId) {
+        return res.status(400).send({
+          message: 'Tenant Id is required.'
+        });
+      }
+      return ServicesWrapper.updateexistingtenantforactiveport(req.body, res);
+    });
 
     server.use('/', router);
   }

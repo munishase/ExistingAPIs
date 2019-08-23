@@ -68,6 +68,27 @@ class Constants {
     readonly StitchdataTokenRemovedSuccess: string = "Stitchdata Token removed successfully";
     readonly StitchdataCreateAccountSuccess: string = "Stitchdata Account creation completed";
     readonly StitchdataRetrieveSourcesSuccess: string = "Stitchdata Account sources retrieval completed";
+
+
+
+
+    //ActivePort
+    readonly ActivePortAuthURL: string = "/authenticate";
+    readonly ActivePortCreateTenantAccountURL: string = "/v1/tenants";
+    readonly ActivePortDeleteTenantAccountURL: string = "/v1/tenants";
+
+    readonly ActivePortAuthError: string = "ActivePort Authorization failed";
+    readonly ActivePortTokenRemovedError: string = "ActivePort Token removed failure";
+    readonly ActivePortTenantAccountCreationError: string = "ActivePort Tenant Account creation failed";
+    readonly ActivePortTenantAccountDeletionError: string = "ActivePort Tenant Account deletion failed";
+
+    readonly ActivePortAuthSuccess: string = "ActivePort Authorization completed";
+    readonly ActivePortTokenRemovedSuccess: string = "Activeport Token removed successfully";
+    readonly ActivePortTenantAccountCreationSuccess: string = "ActivePort Tenant Account creation completed";
+    readonly ActivePortTenantAccountDeletionSuccess: string = "ActivePort Tenant Account deletion completed";
+
+
+
 }
 
 

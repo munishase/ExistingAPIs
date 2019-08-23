@@ -5,6 +5,7 @@ import StitchdataHttpRequests from './StitchdataHttpRequests';
 import { Logger } from '../class/Logger'
 import Common from '../class/Common';
 import { EnumPartOf } from '../Enum/EnumPartOf'
+import ActivePortHttpRequests from './ActivePortHttpRequests';
 
 
 // this class is wrapper to call other services methods
@@ -85,6 +86,28 @@ class ServicesWrapper {
         Logger.cleanLogs();
         let stitchdataResponse = await StitchdataHttpRequests.retrievedestinationfromstitchdata(requestBody);
         return Common.beautifyResult(stitchdataResponse, webResponse, EnumPartOf.Individual);
+    }
+
+
+    //retreive all tenants from ActivePort
+    async retrievetenantsforactiveport(requestBody: any, webResponse: any) {
+        Logger.cleanLogs();
+        let activeportResponse = await ActivePortHttpRequests.retrieveAllTenants(requestBody);
+        return Common.beautifyResult(activeportResponse, webResponse, EnumPartOf.Individual);
+    }
+
+    //insert new tenant in ActivePort
+    async createnewtenantforactiveport(requestBody: any, webResponse: any) {
+        Logger.cleanLogs();
+        let avtiveportResponse = await ActivePortHttpRequests.createTenantAccount(requestBody);
+        return Common.beautifyResult(avtiveportResponse, webResponse, EnumPartOf.Individual);
+    }
+
+    //insert new tenant in ActivePort
+    async updateexistingtenantforactiveport(requestBody: any, webResponse: any) {
+        Logger.cleanLogs();
+        let avtiveportResponse = await ActivePortHttpRequests.updateTenantAccount(requestBody);
+        return Common.beautifyResult(avtiveportResponse, webResponse, EnumPartOf.Individual);
     }
 }
 

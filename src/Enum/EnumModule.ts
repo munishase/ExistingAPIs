@@ -2,5 +2,6 @@ export enum EnumModule {
   Storagegrid = "Storagegrid",
   Netsuite = "Netsuite",
   Veeam = "Veeam",
-  Stitchdata = "Stitchdata"
+  Stitchdata = "Stitchdata",
+  ActivePort = "ActivePort"
 }

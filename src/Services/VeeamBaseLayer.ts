@@ -40,7 +40,6 @@ export class VeeamBaseLayer extends BaseLayer {
             method: 'POST',
             body: body
         };
-        console.log(options)
         return httppromise(options);
     };
 
@@ -48,15 +47,12 @@ export class VeeamBaseLayer extends BaseLayer {
     protected authorizeVeeamGrid() {
         
         if (sessionstorage.getItem(EnumToken.VeeamToken) == null) {
-                console.log("1")
                 return this.generateVeeamToken().then(function (response: any) {
-                console.log("2")
                 let veemAuthenticationResponse = JSON.parse(response);
                 sessionstorage.setItem(EnumToken.VeeamToken, "Bearer " + veemAuthenticationResponse.access_token)
                 Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Veeam, Constants.VeeamAuthSuccess, response, ""))
                 return true;
             }).catch(function (err: any) {
-                console.log("3")
                 Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Veeam, Constants.VeeamAuthError, err, ""));
                 return false;
             })
