@@ -3,5 +3,6 @@ export enum EnumToken {
   StorageGridToken = "StorageGridToken",
   VeeamToken = "VeeamToken",
   StitchdataToken = "StitchdataToken",
-  ActivePortToken = "ActivePortToken"
+  ActivePortToken = "ActivePortToken",
+  NetAppToken = "NetAppToken"
 }

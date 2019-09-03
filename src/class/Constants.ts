@@ -88,7 +88,18 @@ class Constants {
     readonly ActivePortTenantAccountDeletionSuccess: string = "ActivePort Tenant Account deletion completed";
 
 
+    //NetAPp
 
+    readonly NetAppOrg: string = "/orgs/";
+    readonly NetAppClusters: string = "/clusters";
+
+
+    readonly NetAppTokenRemovedSuccess: string = "NetApp Token removed successfully";
+    readonly NetAppClusterRetrievalSuccess: string = "NetApp Clusters are retrieved successfully";
+
+    readonly NetAppTokenRemovedError: string = "NetApp Token removed failure";
+    readonly NetAppClusterRetrievalFailure: string = "NetApp Clusters are retrieval failed";
+    
 }
 
 

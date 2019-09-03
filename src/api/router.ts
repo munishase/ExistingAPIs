@@ -263,6 +263,11 @@ class Router {
       return ServicesWrapper.updateexistingtenantforactiveport(req.body, res);
     });
 
+    router.get('/retrieveclustersfromnetapp', (req, res) => {
+        
+      return ServicesWrapper.retrieveclustersfromnetapp(req.body, res);
+    });
+
     server.use('/', router);
   }
 

@@ -463,6 +463,38 @@
           }
         }
       }
+    },
+    "/retrieveclustersfromnetapp": {
+      "get": {
+        "tags": [
+          "NetApp"
+        ],
+        "responses": {
+          "200": {
+            "description": "NetApp Clusters are retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RetrieveClustersFromNetappOutputParams"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Some issue occured while retrieving NetApp Clusters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessRequestFailureOutputParams"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have necessary permissions for the resource"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1120,6 +1152,23 @@
             },
             "uniqueItems": true
           }
+        }
+      },
+      "RetrieveClustersFromNetappOutputParams": {
+        "type": "object",
+        "required": [
+          "clusters"
+        ],
+        "properties": {
+          "module": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "clusters": {
+            "type": "object",
+            "uniqueItems": true
+          },
+          "uniqueItems": true
         }
       }
     },

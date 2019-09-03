@@ -6,6 +6,7 @@ import { Logger } from '../class/Logger'
 import Common from '../class/Common';
 import { EnumPartOf } from '../Enum/EnumPartOf'
 import ActivePortHttpRequests from './ActivePortHttpRequests';
+import NetAppHttpRequests from './NetAppHttpRequests';
 
 
 // this class is wrapper to call other services methods
@@ -108,6 +109,13 @@ class ServicesWrapper {
         Logger.cleanLogs();
         let avtiveportResponse = await ActivePortHttpRequests.updateTenantAccount(requestBody);
         return Common.beautifyResult(avtiveportResponse, webResponse, EnumPartOf.Individual);
+    }
+
+    //retrieve new existing Clusters in NetApp
+    async retrieveclustersfromnetapp(requestBody: any, webResponse: any) {
+        Logger.cleanLogs();
+        let netappResponse = await NetAppHttpRequests.retrieveClustersFromNetapp(requestBody);
+        return Common.beautifyResult(netappResponse, webResponse, EnumPartOf.Individual);
     }
 }
 

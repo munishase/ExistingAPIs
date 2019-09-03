@@ -3,5 +3,6 @@ export enum EnumModule {
   Netsuite = "Netsuite",
   Veeam = "Veeam",
   Stitchdata = "Stitchdata",
-  ActivePort = "ActivePort"
+  ActivePort = "ActivePort",
+  NetApp = "NetApp"
 }

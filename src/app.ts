@@ -18,7 +18,7 @@ class App {
     new Router(this.httpServer);
 
 
-    this.httpServer.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument));     
+    this.httpServer.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
   }
 
 
