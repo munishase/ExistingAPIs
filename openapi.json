@@ -495,694 +495,964 @@
           }
         }
       }
+    },
+    "/createnkscluster": {
+      "post": {
+        "tags": [
+          "NetApp"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateNksClusterInputputParams"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "NetApp cluster has been successfully created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateClustersNetappOutputParams"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Some issue occured while creating ActivePort tenant",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessRequestFailureOutputParams"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have necessary permissions for the resource"
+          }
+        }
+      }
+    },
+    "/deletenkscluster/{clusterid}": {
+      "delete": {
+        "tags": [
+          "NetApp"
+        ],
+        "produces": [
+					"application/json"
+				],
+				"parameters": [
+					{
+						"name": "clusterid",
+						"in": "path",
+						"description": "clusterid of cluster that needs to be deleted",
+            "required": true,
+            "schema":{
+            "type": "integer"
+            }
+					}
+				],
+      "responses": {
+        "200": {
+          "description": "NetApp cluster successfully deleted.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateClustersNetappOutputParams"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Some issue occured while creating ActivePort tenant",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProcessRequestFailureOutputParams"
+              }
+            }
+          }
+        },
+        "403": {
+          "description": "You do not have necessary permissions for the resource"
+        }
+      }
     }
-  },
-  "components": {
-    "schemas": {
-      "CredentialsParams": {
-        "type": "object",
-        "required": [
-          "username",
-          "password"
-        ],
-        "properties": {
-          "username": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "password": {
-            "type": "string",
-            "uniqueItems": true
-          }
+  }
+},
+"components": {
+  "schemas": {
+    "CredentialsParams": {
+      "type": "object",
+      "required": [
+        "username",
+        "password"
+      ],
+      "properties": {
+        "username": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "password": {
+          "type": "string",
+          "uniqueItems": true
         }
-      },
-      "StorageGridInputParams": {
-        "type": "object",
-        "required": [
-          "tenantname",
-          "bucketname"
-        ],
-        "properties": {
-          "tenantname": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "bucketname": {
-            "type": "string",
-            "uniqueItems": true
-          }
+      }
+    },
+    "StorageGridInputParams": {
+      "type": "object",
+      "required": [
+        "tenantname",
+        "bucketname"
+      ],
+      "properties": {
+        "tenantname": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "bucketname": {
+          "type": "string",
+          "uniqueItems": true
         }
-      },
-      "VeeamInputParams": {
-        "type": "object",
-        "required": [
-          "name",
-          "username",
-          "vmsbackedup",
-          "vmsbackeduptocloud",
-          "managedphysicalservers"
-        ],
-        "properties": {
-          "name": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "username": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "vmsbackedup": {
-            "type": "integer",
-            "uniqueItems": true
-          },
-          "vmsbackeduptocloud": {
-            "type": "integer",
-            "uniqueItems": true
-          },
-          "managedphysicalservers": {
-            "type": "integer",
-            "uniqueItems": true
-          }
+      }
+    },
+    "VeeamInputParams": {
+      "type": "object",
+      "required": [
+        "name",
+        "username",
+        "vmsbackedup",
+        "vmsbackeduptocloud",
+        "managedphysicalservers"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "username": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "vmsbackedup": {
+          "type": "integer",
+          "uniqueItems": true
+        },
+        "vmsbackeduptocloud": {
+          "type": "integer",
+          "uniqueItems": true
+        },
+        "managedphysicalservers": {
+          "type": "integer",
+          "uniqueItems": true
         }
-      },
-      "GenerateTokenSuccessOutputParams": {
-        "type": "object",
-        "required": [
-          "success",
-          "message"
-        ],
-        "properties": {
-          "token": {
-            "type": "string",
-            "uniqueItems": true
-          }
+      }
+    },
+    "GenerateTokenSuccessOutputParams": {
+      "type": "object",
+      "required": [
+        "success",
+        "message"
+      ],
+      "properties": {
+        "token": {
+          "type": "string",
+          "uniqueItems": true
         }
-      },
-      "StorageGridSuccessOutputParams": {
-        "type": "object",
-        "required": [
-          "success",
-          "message"
-        ],
-        "properties": {
-          "module": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "tenantname": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "tenantpassword": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "bucketname": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "tenantaccountid": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "tenantaccesskey": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "tenantsecretaccesskey": {
-            "type": "string",
-            "uniqueItems": true
-          }
+      }
+    },
+    "StorageGridSuccessOutputParams": {
+      "type": "object",
+      "required": [
+        "success",
+        "message"
+      ],
+      "properties": {
+        "module": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "tenantname": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "tenantpassword": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "bucketname": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "tenantaccountid": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "tenantaccesskey": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "tenantsecretaccesskey": {
+          "type": "string",
+          "uniqueItems": true
         }
-      },
-      "VeeamSuccessOutputParams": {
-        "type": "object",
-        "required": [
-          "success",
-          "message"
-        ],
-        "properties": {
-          "module": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "id": {
-            "type": "integer",
-            "uniqueItems": true
-          },
-          "name": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "username": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "password": {
-            "type": "string",
-            "uniqueItems": true
-          }
+      }
+    },
+    "VeeamSuccessOutputParams": {
+      "type": "object",
+      "required": [
+        "success",
+        "message"
+      ],
+      "properties": {
+        "module": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "id": {
+          "type": "integer",
+          "uniqueItems": true
+        },
+        "name": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "username": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "password": {
+          "type": "string",
+          "uniqueItems": true
         }
-      },
-      "StorageGridFailureOutputParams": {
-        "type": "object",
-        "required": [
-          "success",
-          "message"
-        ],
-        "properties": {
-          "id": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "logs": {
-            "properties": {
-              "status": {
-                "type": "string",
-                "uniqueItems": true
-              },
-              "description": {
-                "type": "string",
-                "uniqueItems": true
-              },
-              "actualdetail": {
-                "properties": {
-                  "type": "object",
-                  "uniqueItems": true
-                }
-              },
-              "param": {
-                "properties": {
-                  "type": "object",
-                  "uniqueItems": true
-                }
-              },
-              "datetime": {
-                "type": "string",
-                "uniqueItems": true
-              }
-            }
-          }
-        }
-      },
-      "VeeamFailureOutputParams": {
-        "type": "object",
-        "required": [
-          "success",
-          "message"
-        ],
-        "properties": {
-          "id": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "logs": {
-            "properties": {
-              "status": {
-                "type": "string",
-                "uniqueItems": true
-              },
-              "description": {
-                "type": "string",
-                "uniqueItems": true
-              },
-              "actualdetail": {
-                "properties": {
-                  "type": "object",
-                  "uniqueItems": true
-                }
-              },
-              "param": {
-                "properties": {
-                  "type": "object",
-                  "uniqueItems": true
-                }
-              },
-              "datetime": {
-                "type": "string",
-                "uniqueItems": true
-              }
-            }
-          }
-        }
-      },
-      "NetsuiteCreateClientInputParams": {
-        "type": "object",
-        "required": [
-          "clientname",
-          "acn"
-        ],
-        "properties": {
-          "clientname": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "acn": {
-            "type": "string",
-            "uniqueItems": true
-          }
-        }
-      },
-      "NetsuiteCreateClientSuccessOutputParams": {
-        "type": "object",
-        "required": [
-          "success",
-          "message"
-        ],
-        "properties": {
-          "module": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "entityId": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "clientid": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "clientName": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "ACN": {
-            "type": "string",
-            "uniqueItems": true
-          }
-        }
-      },
-      "NetsuiteCreateClientFailureOutputParams": {
-        "type": "object",
-        "required": [
-          "success",
-          "message"
-        ],
-        "properties": {
-          "id": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "logs": {
-            "properties": {
-              "status": {
-                "type": "string",
-                "uniqueItems": true
-              },
-              "description": {
-                "type": "string",
-                "uniqueItems": true
-              },
-              "actualdetail": {
-                "properties": {
-                  "type": "object",
-                  "uniqueItems": true
-                }
-              },
-              "param": {
-                "properties": {
-                  "type": "object",
-                  "uniqueItems": true
-                }
-              },
-              "datetime": {
-                "type": "string",
-                "uniqueItems": true
-              }
-            }
-          }
-        }
-      },
-      "ProcessRequestInputParams": {
-        "type": "object",
-        "required": [
-          "bucketname",
-          "clientname",
-          "acn",
-          "address",
-          "vmsbackedup",
-          "vmsbackeduptocloud",
-          "managedphysicalservers"
-        ],
-        "properties": {
-          "bucketname": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "clientname": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "acn": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "address": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "vmsbackedup": {
-            "type": "integer",
-            "uniqueItems": true
-          },
-          "vmsbackeduptocloud": {
-            "type": "integer",
-            "uniqueItems": true
-          },
-          "managedphysicalservers": {
-            "type": "integer",
-            "uniqueItems": true
-          }
-        }
-      },
-      "ProcessRequestSuccessOutputParams": {
-        "type": "object",
-        "required": [
-          "success",
-          "message"
-        ],
-        "properties": {
-          "NetSuiteResponse": {
-            "$ref": "#/components/schemas/NetsuiteCreateClientSuccessOutputParams"
-          },
-          "StorageGridResponse": {
-            "$ref": "#/components/schemas/StorageGridSuccessOutputParams"
-          },
-          "VeeamResponse": {
-            "$ref": "#/components/schemas/VeeamSuccessOutputParams"
-          }
-        }
-      },
-      "ProcessRequestFailureOutputParams": {
-        "type": "array",
-        "required": [
-          "success",
-          "message"
-        ],
-        "items": {
-          "$ref": "#/components/schemas/NetsuiteCreateClientFailureOutputParams"
-        }
-      },
-      "AuthenticateStitchdataInputParams": {
-        "type": "object",
-        "required": [
-          "stitch_auth_code"
-        ],
-        "properties": {
-          "stitch_auth_code": {
-            "type": "string",
-            "uniqueItems": true
-          }
-        }
-      },
-      "AuthenticateStitchdataSuccessOutputParams": {
-        "type": "object",
-        "required": [
-          "success",
-          "message"
-        ],
-        "properties": {
-          "module": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "access_token": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "token_type": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "stitch_account_id": {
-            "type": "string",
-            "uniqueItems": true
-          }
-        }
-      },
-      "RegisterAccountForStitchdataSuccessOutputParams": {
-        "type": "object",
-        "required": [
-          "success",
-          "message"
-        ],
-        "properties": {
-          "module": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "firstname": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "lastname": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "company": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "email": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "access_token": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "stitch_account_id": {
-            "type": "string",
-            "uniqueItems": true
-          }
-        }
-      },
-      "AuthenticateStitchdataFailureOutputParams": {
-        "type": "object",
-        "required": [
-          "success",
-          "message"
-        ],
-        "properties": {
-          "id": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "logs": {
-            "properties": {
-              "status": {
-                "type": "string",
-                "uniqueItems": true
-              },
-              "description": {
-                "type": "string",
-                "uniqueItems": true
-              },
-              "actualdetail": {
-                "properties": {
-                  "type": "object",
-                  "uniqueItems": true
-                }
-              },
-              "param": {
-                "properties": {
-                  "type": "object",
-                  "uniqueItems": true
-                }
-              },
-              "datetime": {
-                "type": "string",
-                "uniqueItems": true
-              }
-            }
-          }
-        }
-      },
-      "RegisterAccountStitchdataInputParams": {
-        "type": "object",
-        "required": [
-          "firstname",
-          "lastname",
-          "company",
-          "email"
-        ],
-        "properties": {
-          "firstname": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "lastname": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "company": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "email": {
-            "type": "string",
-            "uniqueItems": true
-          }
-        }
-      },
-      "RetrieveSourcesFromStitchdataInputParams": {
-        "type": "object",
-        "required": [
-          "access_token"
-        ],
-        "properties": {
-          "access_token": {
-            "type": "string",
-            "uniqueItems": true
-          }
-        }
-      },
-      "RetrieveSourcesFromStitchdataOutputParams": {
-        "type": "object",
-        "required": [
-          "success",
-          "message"
-        ],
-        "properties": {
-          "module": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "access_token": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "message": {
-            "type": "object",
-            "uniqueItems": true
-          }
-        }
-      },
-      "RetrieveTenantsForActivePortOutputParams": {
-        "type": "object",
-        "required": [
-          "success",
-          "message"
-        ],
-        "properties": {
-          "module": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "message": {
-            "type": "object",
-            "uniqueItems": true
-          }
-        }
-      },
-      "CreateTenantForActivePortInputParams": {
-        "type": "object",
-        "required": [
-          "id",
-          "tenantId",
-          "description",
-          "name",
-          "servicesList"
-        ],
-        "properties": {
-          "description": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "name": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "servicesList": {
-            "type": "array",
-            "items": {
-              "type": "string"
+      }
+    },
+    "StorageGridFailureOutputParams": {
+      "type": "object",
+      "required": [
+        "success",
+        "message"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "logs": {
+          "properties": {
+            "status": {
+              "type": "string",
+              "uniqueItems": true
             },
-            "uniqueItems": true
-          }
-        }
-      },
-      "CreateTenantForActivePortOutputParams": {
-        "type": "object",
-        "required": [
-          "success",
-          "message"
-        ],
-        "properties": {
-          "module": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "id_token": {
-            "type": "string",
-            "uniqueItems": true
-          }
-        }
-      },
-      "UpdateTenantForActivePortInputParams": {
-        "type": "object",
-        "required": [
-          "id",
-          "tenantId",
-          "description",
-          "name",
-          "servicesList"
-        ],
-        "properties": {
-          "id": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "tenantId": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "description": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "name": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "servicesList": {
-            "type": "array",
-            "items": {
-              "type": "string"
+            "description": {
+              "type": "string",
+              "uniqueItems": true
             },
-            "uniqueItems": true
+            "actualdetail": {
+              "properties": {
+                "type": "object",
+                "uniqueItems": true
+              }
+            },
+            "param": {
+              "properties": {
+                "type": "object",
+                "uniqueItems": true
+              }
+            },
+            "datetime": {
+              "type": "string",
+              "uniqueItems": true
+            }
           }
         }
-      },
-      "RetrieveClustersFromNetappOutputParams": {
-        "type": "object",
-        "required": [
-          "clusters"
-        ],
-        "properties": {
-          "module": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "clusters": {
-            "type": "object",
-            "uniqueItems": true
+      }
+    },
+    "VeeamFailureOutputParams": {
+      "type": "object",
+      "required": [
+        "success",
+        "message"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "logs": {
+          "properties": {
+            "status": {
+              "type": "string",
+              "uniqueItems": true
+            },
+            "description": {
+              "type": "string",
+              "uniqueItems": true
+            },
+            "actualdetail": {
+              "properties": {
+                "type": "object",
+                "uniqueItems": true
+              }
+            },
+            "param": {
+              "properties": {
+                "type": "object",
+                "uniqueItems": true
+              }
+            },
+            "datetime": {
+              "type": "string",
+              "uniqueItems": true
+            }
+          }
+        }
+      }
+    },
+    "NetsuiteCreateClientInputParams": {
+      "type": "object",
+      "required": [
+        "clientname",
+        "acn"
+      ],
+      "properties": {
+        "clientname": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "acn": {
+          "type": "string",
+          "uniqueItems": true
+        }
+      }
+    },
+    "NetsuiteCreateClientSuccessOutputParams": {
+      "type": "object",
+      "required": [
+        "success",
+        "message"
+      ],
+      "properties": {
+        "module": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "entityId": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "clientid": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "clientName": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "ACN": {
+          "type": "string",
+          "uniqueItems": true
+        }
+      }
+    },
+    "NetsuiteCreateClientFailureOutputParams": {
+      "type": "object",
+      "required": [
+        "success",
+        "message"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "logs": {
+          "properties": {
+            "status": {
+              "type": "string",
+              "uniqueItems": true
+            },
+            "description": {
+              "type": "string",
+              "uniqueItems": true
+            },
+            "actualdetail": {
+              "properties": {
+                "type": "object",
+                "uniqueItems": true
+              }
+            },
+            "param": {
+              "properties": {
+                "type": "object",
+                "uniqueItems": true
+              }
+            },
+            "datetime": {
+              "type": "string",
+              "uniqueItems": true
+            }
+          }
+        }
+      }
+    },
+    "ProcessRequestInputParams": {
+      "type": "object",
+      "required": [
+        "bucketname",
+        "clientname",
+        "acn",
+        "address",
+        "vmsbackedup",
+        "vmsbackeduptocloud",
+        "managedphysicalservers"
+      ],
+      "properties": {
+        "bucketname": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "clientname": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "acn": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "address": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "vmsbackedup": {
+          "type": "integer",
+          "uniqueItems": true
+        },
+        "vmsbackeduptocloud": {
+          "type": "integer",
+          "uniqueItems": true
+        },
+        "managedphysicalservers": {
+          "type": "integer",
+          "uniqueItems": true
+        }
+      }
+    },
+    "ProcessRequestSuccessOutputParams": {
+      "type": "object",
+      "required": [
+        "success",
+        "message"
+      ],
+      "properties": {
+        "NetSuiteResponse": {
+          "$ref": "#/components/schemas/NetsuiteCreateClientSuccessOutputParams"
+        },
+        "StorageGridResponse": {
+          "$ref": "#/components/schemas/StorageGridSuccessOutputParams"
+        },
+        "VeeamResponse": {
+          "$ref": "#/components/schemas/VeeamSuccessOutputParams"
+        }
+      }
+    },
+    "ProcessRequestFailureOutputParams": {
+      "type": "array",
+      "required": [
+        "success",
+        "message"
+      ],
+      "items": {
+        "$ref": "#/components/schemas/NetsuiteCreateClientFailureOutputParams"
+      }
+    },
+    "AuthenticateStitchdataInputParams": {
+      "type": "object",
+      "required": [
+        "stitch_auth_code"
+      ],
+      "properties": {
+        "stitch_auth_code": {
+          "type": "string",
+          "uniqueItems": true
+        }
+      }
+    },
+    "AuthenticateStitchdataSuccessOutputParams": {
+      "type": "object",
+      "required": [
+        "success",
+        "message"
+      ],
+      "properties": {
+        "module": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "access_token": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "token_type": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "stitch_account_id": {
+          "type": "string",
+          "uniqueItems": true
+        }
+      }
+    },
+    "RegisterAccountForStitchdataSuccessOutputParams": {
+      "type": "object",
+      "required": [
+        "success",
+        "message"
+      ],
+      "properties": {
+        "module": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "firstname": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "lastname": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "company": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "email": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "access_token": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "stitch_account_id": {
+          "type": "string",
+          "uniqueItems": true
+        }
+      }
+    },
+    "AuthenticateStitchdataFailureOutputParams": {
+      "type": "object",
+      "required": [
+        "success",
+        "message"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "logs": {
+          "properties": {
+            "status": {
+              "type": "string",
+              "uniqueItems": true
+            },
+            "description": {
+              "type": "string",
+              "uniqueItems": true
+            },
+            "actualdetail": {
+              "properties": {
+                "type": "object",
+                "uniqueItems": true
+              }
+            },
+            "param": {
+              "properties": {
+                "type": "object",
+                "uniqueItems": true
+              }
+            },
+            "datetime": {
+              "type": "string",
+              "uniqueItems": true
+            }
+          }
+        }
+      }
+    },
+    "RegisterAccountStitchdataInputParams": {
+      "type": "object",
+      "required": [
+        "firstname",
+        "lastname",
+        "company",
+        "email"
+      ],
+      "properties": {
+        "firstname": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "lastname": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "company": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "email": {
+          "type": "string",
+          "uniqueItems": true
+        }
+      }
+    },
+    "RetrieveSourcesFromStitchdataInputParams": {
+      "type": "object",
+      "required": [
+        "access_token"
+      ],
+      "properties": {
+        "access_token": {
+          "type": "string",
+          "uniqueItems": true
+        }
+      }
+    },
+    "RetrieveSourcesFromStitchdataOutputParams": {
+      "type": "object",
+      "required": [
+        "success",
+        "message"
+      ],
+      "properties": {
+        "module": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "access_token": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "message": {
+          "type": "object",
+          "uniqueItems": true
+        }
+      }
+    },
+    "RetrieveTenantsForActivePortOutputParams": {
+      "type": "object",
+      "required": [
+        "success",
+        "message"
+      ],
+      "properties": {
+        "module": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "message": {
+          "type": "object",
+          "uniqueItems": true
+        }
+      }
+    },
+    "CreateTenantForActivePortInputParams": {
+      "type": "object",
+      "required": [
+        "id",
+        "tenantId",
+        "description",
+        "name",
+        "servicesList"
+      ],
+      "properties": {
+        "description": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "name": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "servicesList": {
+          "type": "array",
+          "items": {
+            "type": "string"
           },
           "uniqueItems": true
         }
       }
     },
-    "securitySchemes1": {
-      "AuthHeader": {
-        "type": "apiKey",
-        "in": "header",
-        "name": "Authorization"
+    "CreateTenantForActivePortOutputParams": {
+      "type": "object",
+      "required": [
+        "success",
+        "message"
+      ],
+      "properties": {
+        "module": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "id_token": {
+          "type": "string",
+          "uniqueItems": true
+        }
+      }
+    },
+    "UpdateTenantForActivePortInputParams": {
+      "type": "object",
+      "required": [
+        "id",
+        "tenantId",
+        "description",
+        "name",
+        "servicesList"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "tenantId": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "description": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "name": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "servicesList": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "RetrieveClustersFromNetappOutputParams": {
+      "type": "object",
+      "required": [
+        "clusters"
+      ],
+      "properties": {
+        "module": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "clusters": {
+          "type": "object",
+          "uniqueItems": true
+        },
+        "uniqueItems": true
+      }
+    },
+    "NksSolution": {
+      "type": "object",
+      "required": [
+        "clusters"
+      ],
+      "properties": {
+        "solution": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "name": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "keysetRequired": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "tag": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "version": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "uniqueItems": true
+      }
+    },
+    "CreateNksClusterInputputParams": {
+      "type": "object",
+      "required": [
+        "clusters"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "provider": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "workspace": {
+          "type": "integer",
+          "uniqueItems": true
+        },
+        "provider_keyset": {
+          "type": "integer",
+          "uniqueItems": true
+        },
+        "master_count": {
+          "type": "integer",
+          "uniqueItems": true
+        },
+        "master_size": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "master_root_disk_size": {
+          "type": "integer",
+          "uniqueItems": true
+        },
+        "worker_count": {
+          "type": "integer",
+          "uniqueItems": true
+        },
+        "worker_size": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "worker_root_disk_size": {
+          "type": "integer",
+          "uniqueItems": true
+        },
+        "k8s_version": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "k8s_dashboard_enabled": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "k8s_rbac_enabled": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "k8s_pod_cidr": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "k8s_service_cidr": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "user_ssh_keyset": {
+          "type": "integer",
+          "uniqueItems": true
+        },
+        "etcd_type": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "platform": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "channel": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "region": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "zone": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "provider_network_id": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "provider_network_cidr": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "provider_subnet_id": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "provider_subnet_cidr": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "provider_resource_group": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "solutions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/NksSolution"
+          },
+          "uniqueItems": true
+        },
+        "owner": {
+          "type": "integer",
+          "uniqueItems": true
+        },
+        "uniqueItems": true
+      }
+    },
+    "CreateClustersNetappOutputParams": {
+      "type": "object",
+      "required": [
+        "cluster"
+      ],
+      "properties": {
+        "module": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "cluster": {
+          "type": "object",
+          "uniqueItems": true
+        },
+        "uniqueItems": true
+      }
+    },
+    "DeleteNksClusterInputputParams": {
+      "type": "object",
+      "required": [
+        "clusterid"
+      ],
+      "properties": {
+        "clusterid": {
+          "type": "integer",
+          "uniqueItems": true
+        }
       }
     }
   },
-  "security1": [
-    {
-      "ApiKeyAuth": []
+  "securitySchemes1": {
+    "AuthHeader": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization"
     }
-  ]
+  }
+},
+"security1": [
+  {
+    "ApiKeyAuth": []
+  }
+]
 }

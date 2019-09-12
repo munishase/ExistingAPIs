@@ -37,10 +37,18 @@ export class NetAppBaseLayer extends BaseLayer {
             return true;
     }
 
+    protected netAppHeader() {
+        let header =
+        {
+            'Authorization': 'Bearer ' + sessionstorage.getItem(EnumToken.NetAppToken),
+            'content-type': 'application/json'
+        }
+        return header;
+    }
     //remove token
     protected removeToken() {
         try {
-            sessionstorage.removeItem(EnumToken.NetApp);
+            sessionstorage.removeItem(EnumToken.NetAppToken);
             Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.NetApp, Constants.ActivePortTokenRemovedSuccess, "", ""))
         }
         catch (error) {
@@ -48,4 +56,5 @@ export class NetAppBaseLayer extends BaseLayer {
             Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.NetApp, Constants.ActivePortTokenRemovedError, "", ""));
         }
     }
+
 }

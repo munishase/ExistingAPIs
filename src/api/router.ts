@@ -268,6 +268,20 @@ class Router {
       return ServicesWrapper.retrieveclustersfromnetapp(req.body, res);
     });
 
+
+    router.post('/createnkscluster', (req, res) => {
+      return ServicesWrapper.createnkscluster(req.body, res);
+    });
+
+    router.delete('/deletenkscluster/:clusterid', (req, res) => {
+      if (!req.params.clusterid) {
+        return res.status(400).send({
+          message: 'Cluster id is required.'
+        });
+      }
+      return ServicesWrapper.deletenkscluster(req.params, res);
+    });
+
     server.use('/', router);
   }
 

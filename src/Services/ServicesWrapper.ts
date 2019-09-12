@@ -1,6 +1,6 @@
 import StorageGridHttpRequests from './StorageGridHttpRequests';
 import VeeamHttpRequests from './VeeamHttpRequests';
-import NetsuiteHttpRequests from './NetSuiteHttpRequests';
+import NetsuiteHttpRequests from './NetsuiteHttpRequests';
 import StitchdataHttpRequests from './StitchdataHttpRequests';
 import { Logger } from '../class/Logger'
 import Common from '../class/Common';
@@ -115,6 +115,20 @@ class ServicesWrapper {
     async retrieveclustersfromnetapp(requestBody: any, webResponse: any) {
         Logger.cleanLogs();
         let netappResponse = await NetAppHttpRequests.retrieveClustersFromNetapp(requestBody);
+        return Common.beautifyResult(netappResponse, webResponse, EnumPartOf.Individual);
+    }
+
+    //insert new cluster in NetApp Kubernetes
+    async createnkscluster(requestBody: any, webResponse: any) {
+        Logger.cleanLogs();
+        let netappResponse = await NetAppHttpRequests.createNKSCluster(requestBody);
+        return Common.beautifyResult(netappResponse, webResponse, EnumPartOf.Individual);
+    }
+
+     //insert new cluster in NetApp Kubernetes
+     async deletenkscluster(requestBody: any, webResponse: any) {
+        Logger.cleanLogs();
+        let netappResponse = await NetAppHttpRequests.deleteNKSCluster(requestBody);
         return Common.beautifyResult(netappResponse, webResponse, EnumPartOf.Individual);
     }
 }
