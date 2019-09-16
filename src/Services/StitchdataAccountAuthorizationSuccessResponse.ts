@@ -5,7 +5,7 @@ import { Logger } from '../class/Logger'
 import { EnumCurrentStatus } from '../Enum/EnumCurrentStatus'
 import Constants from '../class/Constants'
 import { StitchdataBaseLayer } from './StitchdataBaseLayer'
-import { StitchdataAccountAuthorizationSuccessResponse } from '../class/StitchdataAccountAuthorizationSuccessResponse'
+import { StitchdataAccountAuthorizationSuccessResponse } from '../class/Response/StitchdataAccountAuthorizationSuccessResponse'
 import { EnumModule } from '../Enum/EnumModule';
 
 
