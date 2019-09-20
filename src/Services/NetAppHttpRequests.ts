@@ -63,10 +63,10 @@ class NetAppHttpRequests extends NetAppBaseLayer {
     
     await httppromise(options).then(function (response: any) {
       result = response;
-      Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.NetApp, Constants.NetAppClusterRetrievalSuccess, response, ''));
+      Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.NetApp, Constants.NetAppClusterCreationSuccess, response, ''));
     }).catch(function (err: any) {
 
-      Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.NetApp, Constants.NetAppClusterRetrievalFailure, err, ''));
+      Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.NetApp, Constants.NetAppClusterCreationFailure, err, ''));
     })
 
     return new NetAppClustersRetrievalSuccessResponse(result);
@@ -92,10 +92,10 @@ class NetAppHttpRequests extends NetAppBaseLayer {
     
     await httppromise(options).then(function (response: any) {
       result = response;
-      Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.NetApp, Constants.NetAppClusterRetrievalSuccess, response, ''));
+      Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.NetApp, Constants.NetAppClusterDeletionSuccess, response, ''));
     }).catch(function (err: any) {
 
-      Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.NetApp, Constants.NetAppClusterRetrievalFailure, err, ''));
+      Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.NetApp, Constants.NetAppClusterDeletionFailure, err, ''));
     })
 
     return new NetAppClustersRetrievalSuccessResponse(result);

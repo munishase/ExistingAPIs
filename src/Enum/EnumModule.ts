@@ -4,5 +4,6 @@ export enum EnumModule {
   Veeam = "Veeam",
   Stitchdata = "Stitchdata",
   ActivePort = "ActivePort",
-  NetApp = "NetApp"
+  NetApp = "NetApp",
+  Dataiku = "Dataiku"
 }

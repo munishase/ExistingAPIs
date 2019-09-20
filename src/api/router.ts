@@ -279,7 +279,22 @@ class Router {
           message: 'Cluster id is required.'
         });
       }
-      return ServicesWrapper.deletenkscluster(req.params, res);
+      return ServicesWrapper.deletenkscluster(req.body, res);
+    });
+
+    router.get('/listdataikudatasets', (req, res) => {
+      
+      return ServicesWrapper.listdataikudatasets(req.body, res);
+    });
+
+    router.post('/createdatasetfordataiku', (req, res) => {
+      
+      return ServicesWrapper.createdatasetfordataiku(req.body, res);
+    });
+
+    router.post('/createmanageddatasetfordataiku', (req, res) => {
+      
+      return ServicesWrapper.createmanageddatasetfordataiku(req.body, res);
     });
 
     server.use('/', router);

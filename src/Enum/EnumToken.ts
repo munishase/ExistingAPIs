@@ -4,5 +4,6 @@ export enum EnumToken {
   VeeamToken = "VeeamToken",
   StitchdataToken = "StitchdataToken",
   ActivePortToken = "ActivePortToken",
-  NetAppToken = "NetAppToken"
+  NetAppToken = "NetAppToken",
+  DataikuToken = "DataikuToken"
 }

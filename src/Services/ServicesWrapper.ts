@@ -7,6 +7,7 @@ import Common from '../class/Common';
 import { EnumPartOf } from '../Enum/EnumPartOf'
 import ActivePortHttpRequests from './ActivePortHttpRequests';
 import NetAppHttpRequests from './NetAppHttpRequests';
+import DataikuHttpRequests from './DataikuHttpRequests';
 
 
 // this class is wrapper to call other services methods
@@ -130,6 +131,27 @@ class ServicesWrapper {
         Logger.cleanLogs();
         let netappResponse = await NetAppHttpRequests.deleteNKSCluster(requestBody);
         return Common.beautifyResult(netappResponse, webResponse, EnumPartOf.Individual);
+    }
+
+     //List dataiku list of datasets
+     async listdataikudatasets(requestBody: any, webResponse: any) {
+        Logger.cleanLogs();
+        let dataikuResponse = await DataikuHttpRequests.listDataSetsFromDataiku(requestBody);
+        return Common.beautifyResult(dataikuResponse, webResponse, EnumPartOf.Individual);
+    }
+
+     //insert new dataset in dataiku
+     async createdatasetfordataiku(requestBody: any, webResponse: any) {
+        Logger.cleanLogs();
+        let dataikuResponse = await DataikuHttpRequests.createDatasetForDataiku(requestBody);
+        return Common.beautifyResult(dataikuResponse, webResponse, EnumPartOf.Individual);
+    }
+
+     //insert new managed dataset in dataiku
+     async createmanageddatasetfordataiku(requestBody: any, webResponse: any) {
+        Logger.cleanLogs();
+        let dataikuResponse = await DataikuHttpRequests.createManagedDatasetForDataiku(requestBody);
+        return Common.beautifyResult(dataikuResponse, webResponse, EnumPartOf.Individual);
     }
 }
 

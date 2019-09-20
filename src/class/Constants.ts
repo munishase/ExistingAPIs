@@ -95,11 +95,31 @@ class Constants {
 
 
     readonly NetAppTokenRemovedSuccess: string = "NetApp Token removed successfully";
+    readonly NetAppClusterCreationSuccess: string = "NetApp Clusters created successfully";
     readonly NetAppClusterRetrievalSuccess: string = "NetApp Clusters are retrieved successfully";
+    readonly NetAppClusterDeletionSuccess: string = "NetApp Clusters deleted successfully";
 
     readonly NetAppTokenRemovedError: string = "NetApp Token removed failure";
-    readonly NetAppClusterRetrievalFailure: string = "NetApp Clusters are retrieval failed";
+    readonly NetAppClusterCreationFailure: string = "NetApp Clusters creation failed";
+    readonly NetAppClusterRetrievalFailure: string = "NetApp Clusters retrieval failed";
+    readonly NetAppClusterDeletionFailure: string = "NetApp Clusters deleted failed";
     
+
+    //DataIku
+    readonly DataikuListDatasetsURL: string = "/public/api/projects/MUNISHEXAMKAGGLETELSTRANETWORKCHALLENGE/datasets/";
+    readonly DataikuCreateDatasetURL: string = "/projects/{projectKey}/datasets";
+    readonly DataikuCreateManagedDatasetURL: string = "/projects/{projectKey}/datasets/managed";
+
+    readonly DataikuDatasetsRetrievalSuccess: string = "Dataiku datasets are retrieved successfully";
+    readonly DataikuInsertDatasetSuccess: string = "Dataiku insert new dataset executed successfully";
+    readonly DataikuInsertManagedDatasetSuccess: string = "Dataiku insert new managed dataset executed successfully";
+    readonly DataikuTokenRemovedError: string = "Activeport Token removal failed";
+
+    readonly DataikuDatasetsRetrievalFailure: string = "Dataiku datasets retrieval failed";
+    readonly DataikuInsertDatasetFailure: string = "Dataiku insert new dataset failed";
+    readonly DataikuInsertManagedDatasetFailure: string = "Dataiku insert new managed dataset failed";
+    readonly DataikuTokenRemovedSuccess: string = "Activeport Token removed successfully";
+
 }
 
 
