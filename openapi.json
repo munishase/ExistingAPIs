@@ -594,10 +594,24 @@
         }
       }
     },
-    "/listdataikudatasets": {
+    "/listdataikudatasets/{projectkey}": {
       "get": {
         "tags": [
           "Dataiku"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "projectkey",
+            "in": "query",
+            "description": "projectkey of dataiku that needs to be executed",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
         "responses": {
           "200": {
@@ -631,6 +645,16 @@
         "tags": [
           "Dataiku"
         ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDatasetForDataikuInputParams"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Dataiku insert new dataset executed successfully.",
@@ -1587,6 +1611,23 @@
             "uniqueItems": true
           },
           "uniqueItems": true
+        }
+      },
+      "CreateDatasetForDataikuInputParams": {
+        "type": "object",
+        "required": [
+          "projectkey",
+          "values"
+        ],
+        "properties": {
+          "projectkey": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "dataset": {
+            "type": "object",
+            "uniqueItems": true
+          }
         }
       }
     },

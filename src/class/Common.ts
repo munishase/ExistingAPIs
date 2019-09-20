@@ -79,6 +79,10 @@ class Common {
             collection.push(record);
         }
     }
+
+    replaceCurleBrasesInUrl(fullUrl: string, replacedString: string) {
+        return  fullUrl.replace(/{(.*?)}/, replacedString)
+    }
 }
 
 

@@ -7,6 +7,7 @@ import Constants from '../class/Constants'
 import { EnumModule } from '../Enum/EnumModule';
 import { DataikuBaseLayer } from './DataikuBaseLayer';
 import { DataikuListDatasetsSuccessResponse } from '../class/Response/DataikuListDatasetsSuccessResponse';
+import Common from '../class/Common';
 
 
 class DataikuHttpRequests extends DataikuBaseLayer {
@@ -17,19 +18,20 @@ class DataikuHttpRequests extends DataikuBaseLayer {
 
   //Here we are retrieving all datasets in dataiku
   //prerequisite: dataiku Token in Header
-  async listDataSetsFromDataiku(requestBody: any) {
+  async listDataSetsFromDataiku(param: any) {
 
     if (await this.isDataikuAuthorized() == false)
       return;
-
+      
     let options = {
-      url: this.baseUrl(Constants.DataikuListDatasetsURL),
+      url: Common.replaceCurleBrasesInUrl(this.baseUrl(Constants.DataikuListDatasetsURL),param.projectkey),
       method: 'GET',
       auth: this.dataikuHeader(),
       json: true
     };
 
     let self = this;
+    
     let result;
     await httppromise(options).then(function (response: any) {
       result = response;
@@ -49,16 +51,16 @@ class DataikuHttpRequests extends DataikuBaseLayer {
     if (await this.isDataikuAuthorized() == false)
       return;
 
-    let body = requestBody;
+    let body = requestBody.dataset;
 
     let options = {
-      url: this.baseUrl(Constants.DataikuCreateDatasetURL),
+      url: Common.replaceCurleBrasesInUrl(this.baseUrl(Constants.DataikuListDatasetsURL), requestBody.projectkey),
       method: 'POST',
       auth: this.dataikuHeader(),
       body: body,
       json: true
     };
-
+    
     let self = this;
     let result;
 

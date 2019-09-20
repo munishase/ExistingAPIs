@@ -4,12 +4,12 @@ import { BaseResponse } from '../BaseResponse'
 
 export class DataikuListDatasetsSuccessResponse extends BaseResponse {
     
-    clusters: any[];
+    response: any[];
 
     constructor(dataikuDatasets: any) {
         super();
         this.module = EnumModule.Dataiku;
-        this.clusters = dataikuDatasets;
+        this.response = dataikuDatasets;
         
         return this;
     }
