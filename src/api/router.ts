@@ -273,6 +273,7 @@ class Router {
       return ServicesWrapper.createnkscluster(req.body, res);
     });
 
+
     router.delete('/deletenkscluster/:clusterid', (req, res) => {
       if (!req.params.clusterid) {
         return res.status(400).send({
@@ -282,17 +283,19 @@ class Router {
       return ServicesWrapper.deletenkscluster(req.body, res);
     });
 
+
     router.get('/listdataikudatasets/:projectkey', (req, res) => {
       if (!req.params.projectkey) {
         return res.status(400).send({
           message: 'Project key is required.'
         });
       }
-      return ServicesWrapper.listdataikudatasets(req.params, res);
+      return ServicesWrapper.listdataikudatasets(req.query, res);
     });
 
+
     router.post('/createdatasetfordataiku', (req, res) => {
-      if (!req.body.projectkey) {
+      if (!req.body.projectKey) {
         return res.status(400).send({
           message: 'Project key is required.'
         });
@@ -300,11 +303,17 @@ class Router {
       return ServicesWrapper.createdatasetfordataiku(req.body, res);
     });
 
+
     router.post('/createmanageddatasetfordataiku', (req, res) => {
-      
+      if (!req.body.projectKey) {
+        return res.status(400).send({
+          message: 'Project key is required.'
+        });
+      }
       return ServicesWrapper.createmanageddatasetfordataiku(req.body, res);
     });
 
+    
     server.use('/', router);
   }
 

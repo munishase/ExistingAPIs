@@ -20,18 +20,15 @@ class DataikuHttpRequests extends DataikuBaseLayer {
   //prerequisite: dataiku Token in Header
   async listDataSetsFromDataiku(param: any) {
 
-    if (await this.isDataikuAuthorized() == false)
-      return;
-      
     let options = {
-      url: Common.replaceCurleBrasesInUrl(this.baseUrl(Constants.DataikuListDatasetsURL),param.projectkey),
+      url: Common.replaceCurleBrasesInUrl(this.baseUrl(Constants.DataikuListDatasetsURL), param.projectkey),
       method: 'GET',
       auth: this.dataikuHeader(),
       json: true
     };
 
     let self = this;
-    
+
     let result;
     await httppromise(options).then(function (response: any) {
       result = response;
@@ -48,19 +45,16 @@ class DataikuHttpRequests extends DataikuBaseLayer {
   //prerequisite: dataiku Token in Header
   async createDatasetForDataiku(requestBody: any) {
 
-    if (await this.isDataikuAuthorized() == false)
-      return;
-
-    let body = requestBody.dataset;
+    let body = requestBody;
 
     let options = {
-      url: Common.replaceCurleBrasesInUrl(this.baseUrl(Constants.DataikuListDatasetsURL), requestBody.projectkey),
+      url: Common.replaceCurleBrasesInUrl(this.baseUrl(Constants.DataikuListDatasetsURL), requestBody.projectKey),
       method: 'POST',
       auth: this.dataikuHeader(),
       body: body,
       json: true
     };
-    
+
     let self = this;
     let result;
 
@@ -75,19 +69,17 @@ class DataikuHttpRequests extends DataikuBaseLayer {
     return new DataikuListDatasetsSuccessResponse(result);
   };
 
- //Here we are creating new NKS cluster
+  //Here we are creating new NKS cluster
   //prerequisite: dataiku Token in Header
   async createManagedDatasetForDataiku(requestBody: any) {
 
-    if (await this.isDataikuAuthorized() == false)
-      return;
-
     let body = requestBody;
 
+
     let options = {
-      url: this.baseUrl(Constants.DataikuCreateManagedDatasetURL),
+      url: Common.replaceCurleBrasesInUrl(this.baseUrl(Constants.DataikuCreateManagedDatasetURL), requestBody.projectKey),
       method: 'POST',
-      headers: this.dataikuHeader(),
+      auth: this.dataikuHeader(),
       body: body,
       json: true
     };

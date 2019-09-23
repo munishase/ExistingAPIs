@@ -85,10 +85,8 @@
     },
     "Dataiku": {
       "Urls": {
-        "BaseUrl": "http://192.168.55.160:11000/"
-      },
-      "Secret": "6SBXJWiJWg7BUAiKcgodLwXEczrIL3pf",
-      "Password": "ganesh@123"
+        "BaseUrl": "http://192.168.55.160:11000"
+      }
     },
     "PrivateKey": {
       "Value": "v6A7>o$2rfw5sdfdfg^-{e)>m!?)BIwa=I^'6x^rB?}a2aJsgmCBrfdgsdgh,jTkJ3K&_Cnz@d^R/",

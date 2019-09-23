@@ -1614,21 +1614,7 @@
         }
       },
       "CreateDatasetForDataikuInputParams": {
-        "type": "object",
-        "required": [
-          "projectkey",
-          "values"
-        ],
-        "properties": {
-          "projectkey": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "dataset": {
-            "type": "object",
-            "uniqueItems": true
-          }
-        }
+        "type": "object"
       }
     },
     "securitySchemes1": {

@@ -113,12 +113,12 @@ class Constants {
     readonly DataikuDatasetsRetrievalSuccess: string = "Dataiku datasets are retrieved successfully";
     readonly DataikuInsertDatasetSuccess: string = "Dataiku insert new dataset executed successfully";
     readonly DataikuInsertManagedDatasetSuccess: string = "Dataiku insert new managed dataset executed successfully";
-    readonly DataikuTokenRemovedError: string = "Activeport Token removal failed";
+    readonly DataikuTokenRemovedError: string = "Dataiku Token removal failed";
 
     readonly DataikuDatasetsRetrievalFailure: string = "Dataiku datasets retrieval failed";
     readonly DataikuInsertDatasetFailure: string = "Dataiku insert new dataset failed";
     readonly DataikuInsertManagedDatasetFailure: string = "Dataiku insert new managed dataset failed";
-    readonly DataikuTokenRemovedSuccess: string = "Activeport Token removed successfully";
+    readonly DataikuTokenRemovedSuccess: string = "Dataiku Token removed successfully";
 
 }
 
