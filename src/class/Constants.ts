@@ -108,7 +108,7 @@ class Constants {
     //DataIku
     readonly DataikuListDatasetsURL: string = "/public/api/projects/{projectKey}/datasets/";
     readonly DataikuCreateDatasetURL: string = "/projects/{projectKey}/datasets";
-    readonly DataikuCreateManagedDatasetURL: string = "/projects/{projectKey}/datasets/managed";
+    readonly DataikuCreateManagedDatasetURL: string = "/public/api/projects/{projectKey}/datasets/managed";
 
     readonly DataikuDatasetsRetrievalSuccess: string = "Dataiku datasets are retrieved successfully";
     readonly DataikuInsertDatasetSuccess: string = "Dataiku insert new dataset executed successfully";

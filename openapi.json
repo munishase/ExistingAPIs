@@ -687,6 +687,16 @@
         "tags": [
           "Dataiku"
         ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateManagedDatasetForDataikuInputParams"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Dataiku insert new managed dataset executed successfully.",
@@ -1615,6 +1625,23 @@
       },
       "CreateDatasetForDataikuInputParams": {
         "type": "object"
+      },
+      "CreateManagedDatasetForDataikuInputParams": {
+        "type": "object",
+        "required": [
+          "projectKey"
+        ],
+        "properties": {
+          "projectKey": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "dataset": {
+            "type": "object",
+            "uniqueItems": true
+          },
+          "uniqueItems": true
+        }
       }
     },
     "securitySchemes1": {

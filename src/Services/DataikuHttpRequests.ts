@@ -73,8 +73,7 @@ class DataikuHttpRequests extends DataikuBaseLayer {
   //prerequisite: dataiku Token in Header
   async createManagedDatasetForDataiku(requestBody: any) {
 
-    let body = requestBody;
-
+    let body = requestBody.dataset;
 
     let options = {
       url: Common.replaceCurleBrasesInUrl(this.baseUrl(Constants.DataikuCreateManagedDatasetURL), requestBody.projectKey),
@@ -86,6 +85,7 @@ class DataikuHttpRequests extends DataikuBaseLayer {
 
     let self = this;
     let result;
+    console.log(options)
 
     await httppromise(options).then(function (response: any) {
       result = response;
