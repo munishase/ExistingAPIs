@@ -41,16 +41,16 @@ class StitchdataHttpRequests extends StitchdataBaseLayer {
 
     stitchdataCreateAccount.FirstName = RequestBody.firstname;
     stitchdataCreateAccount.LastName = RequestBody.lastname;
-    stitchdataCreateAccount.Email = RequestBody.company;
-    stitchdataCreateAccount.Company = RequestBody.email;
+    stitchdataCreateAccount.Email = RequestBody.email;
+    stitchdataCreateAccount.Company = RequestBody.company;
 
     let body = {
       "partner_id": this.stitchdata.PartnerId,
       "partner_secret": this.stitchdata.PartnerSecret,
       "first_name": stitchdataCreateAccount.FirstName,
       "last_name": stitchdataCreateAccount.LastName,
-      "company": stitchdataCreateAccount.Email,
-      "email": stitchdataCreateAccount.Company,
+      "company": stitchdataCreateAccount.Company,
+      "email": stitchdataCreateAccount.Email,
     }
 
     let options = {
@@ -64,15 +64,16 @@ class StitchdataHttpRequests extends StitchdataBaseLayer {
     };
 
     let self = this;
+
     await httppromise(options).then(function (response: any) {
 
       self.stitchdata.AccountId = response.stitch_account_id;
       self.stitchdata.Token = response.access_token;
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Stitchdata, Constants.StitchdataCreateAccountSuccess, response, body));
     }).catch(function (err: any) {
+
       Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Stitchdata, Constants.StitchdataCreateAccountError, err, body));
     })
-
 
     return new StitchdataAccountCreationSuccessResponse(this.stitchdata, stitchdataCreateAccount);
   };
@@ -100,7 +101,7 @@ class StitchdataHttpRequests extends StitchdataBaseLayer {
       Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Stitchdata, Constants.StitchdataRetrieveSourcesError, err, options));
     })
 
-    
+
     return new StitchdataGetRequestSuccessResponse(RequestBody.access_token, responseStitchdata);
   };
 
