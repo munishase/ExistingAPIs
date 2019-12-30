@@ -1387,17 +1387,11 @@
             "uniqueItems": true
           },
           "tiles": {
-            "type": "object",
-            "required": [
-              "tileId"
-            ],
-            "properties": {
-              "tileId": {
-                "type": "integer",
-                "uniqueItems": true
-              },
-              "uniqueItems": true
-            }
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/tiles"
+            },
+            "uniqueItems": true
           }
         }
       },

@@ -126,7 +126,6 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
     };
 
     let self = this;
-console.log(options)
     await httppromise(options).then(function (response: any) {
       
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortTenantAccountCreationSuccess, response, body));
