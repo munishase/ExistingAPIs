@@ -1,13 +1,14 @@
 import { EnumModule } from '../../Enum/EnumModule'
 import { BaseResponse } from '../BaseResponse'
 import { ActivePortTenant } from '../ActivePortTenant';
+import { tiles } from '../ActivePortTenant';
 
 export class ActivePortTenantCreationSuccessResponse extends BaseResponse {
     id: number;
     description: string;
     name: string;
     tenantId: string;
-    servicesList: string[];
+    tiles: tiles[];
 
     constructor(activeportTenant: ActivePortTenant) {
         super();
@@ -16,7 +17,7 @@ export class ActivePortTenantCreationSuccessResponse extends BaseResponse {
         this.description = activeportTenant.description;
         this.name = activeportTenant.name;
         this.tenantId = activeportTenant.tenantId;
-        this.servicesList = activeportTenant.servicesList;
+        this.tiles = activeportTenant.tiles;
         
         return this;
     }

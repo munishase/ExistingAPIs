@@ -6,15 +6,24 @@ export class ActivePortTenant {
     description: string;
     name: string;
     tenantId: string;
-    servicesList: string[];
-    
+    tiles: tiles[];
+
 
     constructor() {
         this.id = 0;
         this.description = "";
         this.name = "";
         this.tenantId = "";
-        this.servicesList = [];
+        this.tiles = [];
+    }
+}
+
+export class tiles {
+    tileId: number;
+    serviceTypeCode: string;
+    constructor() {
+        this.tileId = 0;
+        this.serviceTypeCode = "";
     }
 }
 

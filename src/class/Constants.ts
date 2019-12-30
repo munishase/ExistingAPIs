@@ -73,7 +73,7 @@ class Constants {
 
 
     //ActivePort
-    readonly ActivePortAuthURL: string = "/authenticate";
+    readonly ActivePortAuthURL: string = "/v1/authenticate";
     readonly ActivePortCreateTenantAccountURL: string = "/v1/tenants";
     readonly ActivePortDeleteTenantAccountURL: string = "/v1/tenants";
 

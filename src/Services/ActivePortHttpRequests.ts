@@ -61,17 +61,17 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
     let activePortTenant = new ActivePortTenant();
     activePortTenant.name = requestBody.name;
     activePortTenant.description = requestBody.description;
-    activePortTenant.servicesList = requestBody.servicesList;
+    activePortTenant.tiles = requestBody.tiles;
 
     let body = {
       "description": activePortTenant.description,
       "name": activePortTenant.name,
-      "servicesList": activePortTenant.servicesList
+      "tiles": activePortTenant.tiles
     }
 
     let options = {
       url: this.baseUrl(Constants.ActivePortCreateTenantAccountURL),
-      method: 'PUT',
+      method: 'POST',
       headers: {
         'Authorization': 'Bearer ' + sessionstorage.getItem(EnumToken.ActivePortToken),
         'content-type': 'application/json'
@@ -102,21 +102,21 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
     let activePortTenant = new ActivePortTenant();
     activePortTenant.name = requestBody.name;
     activePortTenant.description = requestBody.description;
-    activePortTenant.servicesList = requestBody.servicesList;
+    activePortTenant.tiles = requestBody.tiles;
     activePortTenant.id = requestBody.id
     activePortTenant.tenantId = requestBody.tenantId
 
     let body = {
       "description": activePortTenant.description,
       "name": activePortTenant.name,
-      "servicesList": activePortTenant.servicesList,
+      "tiles": activePortTenant.tiles,
       "id": activePortTenant.id,
       "tenantId": activePortTenant.tenantId
     }
 
     let options = {
       url: this.baseUrl(Constants.ActivePortCreateTenantAccountURL),
-      method: 'POST',
+      method: 'PUT',
       headers: {
         'Authorization': 'Bearer ' + sessionstorage.getItem(EnumToken.ActivePortToken),
         'content-type': 'application/json'
@@ -126,6 +126,7 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
     };
 
     let self = this;
+console.log(options)
     await httppromise(options).then(function (response: any) {
       
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortTenantAccountCreationSuccess, response, body));

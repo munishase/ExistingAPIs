@@ -39,7 +39,6 @@ export class ActivePortBaseLayer extends BaseLayer {
             json: true,
             body: body
         };
-
         return httppromise(options);
     };
 
@@ -48,11 +47,13 @@ export class ActivePortBaseLayer extends BaseLayer {
     protected authorizeActivePort() {
         if (sessionstorage.getItem(EnumToken.ActivePortToken) == null) {
             
-            return this.generateActivePortToken().then(function (response: any) {
+                return this.generateActivePortToken().then(function (response: any) {
                 sessionstorage.setItem(EnumToken.ActivePortToken, response.id_token)
                 Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortAuthSuccess, response, ""))
                 return true;
             }).catch(function (err: any) {
+                console.log(err)
+
                 Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortAuthError, err, ""));
                 return false;
             })

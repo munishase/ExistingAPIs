@@ -1310,7 +1310,7 @@
           "tenantId",
           "description",
           "name",
-          "servicesList"
+          "tiles"
         ],
         "properties": {
           "description": {
@@ -1321,13 +1321,26 @@
             "type": "string",
             "uniqueItems": true
           },
-          "servicesList": {
+          "tiles": {
             "type": "array",
             "items": {
-              "type": "string"
+              "$ref": "#/components/schemas/tiles"
             },
             "uniqueItems": true
           }
+        }
+      },
+      "tiles": {
+        "type": "object",
+        "required": [
+          "tileId"
+        ],
+        "properties": {
+          "tileId": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "uniqueItems": true
         }
       },
       "CreateTenantForActivePortOutputParams": {
@@ -1354,7 +1367,7 @@
           "tenantId",
           "description",
           "name",
-          "servicesList"
+          "tiles"
         ],
         "properties": {
           "id": {
@@ -1373,12 +1386,18 @@
             "type": "string",
             "uniqueItems": true
           },
-          "servicesList": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "uniqueItems": true
+          "tiles": {
+            "type": "object",
+            "required": [
+              "tileId"
+            ],
+            "properties": {
+              "tileId": {
+                "type": "integer",
+                "uniqueItems": true
+              },
+              "uniqueItems": true
+            }
           }
         }
       },
@@ -1609,7 +1628,7 @@
             "type": "string",
             "uniqueItems": true
           },
-         "solutions": {
+          "solutions": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/NksSolution"

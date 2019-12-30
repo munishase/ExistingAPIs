@@ -224,9 +224,9 @@ class Router {
           message: 'Name is required.'
         });
       }
-      else if (!req.body.servicesList) {
+      else if (!req.body.tiles) {
         return res.status(400).send({
-          message: 'servicesList is required.'
+          message: 'tiles is required.'
         });
       }
       return ServicesWrapper.createnewtenantforactiveport(req.body, res);
@@ -245,9 +245,9 @@ class Router {
           message: 'Name is required.'
         });
       }
-      else if (!req.body.servicesList) {
+      else if (!req.body.tiles) {
         return res.status(400).send({
-          message: 'servicesList is required.'
+          message: 'tiles is required.'
         });
       }
       else if (!req.body.id) {

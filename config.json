@@ -69,10 +69,10 @@
     },
     "ActivePort": {
       "Urls": {
-        "BaseUrl": "https://my.activeport.com.au/api/rest"
+        "BaseUrl": "https://54.206.35.7/api/rest"
       },
-      "Username": "munish_singla",
-      "Password": "ganesh@123"
+      "Username": "dev1",
+      "Password": "Dev1Dev!"
     },
     "NetApp": {
       "Urls": {
