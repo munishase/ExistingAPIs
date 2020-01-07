@@ -313,7 +313,123 @@ class Router {
       return ServicesWrapper.createmanageddatasetfordataiku(req.body, res);
     });
 
+
+    router.get('/retrieveallntu', (req, res) => {
+      
+      return ServicesWrapper.retrieveallntu(req.query, res);
+    });
+
+
+    router.get('/retrieventubyid/:ntuid', (req, res) => {
+      if (!req.params.ntuid) {
+        return res.status(400).send({
+          message: 'NTU id is required.'
+        });
+      }
+      return ServicesWrapper.retrieventubyid(req.params, res);
+    });
     
+
+    router.post('/createnewntuforactiveport', (req, res) => {
+      
+      return ServicesWrapper.createnewntuforactiveport(req.body, res);
+    });
+
+    router.put('/updatentuforactiveport', (req, res) => {
+      
+      if (!req.body.id) {
+        return res.status(400).send({
+          message: 'id is required.'
+        });
+      }
+      else if (!req.body.name) {
+        return res.status(400).send({
+          message: 'name is required.'
+        });
+      }
+      else if (!req.body.timeZone) {
+        return res.status(400).send({
+          message: 'timeZone is required.'
+        });
+      }
+      else if (!req.body.maxRate) {
+        return res.status(400).send({
+          message: 'maxRate is required.'
+        });
+      }
+      else if (!req.body.minRate) {
+        return res.status(400).send({
+          message: 'minRate is required.'
+        });
+      }
+      else if (!req.body.defaultRate) {
+        return res.status(400).send({
+          message: 'defaultRate is required.'
+        });
+      }
+      else if (!req.body.burstTime) {
+        return res.status(400).send({
+          message: 'burstTime is required.'
+        });
+      }
+      else if (!req.body.uplinkPort) {
+        return res.status(400).send({
+          message: 'uplinkPort is required.'
+        });
+      }
+      else if (!req.body.serialNumber) {
+        return res.status(400).send({
+          message: 'serialNumber is required.'
+        });
+      }
+      else if (!req.body.ipAddress) {
+        return res.status(400).send({
+          message: 'ipAddress is required.'
+        });
+      }
+      else if (!req.body.loIp) {
+        return res.status(400).send({
+          message: 'loIp is required.'
+        });
+      }
+      else if (!req.body.endpoint) {
+        return res.status(400).send({
+          message: 'endpoint is required.'
+        });
+      }
+      else if (!req.body.restUsername) {
+        return res.status(400).send({
+          message: 'restUsername is required.'
+        });
+      }
+      else if (!req.body.restPassword) {
+        return res.status(400).send({
+          message: 'restPassword is required.'
+        });
+      }
+      else if (!req.body.mode) {
+        return res.status(400).send({
+          message: 'mode is required.'
+        });
+      }
+      else if (!req.body.ntutypeId) {
+        return res.status(400).send({
+          message: 'ntutypeId is required.'
+        });
+      }
+
+      return ServicesWrapper.updatentuforactiveport(req.body, res);
+    });
+
+    router.get('/deletentubyid/:ntuid', (req, res) => {
+      if (!req.params.ntuid) {
+        return res.status(400).send({
+          message: 'NTU id is required.'
+        });
+      }
+      return ServicesWrapper.deletentubyid(req.params, res);
+    });
+
     server.use('/', router);
   }
 

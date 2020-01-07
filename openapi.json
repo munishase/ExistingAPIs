@@ -15,6 +15,7 @@
     }
   ],
   "paths": {
+   
     "/processstoragegrid": {
       "post": {
         "tags": [
@@ -355,11 +356,11 @@
         ],
         "responses": {
           "200": {
-            "description": "ActivePort token  has been successfully generated.",
+            "description": "ActivePort Tenants has been retrieved successfully.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GenerateTokenForActivePortOutputParams"
+                  "$ref": "#/components/schemas/RetrieveTenantsForActivePortOutputParams"
                 }
               }
             }
@@ -401,7 +402,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GenerateTokenForActivePortOutputParams"
+                  "$ref": "#/components/schemas/CreateTenantForActivePortOutputParams"
                 }
               }
             }
@@ -439,17 +440,225 @@
         },
         "responses": {
           "200": {
-            "description": "ActivePort tenant has been successfully created.",
+            "description": "ActivePort tenant has been successfully updated.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GenerateTokenForActivePortOutputParams"
+                  "$ref": "#/components/schemas/CreateTenantForActivePortOutputParams"
                 }
               }
             }
           },
           "400": {
-            "description": "Some issue occured while creating ActivePort tenant",
+            "description": "Some issue occured while updating ActivePort tenant",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessRequestFailureOutputParams"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have necessary permissions for the resource"
+          }
+        }
+      }
+    },
+    "/retrieveallntu": {
+      "get": {
+        "tags": [
+          "ActivePort"
+        ],
+        "responses": {
+          "200": {
+            "description": "ActivePort NTU's has been retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RetrieveNTUForActivePortOutputParams"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Some issue occured while retriving ActivePort NTU",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessRequestFailureOutputParams"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have necessary permissions for the resource"
+          }
+        }
+      }
+    },
+    "/retrieventubyid/{ntuid}": {
+      "get": {
+        "tags": [
+          "ActivePort"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "ntuid",
+            "in": "path",
+            "description": "ntuid of NTU that needs to be retrieved",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ActivePort NTU has been retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RetrieveNTUForActivePortOutputParams"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Some issue occured while retriving ActivePort NTU",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessRequestFailureOutputParams"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have necessary permissions for the resource"
+          }
+        }
+      }
+    },
+    "/createnewntuforactiveport": {
+      "post": {
+        "tags": [
+          "ActivePort"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateNTUForActivePortInputParams"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "ActivePort NTU has been successfully created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateTenantForActivePortOutputParams"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Some issue occured while creating ActivePort NTU",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessRequestFailureOutputParams"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have necessary permissions for the resource"
+          }
+        }
+      }
+    },
+    "/updatentuforactiveport": {
+      "put": {
+        "tags": [
+          "ActivePort"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateNTUForActivePortInputParams"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "ActivePort NTU has been successfully updated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateTenantForActivePortOutputParams"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Some issue occured while updating ActivePort NTU",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessRequestFailureOutputParams"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have necessary permissions for the resource"
+          }
+        }
+      }
+    },
+    "/deletentubyid/{ntuid}": {
+      "delete": {
+        "tags": [
+          "ActivePort"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "ntuid",
+            "in": "path",
+            "description": "ntuid of NTU that needs to be deleted",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ActivePort NTU has been deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RetrieveNTUForActivePortOutputParams"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Some issue occured while deleting ActivePort NTU",
             "content": {
               "application/json": {
                 "schema": {
@@ -1395,6 +1604,23 @@
           }
         }
       },
+      "RetrieveNTUForActivePortOutputParams": {
+        "type": "object",
+        "required": [
+          "success",
+          "message"
+        ],
+        "properties": {
+          "module": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "message": {
+            "type": "object",
+            "uniqueItems": true
+          }
+        }
+      },
       "RetrieveClustersFromNetappOutputParams": {
         "type": "object",
         "required": [
@@ -1407,6 +1633,134 @@
           },
           "clusters": {
             "type": "object",
+            "uniqueItems": true
+          },
+          "uniqueItems": true
+        }
+      },
+      "CreateNTUForActivePortInputParams": {
+        "type": "object",
+        "required": [
+          "autoRollback",
+          "burstTime",
+          "configBackup",
+          "defaultRate",
+          "description",
+          "enableBod",
+          "endpoint",
+          "firmwareVersion",
+          "ipAddress",
+          "loIp",
+          "locationId",
+          "maxRate",
+          "minRate",
+          "mode",
+          "name",
+          "ntutypeId",
+          "restEnabled",
+          "restPassword",
+          "restUsername",
+          "secondUplinkPort",
+          "serialNumber",
+          "tenantId",
+          "timeZone",
+          "uplinkPort"
+        ],
+        "properties": {
+          "autoRollback": {
+            "type": "boolean",
+            "uniqueItems": true
+          },
+          "burstTime": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "configBackup": {
+            "type": "boolean",
+            "uniqueItems": true
+          },
+          "defaultRate": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "description": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "enableBod": {
+            "type": "boolean",
+            "uniqueItems": true
+          },
+          "endpoint": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "firmwareVersion": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "ipAddress": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "loIp": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "locationId": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "maxRate": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "minRate": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "mode": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "name": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "ntutypeId": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "restEnabled": {
+            "type": "boolean",
+            "uniqueItems": true
+          },
+          "restPassword": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "restUsername": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "secondUplinkPort": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "serialNumber": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "tenantId": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "timeZone": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "uplinkPort": {
+            "type": "string",
             "uniqueItems": true
           },
           "uniqueItems": true
@@ -1658,10 +2012,10 @@
       }
     },
     "securitySchemes1": {
-      "AuthHeader": {
+      "api_key": {
         "type": "apiKey",
-        "in": "header",
-        "name": "Authorization"
+        "name": "api_key",
+        "in": "header"
       }
     }
   },

@@ -7,10 +7,13 @@ import Constants from '../class/Constants'
 import Common from '../class/Common';
 import { ActivePortBaseLayer } from './ActivePortBaseLayer'
 import { ActivePortTenantCreationSuccessResponse } from '../class/Response/ActivePortTenantCreationSuccessResponse'
+import { ActivePortNTUCreationSuccessResponse } from '../class/Response/ActivePortNTUCreationSuccessResponse'
 import { EnumModule } from '../Enum/EnumModule';
 import { EnumToken } from '../Enum/EnumToken';
+import { ActivePortNtuRetrieveSuccessResponse } from '../class/Response/ActivePortNTURetrieveSuccessResponse';
 import { ActivePortTenantRetrieveSuccessResponse } from '../class/Response/ActivePortTenantRetrieveSuccessResponse';
 import { ActivePortTenant } from '../class/ActivePortTenant';
+import { ActivePortNTU } from '../class/ActivePortNTU';
 
 class ActivePortHttpRequests extends ActivePortBaseLayer {
 
@@ -40,11 +43,11 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
       
       self.activePort.ActivePortTenants = response;
 
-      Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortTenantAccountCreationSuccess, response, ''));
+      Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortTenantAccountsSuccess, response, ''));
       return response;
     }).catch(function (err: any) {
 
-      Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortTenantAccountCreationError, err, ''));
+      Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortTenantAccountsError, err, ''));
     })
 
     return new ActivePortTenantRetrieveSuccessResponse(this.activePort.ActivePortTenants);
@@ -137,7 +140,276 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
     return new ActivePortTenantCreationSuccessResponse(activePortTenant);
   };
 
+  //Here we are retriving all ntu
+  //prerequisite: ActivePort Token in Header
+  async retrieveAllNTUs(requestBody: any) {
 
+    if (await this.isActivePortAuthorized() == false)
+      return;
+
+    let options = {
+      url: this.baseUrl(Constants.ActivePortNTUURL),
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + sessionstorage.getItem(EnumToken.ActivePortToken),
+        'content-type': 'application/json'
+      },
+      json: true
+    };
+
+    let self = this;
+    await httppromise(options).then(function (response: any) {
+      
+      self.activePort.ActivePortNTU = response;
+
+      Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortNTUSuccess, response, ''));
+      return response;
+    }).catch(function (err: any) {
+
+      Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortNTUError, err, ''));
+    })
+
+    return new ActivePortNtuRetrieveSuccessResponse(this.activePort.ActivePortNTU);
+  };
+
+  //Here we are retriving ntu by id
+  //prerequisite: ActivePort Token in Header
+  async retrieveNTUById(params: any) {
+
+    if (await this.isActivePortAuthorized() == false)
+      return;
+
+    let options = {
+      url: this.baseUrl(Constants.ActivePortNTUURL + "/" + params.ntuid),
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + sessionstorage.getItem(EnumToken.ActivePortToken),
+        'content-type': 'application/json'
+      },
+      json: true
+    };
+
+    let self = this;
+    await httppromise(options).then(function (response: any) {
+      
+      self.activePort.ActivePortNTU = response;
+
+      Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortNTUSuccess, response, ''));
+      return response;
+    }).catch(function (err: any) {
+
+      Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortNTUError, err, ''));
+    })
+
+    return new ActivePortNtuRetrieveSuccessResponse(this.activePort.ActivePortNTU);
+  };
+
+
+  //Here we are updating NTU
+  //prerequisite: ActivePort Token in Header
+  async updateNTUById(requestBody: any) {
+
+    if (await this.isActivePortAuthorized() == false)
+      return;
+
+    let activePortNTU = new ActivePortNTU();
+    activePortNTU.id = requestBody.id;
+    activePortNTU.autoRollback = requestBody.autoRollback;
+    activePortNTU.burstTime = requestBody.burstTime;
+    activePortNTU.configBackup = requestBody.configBackup;
+    activePortNTU.defaultRate = requestBody.defaultRate;
+    activePortNTU.description = requestBody.description;
+    activePortNTU.enableBod = requestBody.enableBod;
+    activePortNTU.endpoint = requestBody.endpoint;
+    activePortNTU.firmwareVersion = requestBody.firmwareVersion;
+    activePortNTU.ipAddress = requestBody.ipAddress;
+    activePortNTU.loIp = requestBody.loIp;
+    activePortNTU.locationId = requestBody.locationId;
+    activePortNTU.maxRate = requestBody.maxRate;
+    activePortNTU.minRate = requestBody.minRate;
+    activePortNTU.mode = requestBody.mode;
+    activePortNTU.name = requestBody.name;
+    activePortNTU.ntutypeId = requestBody.ntutypeId;
+    activePortNTU.restEnabled = requestBody.restEnabled;
+    activePortNTU.restPassword = requestBody.restPassword;
+    activePortNTU.restUsername = requestBody.restUsername;
+    activePortNTU.secondUplinkPort = requestBody.secondUplinkPort;
+    activePortNTU.serialNumber = requestBody.serialNumber;
+    activePortNTU.tenantId = requestBody.tenantId;
+    activePortNTU.timeZone = requestBody.timeZone;
+    activePortNTU.uplinkPort = requestBody.uplinkPort;
+
+    let body = {
+      "id": activePortNTU.id,
+      "autoRollback": activePortNTU.autoRollback,
+      "burstTime": activePortNTU.burstTime,
+      "configBackup": activePortNTU.configBackup,
+      "defaultRate": activePortNTU.defaultRate,
+      "description": activePortNTU.description,
+      "enableBod": activePortNTU.enableBod,
+      "endpoint": activePortNTU.endpoint,
+      "firmwareVersion": activePortNTU.firmwareVersion,
+      "ipAddress": activePortNTU.ipAddress,
+      "loIp": activePortNTU.loIp,
+      "locationId": activePortNTU.locationId,
+      "maxRate": activePortNTU.maxRate,
+      "minRate": activePortNTU.minRate,
+      "mode": activePortNTU.mode,
+      "name": activePortNTU.name,
+      "ntutypeId": activePortNTU.ntutypeId,
+      "restEnabled": activePortNTU.restEnabled,
+      "restPassword": activePortNTU.restPassword,
+      "restUsername": activePortNTU.restUsername,
+      "secondUplinkPort": activePortNTU.secondUplinkPort,
+      "serialNumber": activePortNTU.serialNumber,
+      "tenantId": activePortNTU.tenantId,
+      "timeZone": activePortNTU.timeZone,
+      "uplinkPort": activePortNTU.uplinkPort
+    }
+
+    let options = {
+      url: this.baseUrl(Constants.ActivePortNTUURL),
+      method: 'PUT',
+      headers: {
+        'Authorization': 'Bearer ' + sessionstorage.getItem(EnumToken.ActivePortToken),
+        'content-type': 'application/json'
+      },
+      body: body,
+      json: true
+    };
+
+    let self = this;
+    await httppromise(options).then(function (response: any) {
+      console.log(response);
+      activePortNTU.id = response.id
+      Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortTenantAccountCreationSuccess, response, body));
+      
+    }).catch(function (err: any) {
+      Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortTenantAccountCreationError, err, body));
+    })
+
+    return new ActivePortNTUCreationSuccessResponse(activePortNTU);
+    
+  };
+
+
+   //Here we are creating NTU
+  //prerequisite: ActivePort Token in Header
+  async createNTU(requestBody: any) {
+
+    if (await this.isActivePortAuthorized() == false)
+      return;
+
+    let activePortNTU = new ActivePortNTU();
+    activePortNTU.autoRollback = requestBody.autoRollback;
+    activePortNTU.burstTime = requestBody.burstTime;
+    activePortNTU.configBackup = requestBody.configBackup;
+    activePortNTU.defaultRate = requestBody.defaultRate;
+    activePortNTU.description = requestBody.description;
+    activePortNTU.enableBod = requestBody.enableBod;
+    activePortNTU.endpoint = requestBody.endpoint;
+    activePortNTU.firmwareVersion = requestBody.firmwareVersion;
+    activePortNTU.ipAddress = requestBody.ipAddress;
+    activePortNTU.loIp = requestBody.loIp;
+    activePortNTU.locationId = requestBody.locationId;
+    activePortNTU.maxRate = requestBody.maxRate;
+    activePortNTU.minRate = requestBody.minRate;
+    activePortNTU.mode = requestBody.mode;
+    activePortNTU.name = requestBody.name;
+    activePortNTU.ntutypeId = requestBody.ntutypeId;
+    activePortNTU.restEnabled = requestBody.restEnabled;
+    activePortNTU.restPassword = requestBody.restPassword;
+    activePortNTU.restUsername = requestBody.restUsername;
+    activePortNTU.secondUplinkPort = requestBody.secondUplinkPort;
+    activePortNTU.serialNumber = requestBody.serialNumber;
+    activePortNTU.tenantId = requestBody.tenantId;
+    activePortNTU.timeZone = requestBody.timeZone;
+    activePortNTU.uplinkPort = requestBody.uplinkPort;
+
+    let body = {
+      "autoRollback": activePortNTU.autoRollback,
+      "burstTime": activePortNTU.burstTime,
+      "configBackup": activePortNTU.configBackup,
+      "defaultRate": activePortNTU.defaultRate,
+      "description": activePortNTU.description,
+      "enableBod": activePortNTU.enableBod,
+      "endpoint": activePortNTU.endpoint,
+      "firmwareVersion": activePortNTU.firmwareVersion,
+      "ipAddress": activePortNTU.ipAddress,
+      "loIp": activePortNTU.loIp,
+      "locationId": activePortNTU.locationId,
+      "maxRate": activePortNTU.maxRate,
+      "minRate": activePortNTU.minRate,
+      "mode": activePortNTU.mode,
+      "name": activePortNTU.name,
+      "ntutypeId": activePortNTU.ntutypeId,
+      "restEnabled": activePortNTU.restEnabled,
+      "restPassword": activePortNTU.restPassword,
+      "restUsername": activePortNTU.restUsername,
+      "secondUplinkPort": activePortNTU.secondUplinkPort,
+      "serialNumber": activePortNTU.serialNumber,
+      "tenantId": activePortNTU.tenantId,
+      "timeZone": activePortNTU.timeZone,
+      "uplinkPort": activePortNTU.uplinkPort
+    }
+
+    let options = {
+      url: this.baseUrl(Constants.ActivePortNTUURL),
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + sessionstorage.getItem(EnumToken.ActivePortToken),
+        'content-type': 'application/json'
+      },
+      body: body,
+      json: true
+    };
+
+    console.log(options);
+/*
+    let self = this;
+    await httppromise(options).then(function (response: any) {
+      activePortNTU.id = response.id
+      Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortTenantAccountCreationSuccess, response, body));
+      
+    }).catch(function (err: any) {
+      Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortTenantAccountCreationError, err, body));
+    })
+
+    return new ActivePortNTUCreationSuccessResponse(activePortNTU);
+    */
+  };
+
+  //Here we are retriving ntu by id
+  //prerequisite: ActivePort Token in Header
+  async deleteNTUById(params: any) {
+
+    if (await this.isActivePortAuthorized() == false)
+      return;
+
+    let options = {
+      url: this.baseUrl(Constants.ActivePortNTUURL + "/" + params.ntuid),
+      method: 'DELETE',
+      headers: {
+        'Authorization': 'Bearer ' + sessionstorage.getItem(EnumToken.ActivePortToken),
+        'content-type': 'application/json'
+      },
+      json: true
+    };
+
+    let self = this;
+    await httppromise(options).then(function (response: any) {
+      
+      self.activePort.ActivePortNTU = response;
+
+      Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortNTUSuccess, response, ''));
+      return response;
+    }).catch(function (err: any) {
+
+      Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortNTUError, err, ''));
+    })
+
+    return new ActivePortNtuRetrieveSuccessResponse(this.activePort.ActivePortNTU);
+  };
 }
 
 

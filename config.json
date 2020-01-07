@@ -69,7 +69,7 @@
     },
     "ActivePort": {
       "Urls": {
-        "BaseUrl": "https://54.206.35.7/api/rest"
+        "BaseUrl": "https://54.206.35.7"
       },
       "Username": "dev1",
       "Password": "Dev1Dev!"

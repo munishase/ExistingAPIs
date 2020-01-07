@@ -108,8 +108,41 @@ class ServicesWrapper {
     //insert new tenant in ActivePort
     async updateexistingtenantforactiveport(requestBody: any, webResponse: any) {
         Logger.cleanLogs();
-        let avtiveportResponse = await ActivePortHttpRequests.updateTenantAccount(requestBody);
+        let activeportResponse = await ActivePortHttpRequests.updateTenantAccount(requestBody);
+        return Common.beautifyResult(activeportResponse, webResponse, EnumPartOf.Individual);
+    }
+
+     //List all NTU from Activeport
+     async retrieveallntu(requestBody: any, webResponse: any) {
+        Logger.cleanLogs();
+        let activeportResponse = await ActivePortHttpRequests.retrieveAllNTUs(requestBody);
+        return Common.beautifyResult(activeportResponse, webResponse, EnumPartOf.Individual);
+    }
+
+    //retrieve NTU by ntu id
+    async retrieventubyid(requestBody: any, webResponse: any) {
+        Logger.cleanLogs();
+        let ntuResponse = await ActivePortHttpRequests.retrieveNTUById(requestBody);
+        return Common.beautifyResult(ntuResponse, webResponse, EnumPartOf.Individual);
+    }
+
+    async createnewntuforactiveport(requestBody: any, webResponse: any) {
+        Logger.cleanLogs();
+        let avtiveportResponse = await ActivePortHttpRequests.createNTU(requestBody);
         return Common.beautifyResult(avtiveportResponse, webResponse, EnumPartOf.Individual);
+    }
+
+    async updatentuforactiveport(requestBody: any, webResponse: any) {
+        Logger.cleanLogs();
+        let avtiveportResponse = await ActivePortHttpRequests.updateNTUById(requestBody);
+        return Common.beautifyResult(avtiveportResponse, webResponse, EnumPartOf.Individual);
+    }
+    
+    //delete NTU by ntu id
+    async deletentubyid(requestBody: any, webResponse: any) {
+        Logger.cleanLogs();
+        let ntuResponse = await ActivePortHttpRequests.deleteNTUById(requestBody);
+        return Common.beautifyResult(ntuResponse, webResponse, EnumPartOf.Individual);
     }
 
     //retrieve new existing Clusters in NetApp
@@ -153,6 +186,8 @@ class ServicesWrapper {
         let dataikuResponse = await DataikuHttpRequests.createManagedDatasetForDataiku(requestBody);
         return Common.beautifyResult(dataikuResponse, webResponse, EnumPartOf.Individual);
     }
+
+   
 }
 
 export default new ServicesWrapper();

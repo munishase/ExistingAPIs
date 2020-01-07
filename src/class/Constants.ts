@@ -73,19 +73,25 @@ class Constants {
 
 
     //ActivePort
-    readonly ActivePortAuthURL: string = "/v1/authenticate";
-    readonly ActivePortCreateTenantAccountURL: string = "/v1/tenants";
-    readonly ActivePortDeleteTenantAccountURL: string = "/v1/tenants";
+    readonly ActivePortAuthURL: string = "/api/rest/v1/authenticate";
+    readonly ActivePortCreateTenantAccountURL: string = "/api/rest/v1/tenants";
+    readonly ActivePortDeleteTenantAccountURL: string = "/api/rest/v1/tenants";
+    readonly ActivePortNTUURL: string = "/devactiveportmicro/api/rest/v1/ntus";
+    
 
     readonly ActivePortAuthError: string = "ActivePort Authorization failed";
     readonly ActivePortTokenRemovedError: string = "ActivePort Token removed failure";
+    readonly ActivePortTenantAccountsError: string = "ActivePort Tenant Accounts retrieved failed";
     readonly ActivePortTenantAccountCreationError: string = "ActivePort Tenant Account creation failed";
     readonly ActivePortTenantAccountDeletionError: string = "ActivePort Tenant Account deletion failed";
+    readonly ActivePortNTUError: string = "ActivePort NTU retrieval failed";
 
     readonly ActivePortAuthSuccess: string = "ActivePort Authorization completed";
     readonly ActivePortTokenRemovedSuccess: string = "Activeport Token removed successfully";
+    readonly ActivePortTenantAccountsSuccess: string = "ActivePort Tenant Accounts retrieved successfully";
     readonly ActivePortTenantAccountCreationSuccess: string = "ActivePort Tenant Account creation completed";
     readonly ActivePortTenantAccountDeletionSuccess: string = "ActivePort Tenant Account deletion completed";
+    readonly ActivePortNTUSuccess: string = "ActivePort  NTU retrieval successfully";
 
 
     //NetAPp
