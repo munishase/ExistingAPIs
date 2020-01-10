@@ -9,3 +9,10 @@ https://github.com/azure/iisnode/wiki/iisnode-releases
 
 
 - 
+
+
+
+docker build -t munishsinghal/asenorthbound -f ./Dockerfile.yaml .
+
+docker run munishsinghal/asenorthbound
+docker run -p 8004:3000 munishsinghal/aseapi

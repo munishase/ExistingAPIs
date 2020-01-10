@@ -1548,8 +1548,7 @@
           "tileId": {
             "type": "integer",
             "uniqueItems": true
-          },
-          "uniqueItems": true
+          }
         }
       },
       "CreateTenantForActivePortOutputParams": {

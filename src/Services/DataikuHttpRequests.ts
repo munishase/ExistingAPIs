@@ -85,7 +85,6 @@ class DataikuHttpRequests extends DataikuBaseLayer {
 
     let self = this;
     let result;
-    console.log(options)
 
     await httppromise(options).then(function (response: any) {
       result = response;

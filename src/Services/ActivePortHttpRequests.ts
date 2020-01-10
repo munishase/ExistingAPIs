@@ -280,7 +280,6 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
 
     let self = this;
     await httppromise(options).then(function (response: any) {
-      console.log(response);
       activePortNTU.id = response.id
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortTenantAccountCreationSuccess, response, body));
       
@@ -364,8 +363,7 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
       json: true
     };
 
-    console.log(options);
-/*
+    
     let self = this;
     await httppromise(options).then(function (response: any) {
       activePortNTU.id = response.id
@@ -376,13 +374,12 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
     })
 
     return new ActivePortNTUCreationSuccessResponse(activePortNTU);
-    */
+    
   };
 
   //Here we are retriving ntu by id
   //prerequisite: ActivePort Token in Header
   async deleteNTUById(params: any) {
-
     if (await this.isActivePortAuthorized() == false)
       return;
 
@@ -398,11 +395,8 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
 
     let self = this;
     await httppromise(options).then(function (response: any) {
-      
       self.activePort.ActivePortNTU = response;
-
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortNTUSuccess, response, ''));
-      return response;
     }).catch(function (err: any) {
 
       Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortNTUError, err, ''));

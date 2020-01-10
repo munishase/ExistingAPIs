@@ -335,6 +335,7 @@ class Router {
       return ServicesWrapper.createnewntuforactiveport(req.body, res);
     });
 
+
     router.put('/updatentuforactiveport', (req, res) => {
       
       if (!req.body.id) {
@@ -421,7 +422,8 @@ class Router {
       return ServicesWrapper.updatentuforactiveport(req.body, res);
     });
 
-    router.get('/deletentubyid/:ntuid', (req, res) => {
+
+    router.delete('/deletentubyid/:ntuid', (req, res) => {
       if (!req.params.ntuid) {
         return res.status(400).send({
           message: 'NTU id is required.'
@@ -430,6 +432,7 @@ class Router {
       return ServicesWrapper.deletentubyid(req.params, res);
     });
 
+    
     server.use('/', router);
   }
 
