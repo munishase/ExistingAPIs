@@ -673,6 +673,38 @@
         }
       }
     },
+    "/getallcircuits": {
+      "get": {
+        "tags": [
+          "Xcloud"
+        ],
+        "responses": {
+          "200": {
+            "description": "ActivePort NTU's has been retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RetrieveNTUForActivePortOutputParams"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Some issue occured while retriving ActivePort NTU",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessRequestFailureOutputParams"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have necessary permissions for the resource"
+          }
+        }
+      }
+    },
     "/retrieveclustersfromnetapp": {
       "get": {
         "tags": [

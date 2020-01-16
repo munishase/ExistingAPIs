@@ -1,5 +1,5 @@
-import { Veeam } from '../class/Veeam';
 import { BaseLayer } from './BaseLayer';
+const request = require('request');
 const httppromise = require('request-promise');
 var sessionstorage = require('sessionstorage');
 import { Log } from '../class/Log'
@@ -9,76 +9,75 @@ import Constants from '../class/Constants'
 import { EnumModule } from '../Enum/EnumModule';
 import { EnumToken } from '../Enum/EnumToken';
 
-export class VeeamBaseLayer extends BaseLayer {
+export class XcloudBaseLayer extends BaseLayer {
 
-    protected veeam: Veeam = new Veeam();
     constructor() {
         super();
-        this.setDefaultValues();
-    }
-
-    setDefaultValues() {
-        //below valaues are default and pickedup from config file
-        this.veeam.CloudConnectAgentUid = this.environmentConfig.Veeam.CloudConnectAgentUid;
-        this.veeam.BackupProtectionEnabled = this.environmentConfig.Veeam.DefaultValues.BackupProtectionEnabled;
-        this.veeam.BackupProtectionPeriod = this.environmentConfig.Veeam.DefaultValues.BackupProtectionPeriod;
-        this.veeam.MaxConcurrentTask = this.environmentConfig.Veeam.DefaultValues.MaxConcurrentTask;
-        this.veeam.ExpirationEnabled = this.environmentConfig.Veeam.DefaultValues.ExpirationEnabled;
     }
 
     baseUrl(url: string) {
-        return this.environmentConfig.Veeam.Urls.BaseUrl + url;
+        return this.environmentConfig.Xcloud.Urls.BaseUrl + url;
     }
 
-    //Generate new Token for veeam
-    private generateVeeamToken() {
-        //let body = "grant_type=password&username=TESTING.ASEIT.NET%5Cmunish.singla&password=munishtest2019";
-        let body = "grant_type=password&username=" + this.environmentConfig.Veeam.Username + "&password=" + this.environmentConfig.Veeam.Password;
+    //Generate new Token for Xcloud
+    private generateXcloudToken() {
+        let body = "user=" + this.environmentConfig.Xcloud.Username + "&password=" + this.environmentConfig.Xcloud.Password + "&auth_scheme_id=" + this.environmentConfig.Xcloud.auth_scheme_id;
 
         let options = {
-            url: this.baseUrl(Constants.VeeamAuthURL),
+            url: this.baseUrl(Constants.XcloudAuthURL),
             method: 'POST',
+            'headers': {
+                'Content-Type': 'application/json'
+            },
             body: body
         };
-        return httppromise(options);
+
+        return options;
     };
 
-    //Check if Veeam token already exists otherwise it will generate new Token for Veeam
-    protected authorizeVeeamGrid() {
-        
-        if (sessionstorage.getItem(EnumToken.VeeamToken) == null) {
-                return this.generateVeeamToken().then(function (response: any) {
-                let veemAuthenticationResponse = JSON.parse(response);
-                sessionstorage.setItem(EnumToken.VeeamToken, "Bearer " + veemAuthenticationResponse.access_token)
-                Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Veeam, Constants.VeeamAuthSuccess, response, ""))
-                return true;
-            }).catch(function (err: any) {
-                Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Veeam, Constants.VeeamAuthError, err, ""));
-                return false;
-            })
-        }
+    //Check if Xcloud token already exists otherwise it will generate new Token for Xcloud
+    protected async authorizeXcloudGrid() {
+
+        let options = this.generateXcloudToken();
+
+
+
+        return new Promise((resolve, reject) => {
+            request(options, function (error: any, response: any) {
+                if (error) {
+                    console.log('Error')
+                    throw new Error(error);
+                }
+                else {
+                    let cookie = ((response.headers["set-cookie"]).toString()).split(";")[0];
+                    sessionstorage.setItem(EnumToken.XcloudCookie, cookie)
+                    return resolve({ connect_sid: cookie })
+                }
+            });
+        })
+
     }
 
     //isAuthorized token
     protected async isAuthorized() {
-         if (await Logger.hasErrorLogs() == true)
+        if (await Logger.hasErrorLogs() == true)
             return false;
-        else if (await this.authorizeVeeamGrid() == false)
+        else if (await this.authorizeXcloudGrid() == false)
             return false;
         else
             return true;
     }
 
-
     //remove token
     protected removeToken() {
         try {
-            sessionstorage.removeItem(EnumToken.VeeamToken);
-            Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Veeam, Constants.VeeamTokenRemovedSuccess, "", ""))
+            sessionstorage.removeItem(EnumToken.XcloudCookie);
+            Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Xcloud, Constants.XcloudTokenRemovedSuccess, "", ""))
         }
         catch (error) {
             console.error(error);
-            Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Veeam, Constants.VeeamTokenRemovedFailure, "", ""));
+            Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Xcloud, Constants.XcloudTokenRemovedFailure, "", ""));
         }
     }
+
 }

@@ -8,6 +8,7 @@ import { EnumPartOf } from '../Enum/EnumPartOf'
 import ActivePortHttpRequests from './ActivePortHttpRequests';
 import NetAppHttpRequests from './NetAppHttpRequests';
 import DataikuHttpRequests from './DataikuHttpRequests';
+import XcloudHttpRequests from './XcloudHttpRequests';
 
 
 // this class is wrapper to call other services methods
@@ -143,6 +144,13 @@ class ServicesWrapper {
         Logger.cleanLogs();
         let ntuResponse = await ActivePortHttpRequests.deleteNTUById(requestBody);
         return Common.beautifyResult(ntuResponse, webResponse, EnumPartOf.Individual);
+    }
+
+    //get all circuits
+    async getallcircuits(requestBody: any, webResponse: any) {
+        Logger.cleanLogs();
+        let xcloudResponse = await XcloudHttpRequests.getallcircuits(requestBody);
+        return Common.beautifyResult(xcloudResponse, webResponse, EnumPartOf.Individual);
     }
 
     //retrieve new existing Clusters in NetApp

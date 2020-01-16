@@ -432,6 +432,10 @@ class Router {
       return ServicesWrapper.deletentubyid(req.params, res);
     });
 
+
+    router.get('/getallcircuits', (req, res) => {
+      return ServicesWrapper.getallcircuits(req.params, res);
+    });
     
     server.use('/', router);
   }

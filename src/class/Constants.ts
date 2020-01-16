@@ -94,6 +94,18 @@ class Constants {
     readonly ActivePortNTUSuccess: string = "ActivePort  NTU retrieval successfully";
 
 
+     //Xcloud  
+     readonly XcloudAuthURL: string = "/api/auth";
+
+     readonly XcloudAuthSuccess: string = "Xcloud Authorization completed";
+     readonly XcloudTokenRemovedSuccess: string = "Xcloud cookie removed successfully";
+
+     readonly XcloudAuthError: string = "Xcloud Authorization failure";
+     readonly XcloudTokenRemovedFailure: string = "Xcloud cookie removed successfully";
+
+
+
+
     //NetAPp
 
     readonly NetAppOrg: string = "/orgs/";
@@ -125,6 +137,9 @@ class Constants {
     readonly DataikuInsertDatasetFailure: string = "Dataiku insert new dataset failed";
     readonly DataikuInsertManagedDatasetFailure: string = "Dataiku insert new managed dataset failed";
     readonly DataikuTokenRemovedSuccess: string = "Dataiku Token removed successfully";
+
+
+
 
 }
 

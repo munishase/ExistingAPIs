@@ -4,6 +4,7 @@ export enum EnumToken {
   VeeamToken = "VeeamToken",
   StitchdataToken = "StitchdataToken",
   ActivePortToken = "ActivePortToken",
+  XcloudCookie = "connect.sid",
   NetAppToken = "NetAppToken",
   DataikuToken = "DataikuToken"
 }
