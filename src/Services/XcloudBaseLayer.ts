@@ -39,9 +39,6 @@ export class XcloudBaseLayer extends BaseLayer {
     protected async authorizeXcloudGrid() {
 
         let options = this.generateXcloudToken();
-
-
-
         return new Promise((resolve, reject) => {
             request(options, function (error: any, response: any) {
                 if (error) {
@@ -60,6 +57,7 @@ export class XcloudBaseLayer extends BaseLayer {
 
     //isAuthorized token
     protected async isAuthorized() {
+        sessionstorage.removeItem(EnumToken.XcloudCookie);
         if (await Logger.hasErrorLogs() == true)
             return false;
         else if (await this.authorizeXcloudGrid() == false)

@@ -153,6 +153,35 @@ class ServicesWrapper {
         return Common.beautifyResult(xcloudResponse, webResponse, EnumPartOf.Individual);
     }
 
+    //create/POST new circuits
+    async addnewcircuitforxcloud(requestBody: any, webResponse: any) {
+        Logger.cleanLogs();
+        let xcloudResponse = await XcloudHttpRequests.addnewcircuitforxcloud(requestBody);
+        return Common.beautifyResult(xcloudResponse, webResponse, EnumPartOf.Individual);
+    }
+
+    //update/PUT new circuits
+    async updateexistingcircuitforxcloud(requestBody: any, webResponse: any) {
+        Logger.cleanLogs();
+        let xcloudResponse = await XcloudHttpRequests.updateexistingcircuitforxcloud(requestBody);
+        return Common.beautifyResult(xcloudResponse, webResponse, EnumPartOf.Individual);
+    }
+
+    //update/PUT new circuits
+    async validateexistingcircuitforxcloud(requestBody: any, webResponse: any) {
+        Logger.cleanLogs();
+        let xcloudResponse = await XcloudHttpRequests.validateexistingcircuitforxcloud(requestBody);
+        return Common.beautifyResult(xcloudResponse, webResponse, EnumPartOf.Individual);
+    }
+
+    
+    //delete existing circuits
+    async deletecircuitforxcloud(requestBody: any, webResponse: any) {
+        Logger.cleanLogs();
+        let xcloudResponse = await XcloudHttpRequests.deletecircuitforxcloud(requestBody);
+        return Common.beautifyResult(xcloudResponse, webResponse, EnumPartOf.Individual);
+    }
+
     //retrieve new existing Clusters in NetApp
     async retrieveclustersfromnetapp(requestBody: any, webResponse: any) {
         Logger.cleanLogs();

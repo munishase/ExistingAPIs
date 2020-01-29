@@ -96,12 +96,24 @@ class Constants {
 
      //Xcloud  
      readonly XcloudAuthURL: string = "/api/auth";
+     readonly XcloudCircuitURL: string = "/api/circuit";
+     readonly XcloudValidateCircuitURL: string = "/api/circuit/validate";
 
      readonly XcloudAuthSuccess: string = "Xcloud Authorization completed";
      readonly XcloudTokenRemovedSuccess: string = "Xcloud cookie removed successfully";
+     readonly XcloudDeleteCircuitSuccess: string = "Xcloud circuit deleted successfully";
+     readonly XcloudValidateCircuitSuccess: string = "Xcloud circuit validated successfully";
+     readonly XcloudUpdateCircuitSuccess: string = "Xcloud circuit updated successfully";
+     readonly XcloudCreateCircuitSuccess: string = "Xcloud circuit adding successfully";
+     readonly XcloudGetCircuitSuccess: string = "Xcloud circuit retrieved successfully";
 
      readonly XcloudAuthError: string = "Xcloud Authorization failure";
-     readonly XcloudTokenRemovedFailure: string = "Xcloud cookie removed successfully";
+     readonly XcloudTokenRemovedFailure: string = "Xcloud cookie removed failure";
+     readonly XcloudDeleteCircuitError: string = "Xcloud circuit deleted failure";
+     readonly XcloudValidateCircuitError: string = "Xcloud circuit validated failure";
+     readonly XcloudUpdateCircuitError: string = "Xcloud circuit updated failure";
+     readonly XcloudCreateCircuitError: string = "Xcloud circuit adding failure";
+     readonly XcloudGetCircuitError: string = "Xcloud circuit retrieval failure";
 
 
 

@@ -673,6 +673,206 @@
         }
       }
     },
+    "/getallcircuits": {
+      "get": {
+        "tags": [
+          "Xcloud"
+        ],
+        "responses": {
+          "200": {
+            "description": "Xcloud circuits has been retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RetrieveNTUForActivePortOutputParams"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Some issue occured while retriving ActivePort NTU",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessRequestFailureOutputParams"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have necessary permissions for the resource"
+          }
+        }
+      }
+    },
+    "/addnewcircuit": {
+      "post": {
+        "tags": [
+          "Xcloud"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCircuitForXcloudInputParams"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Xcloud new circuit added successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RetrieveNTUForActivePortOutputParams"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Some issue occured while adding new circuit in Xcloud",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessRequestFailureOutputParams"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have necessary permissions for the resource"
+          }
+        }
+      }
+    },
+    "/updateexistingcircuit": {
+      "put": {
+        "tags": [
+          "Xcloud"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCircuitForXcloudInputParams"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Xcloud new circuit updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RetrieveNTUForActivePortOutputParams"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Some issue occured while updating existing circuit in Xcloud",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessRequestFailureOutputParams"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have necessary permissions for the resource"
+          }
+        }
+      }
+    },
+    "/deletecircuit": {
+      "delete": {
+        "tags": [
+          "Xcloud"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteCircuitForXcloudInputParams"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Xcloud new circuit has been deleted successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RetrieveNTUForActivePortOutputParams"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Some issue occured while deleting existing circuit in Xcloud",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessRequestFailureOutputParams"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have necessary permissions for the resource"
+          }
+        }
+      }
+    },
+    "/validateexistingcircuit": {
+      "put": {
+        "tags": [
+          "Xcloud"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCircuitForXcloudInputParams"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Xcloud new circuit updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RetrieveNTUForActivePortOutputParams"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Some issue occured while updating existing circuit in Xcloud",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessRequestFailureOutputParams"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have necessary permissions for the resource"
+          }
+        }
+      }
+    },
     "/retrieveclustersfromnetapp": {
       "get": {
         "tags": [
@@ -1763,6 +1963,378 @@
             "uniqueItems": true
           },
           "uniqueItems": true
+        }
+      },
+      "CreateCircuitForXcloudInputParams": {
+        "type": "object",
+        "required": [
+          "success",
+          "message"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "owner": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "state": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "provisioning": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "sites": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Xcloud_circuit_sites"
+            },
+            "uniqueItems": true
+          },
+          "tenants": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Xcloud_circuit_tenants"
+            },
+            "uniqueItems": true
+          },
+          "gateways": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Xcloud_circuit_gateways"
+            },
+            "uniqueItems": true
+          },
+          "members": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Xcloud_circuit_members"
+            },
+            "uniqueItems": true
+          },
+          "mac_address": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "sites_id": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "uniqueItems": true
+          },
+          "sites_name": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          },
+          "tenants_id": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "uniqueItems": true
+          },
+          "tenants_name": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          },
+          "circuitTenants": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "uniqueItems": true
+          }
+        }
+      },
+      "UpdateCircuitForXcloudInputParams": {
+        "type": "object",
+        "required": [
+          "success",
+          "message"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "name": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "owner": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "state": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "provisioning": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "sites": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Xcloud_circuit_sites"
+            },
+            "uniqueItems": true
+          },
+          "tenants": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Xcloud_circuit_tenants"
+            },
+            "uniqueItems": true
+          },
+          "gateways": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Xcloud_circuit_gateways"
+            },
+            "uniqueItems": true
+          },
+          "members": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Xcloud_circuit_members"
+            },
+            "uniqueItems": true
+          },
+          "mac_address": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "sites_id": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "uniqueItems": true
+          },
+          "sites_name": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          },
+          "tenants_id": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "uniqueItems": true
+          },
+          "tenants_name": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          },
+          "circuitTenants": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "uniqueItems": true
+          }
+        }
+      },
+      "Xcloud_circuit_sites": {
+        "type": "object",
+        "required": [
+          "site_id",
+          "site_name"
+        ],
+        "properties": {
+          "site_id": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "site_name": {
+            "type": "string",
+            "uniqueItems": true
+          }
+        }
+      },
+      "Xcloud_circuit_tenants": {
+        "type": "object",
+        "required": [
+          "tenant_id",
+          "tenant_name"
+        ],
+        "properties": {
+          "tenant_id": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "tenant_name": {
+            "type": "string",
+            "uniqueItems": true
+          }
+        }
+      },
+      "Xcloud_circuit_gateways": {
+        "type": "object",
+        "required": [
+          "gateway",
+          "gw_length",
+          "version"
+        ],
+        "properties": {
+          "gateway": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "gw_length": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "version": {
+            "type": "string",
+            "uniqueItems": true
+          }
+        }
+      },
+      "Xcloud_circuit_members": {
+        "type": "object",
+        "required": [
+          "id",
+          "vlan_id",
+          "port_id",
+          "port",
+          "port_status",
+          "name",
+          "slave_ports",
+          "member_state",
+          "tenant_id",
+          "site_id",
+          "admin_down",
+          "lacp",
+          "speed",
+          "childPort"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "vlan_id": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "port_id": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "port": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "port_status": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "name": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "slave_ports": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "member_state": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "tenant_id": {
+            "type": "integer",
+            "uniqueItems": true
+          }, 
+          "site_id": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "admin_down": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "lacp": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "speed": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "childPort": {
+            "type": "integer",
+            "uniqueItems": true
+          }
+        }
+      },
+      "DeleteCircuitForXcloudInputParams": {
+        "type": "object",
+        "required": [
+          "success",
+          "message"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "owner": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "members": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Xcloud_circuit_delete_members"
+            },
+            "uniqueItems": true
+          }
+        }
+      },
+      "Xcloud_circuit_delete_members": {
+        "type": "object",
+        "required": [
+          "id",
+          "vlan_id",
+          "port_id",
+          "member_state"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "vlan_id": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "port_id": {
+            "type": "integer",
+            "uniqueItems": true
+          },         
+          "member_state": {
+            "type": "string",
+            "uniqueItems": true
+          }
         }
       },
       "NksSolution": {

@@ -264,7 +264,7 @@ class Router {
     });
 
     router.get('/retrieveclustersfromnetapp', (req, res) => {
-        
+
       return ServicesWrapper.retrieveclustersfromnetapp(req.body, res);
     });
 
@@ -315,7 +315,7 @@ class Router {
 
 
     router.get('/retrieveallntu', (req, res) => {
-      
+
       return ServicesWrapper.retrieveallntu(req.query, res);
     });
 
@@ -328,16 +328,16 @@ class Router {
       }
       return ServicesWrapper.retrieventubyid(req.params, res);
     });
-    
+
 
     router.post('/createnewntuforactiveport', (req, res) => {
-      
+
       return ServicesWrapper.createnewntuforactiveport(req.body, res);
     });
 
 
     router.put('/updatentuforactiveport', (req, res) => {
-      
+
       if (!req.body.id) {
         return res.status(400).send({
           message: 'id is required.'
@@ -436,7 +436,141 @@ class Router {
     router.get('/getallcircuits', (req, res) => {
       return ServicesWrapper.getallcircuits(req.params, res);
     });
-    
+
+
+    router.post('/addnewcircuit', (req, res) => {
+      if (!req.body.name) {
+        return res.status(400).send({
+          message: 'name is required.'
+        });
+      }
+      else if (!req.body.owner) {
+        return res.status(400).send({
+          message: 'owner is required.'
+        });
+      }
+      else if (!req.body.state) {
+        return res.status(400).send({
+          message: 'state is required.'
+        });
+      }
+      else if (!req.body.provisioning) {
+        return res.status(400).send({
+          message: 'provisioning is required.'
+        });
+      }
+      else if (!req.body.sites) {
+        return res.status(400).send({
+          message: 'sites is required.'
+        });
+      }
+      else if (!req.body.tenants) {
+        return res.status(400).send({
+          message: 'tenants is required.'
+        });
+      }
+      else if (!req.body.gateways) {
+        return res.status(400).send({
+          message: 'gateways is required.'
+        });
+      }
+      else if (!req.body.members) {
+        return res.status(400).send({
+          message: 'members is required.'
+        });
+      }
+      else if (!req.body.mac_address) {
+        return res.status(400).send({
+          message: 'mac_address is required.'
+        });
+      }
+      else if (!req.body.sites_id) {
+        return res.status(400).send({
+          message: 'sites_id is required.'
+        });
+      }
+      else if (!req.body.sites_name) {
+        return res.status(400).send({
+          message: 'sites_name is required.'
+        });
+      }
+      else if (!req.body.tenants_id) {
+        return res.status(400).send({
+          message: 'tenants_id is required.'
+        });
+      }
+      else if (!req.body.tenants_name) {
+        return res.status(400).send({
+          message: 'tenants_name is required.'
+        });
+      }
+      else if (!req.body.circuitTenants) {
+        return res.status(400).send({
+          message: 'circuitTenants is required.'
+        });
+      }
+
+      return ServicesWrapper.addnewcircuitforxcloud(req.body, res);
+    });
+
+
+    router.put('/updateexistingcircuit', (req, res) => {
+      return ServicesWrapper.updateexistingcircuitforxcloud(req.body, res);
+    });
+
+
+    router.put('/validateexistingcircuit', (req, res) => {
+      return ServicesWrapper.validateexistingcircuitforxcloud(req.body, res);
+    });
+
+
+    router.delete('/deletecircuit', (req, res) => {
+      if (!req.body.id) {
+        return res.status(400).send({
+          message: 'name is required.'
+        });
+      }
+      else if (!req.body.owner) {
+        return res.status(400).send({
+          message: 'owner is required.'
+        });
+      }
+
+      if (!req.body.members) {
+        return res.status(400).send({
+          message: 'members is required.'
+        });
+      }
+      else {
+        req.body.members.forEach(function (value: any) {
+          if (!value.id) {
+            return res.status(400).send({
+              message: 'members.id is required.'
+            });
+          }
+          else if (!value.port_id) {
+            return res.status(400).send({
+              message: 'members.port_id is required.'
+            });
+          }
+          else if (!value.vlan_id) {
+            return res.status(400).send({
+              message: 'members.vlan_id is required.'
+            });
+          }
+
+          else if (!value.member_state) {
+            return res.status(400).send({
+              message: 'members.member_state is required.'
+            });
+          }
+        });
+      }
+
+
+      return ServicesWrapper.deletecircuitforxcloud(req.body, res);
+    });
+
     server.use('/', router);
   }
 

@@ -81,7 +81,16 @@ class Common {
     }
 
     replaceCurleBrasesInUrl(fullUrl: string, replacedString: string) {
-        return  fullUrl.replace(/{(.*?)}/, replacedString)
+        return fullUrl.replace(/{(.*?)}/, replacedString)
+    }
+
+    jsonToStringWithEscapeCharacter(jsonobject: any) {
+        var myJSONString = JSON.stringify(jsonobject, null, 0);
+        console.log(JSON.stringify(JSON.stringify(jsonobject, null, 0)))
+        return  JSON.stringify(myJSONString)//.slice(1, -1) ;
+        //return "\"" + JSON.stringify(myJSONString).slice(1, -1) + "\"";
+
+        
     }
 }
 
