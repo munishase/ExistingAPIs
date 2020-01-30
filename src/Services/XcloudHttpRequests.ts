@@ -77,8 +77,8 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
             "owner": xcloud.owner,
             "state": xcloud.state,
             "provisioning": xcloud.provisioning,
-            "sites": JSON.stringify(xcloud.sites),
-            "tenants": JSON.stringify(xcloud.tenants),
+            "sites": xcloud.sites,
+            "tenants": xcloud.tenants,
             "gateways": xcloud.gateways,
             "members": JSON.stringify(xcloud.members),
             "mac_address": xcloud.mac_address,
@@ -143,8 +143,8 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
             "owner": xcloud.owner,
             "state": xcloud.state,
             "provisioning": xcloud.provisioning,
-            "sites": JSON.stringify(xcloud.sites),
-            "tenants": JSON.stringify(xcloud.tenants),
+            "sites": xcloud.sites,
+            "tenants": xcloud.tenants,
             "gateways": xcloud.gateways,
             "members": JSON.stringify(xcloud.members),
             "mac_address": xcloud.mac_address,
@@ -213,16 +213,10 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
             "owner": xcloud.owner,
             "state": xcloud.state,
             "provisioning": xcloud.provisioning,
-            "sites": JSON.stringify(xcloud.sites),
-            "tenants": JSON.stringify(xcloud.tenants),
+            "sites": xcloud.sites,
+            "tenants": xcloud.tenants,
             "gateways": xcloud.gateways,
-            "members": JSON.stringify(xcloud.members),
-            "mac_address": xcloud.mac_address,
-            "sites_id": xcloud.sites_id,
-            "sites_name": xcloud.sites_name,
-            "tenants_id": xcloud.tenants_id,
-            "tenants_name": xcloud.tenants_name,
-            "circuitTenants": xcloud.circuitTenants,
+            "members": JSON.stringify(xcloud.members)
         }
 
 
@@ -239,7 +233,6 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
         let self = this;
         let result;
 
-console.log(options)
         await httppromise(options).then(function (response: any) {
             result = response;
             Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Xcloud, Constants.XcloudValidateCircuitSuccess, response, ''));

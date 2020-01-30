@@ -10,7 +10,7 @@ import { ActivePortTenantCreationSuccessResponse } from '../class/Response/Activ
 import { ActivePortNTUCreationSuccessResponse } from '../class/Response/ActivePortNTUCreationSuccessResponse'
 import { EnumModule } from '../Enum/EnumModule';
 import { EnumToken } from '../Enum/EnumToken';
-import { ActivePortNtuRetrieveSuccessResponse } from '../class/Response/ActivePortNTURetrieveSuccessResponse';
+import { ActivePortNtuRetrieveSuccessResponse } from '../class/Response/ActivePortNtuRetrieveSuccessResponse';
 import { ActivePortTenantRetrieveSuccessResponse } from '../class/Response/ActivePortTenantRetrieveSuccessResponse';
 import { ActivePortTenant } from '../class/ActivePortTenant';
 import { ActivePortNTU } from '../class/ActivePortNTU';

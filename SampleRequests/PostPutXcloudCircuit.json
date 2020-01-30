@@ -1,0 +1,44 @@
+{
+  "id": 113,
+  "name": "string-130",
+  "owner": 1,
+  "state": "active",
+  "provisioning": 1,
+  "sites": [
+    1
+  ],
+  "tenants": [
+    1
+  ],
+  "gateways": [
+    {
+      "gateway": "192.168.28.20",
+      "gw_length": 24,
+      "version": "ipv4"
+    }
+  ],
+  "members": [
+    {
+      "id": 858,
+      "vlan_id": 12,
+      "port_id": 858,
+      "member_state": "active"
+    }
+  ],
+  "mac_address": "02:00:5e:00:00:03",
+  "sites_id": [
+    1
+  ],
+  "sites_name": [
+    "US/NYC"
+  ],
+  "tenants_id": [
+    3
+  ],
+  "tenants_name": [
+    "LinuxAdmin"
+  ],
+  "circuitTenants": [
+    1
+  ]
+}

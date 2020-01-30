@@ -74,6 +74,14 @@
       "Username": "dev1",
       "Password": "Dev1Dev!"
     },
+    "Xcloud": {
+      "Urls": {
+        "BaseUrl": "http://demo2.xcloudnetworks.com"
+      },
+      "Username": "demo",
+      "Password": "OdicN!esOQF5I#Q6KH%E",
+      "auth_scheme_id": 1
+    },
     "NetApp": {
       "Urls": {
         "BaseUrl": "xxxxxxxxxx"

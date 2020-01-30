@@ -73,32 +73,32 @@ export class Members {
     id: number;
     vlan_id: number;
     port_id: number;
-    port: string;
-    port_status: string;
-    name: string;
-    slave_ports: string;
+    //port: string;
+    //port_status: string;
+    //name: string;
+    //slave_ports: string;
     member_state: string;
-    tenant_id: number;
-    site_id: number;
-    admin_down: number;
-    lacp: string;
-    speed: string;
-    childPort: number;
+    //tenant_id: number;
+    //site_id: number;
+    //admin_down: number;
+    //lacp: string;
+    //speed: string;
+    //childPort: number;
 
     constructor() {
         this.id = 0;
         this.vlan_id = 0;
         this.port_id = 0
-        this.port = "";
-        this.port_status = "";
-        this.name = "";
-        this.slave_ports = "";
+        //this.port = "";
+        //this.port_status = "";
+        //this.name = "";
+        //this.slave_ports = "";
         this.member_state = "active";
-        this.tenant_id = 0
-        this.site_id = 0
-        this.admin_down = 0
-        this.lacp = "";
-        this.speed = "active";
-        this.childPort = 0
+        //this.tenant_id = 0
+        //this.site_id = 0
+        //this.admin_down = 0
+        //this.lacp = "";
+        //this.speed = "active";
+        //this.childPort = 0
     }
 }
