@@ -939,7 +939,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RetrieveWwitchPortOutputParams"
+                  "$ref": "#/components/schemas/RetrieveSwitchPortOutputParams"
                 }
               }
             }
@@ -984,7 +984,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RetrieveWwitchPortOutputParams"
+                  "$ref": "#/components/schemas/RetrieveSwitchPortOutputParams"
                 }
               }
             }
@@ -2636,7 +2636,7 @@
           }
         }
       },
-      "RetrieveWwitchPortOutputParams": {
+      "RetrieveSwitchPortOutputParams": {
         "type": "object",
         "properties": {
           "module": {
