@@ -5,6 +5,7 @@ export enum EnumModule {
   Stitchdata = "Stitchdata",
   ActivePort = "ActivePort",
   Xcloud = "Xcloud",
+  fluid = "fluid",
   NetApp = "NetApp",
   Dataiku = "Dataiku"
 }

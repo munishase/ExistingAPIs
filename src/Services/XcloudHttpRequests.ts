@@ -312,16 +312,16 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
                 return switchport.id == params.switchportid;
             })[0]
 
-            Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Xcloud, Constants.XcloudGetSwitchPortSuccess, response, ''));
+            Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.fluid, Constants.XcloudGetSwitchPortSuccess, response, ''));
         }).catch(function (err: any) {
             result = err;
-            Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Xcloud, Constants.XcloudGetSwitchPortError, err, ''));
+            Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.fluid, Constants.XcloudGetSwitchPortError, err, ''));
         })
 
         
         //if there is o switchport with the id then
         if (switchPort == undefined){
-            Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Xcloud, Constants.XcloudGetSwitchPortError, Constants.XcloudNoSwitchPortError, ''));
+            Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.fluid, Constants.XcloudGetSwitchPortError, Constants.XcloudNoSwitchPortError, ''));
             return undefined;
         }
         else

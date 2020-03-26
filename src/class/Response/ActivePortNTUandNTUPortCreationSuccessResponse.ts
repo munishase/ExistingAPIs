@@ -25,7 +25,7 @@ export class ActivePortNTUandNTUPortCreationSuccessResponse extends BaseResponse
         let activeportNtuResponse = (activeportNTUandNTUPortResponse[0].module == "ActivePort - NTU") ? activeportNTUandNTUPortResponse[0] : activeportNTUandNTUPortResponse[1];
         let activeportNtuPortResponse = (activeportNTUandNTUPortResponse[0].module == "ActivePort - NTU Port") ? activeportNTUandNTUPortResponse[0] : activeportNTUandNTUPortResponse[1];
         
-        this.module = EnumModule.ActivePort;
+        this.module = EnumModule.fluid;
         this.ntuId = activeportNtuResponse.ntuId;
         this.ipAddress = activeportNtuResponse.ipAddress;
         this.ioIp = activeportNtuResponse.ioIp;
