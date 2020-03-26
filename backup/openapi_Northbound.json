@@ -497,26 +497,61 @@
           }
         }
       }
+    },
+    "/validateexistingcircuit": {
+      "put": {
+        "tags": [
+          "Xcloud"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValidateCircuitForXcloudInputParams"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Xcloud new circuit updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RetrieveNTUForActivePortOutputParams"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Some issue occured while updating existing circuit in Xcloud",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessRequestFailureOutputParams"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have necessary permissions for the resource"
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
+     
       "ProcessRequestFailureOutputParams": {
         "type": "array",
-        "required": [
-          "success",
-          "message"
-        ],
         "items": {
           "$ref": "#/components/schemas/NetsuiteCreateClientFailureOutputParams"
         }
       },
       "RetrieveTenantsForActivePortOutputParams": {
         "type": "object",
-        "required": [
-          "success",
-          "message"
-        ],
         "properties": {
           "module": {
             "type": "string",
@@ -569,10 +604,6 @@
       },
       "CreateTenantForActivePortOutputParams": {
         "type": "object",
-        "required": [
-          "success",
-          "message"
-        ],
         "properties": {
           "module": {
             "type": "string",
@@ -645,8 +676,6 @@
           }
         }
       },
-
-     
       "CreateNTUForActivePortInputParams": {
         "type": "object",
         "required": [
@@ -660,7 +689,7 @@
           "firmwareVersion",
           "ipAddress",
           "loIp",
-          "locationId",
+          "serviceConfigurationId",
           "maxRate",
           "minRate",
           "mode",
@@ -716,7 +745,7 @@
             "type": "string",
             "uniqueItems": true
           },
-          "locationId": {
+          "serviceConfigurationId": {
             "type": "integer",
             "uniqueItems": true
           },
@@ -800,14 +829,14 @@
           "sites": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Xcloud_circuit_sites"
+              "type": "integer"
             },
             "uniqueItems": true
           },
           "tenants": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Xcloud_circuit_tenants"
+              "type": "integer"
             },
             "uniqueItems": true
           },
@@ -896,14 +925,14 @@
           "sites": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Xcloud_circuit_sites"
+              "type": "integer"
             },
             "uniqueItems": true
           },
           "tenants": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Xcloud_circuit_tenants"
+              "type": "integer"
             },
             "uniqueItems": true
           },
@@ -957,6 +986,63 @@
             "type": "array",
             "items": {
               "type": "integer"
+            },
+            "uniqueItems": true
+          }
+        }
+      },
+      "ValidateCircuitForXcloudInputParams": {
+        "type": "object",
+        "required": [
+          "success",
+          "message"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "name": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "owner": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "state": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "provisioning": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "sites": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "uniqueItems": true
+          },
+          "tenants": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "uniqueItems": true
+          },
+          "gateways": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Xcloud_circuit_gateways"
+            },
+            "uniqueItems": true
+          },
+          "members": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Xcloud_circuit_members"
             },
             "uniqueItems": true
           }
@@ -1024,17 +1110,7 @@
           "id",
           "vlan_id",
           "port_id",
-          "port",
-          "port_status",
-          "name",
-          "slave_ports",
-          "member_state",
-          "tenant_id",
-          "site_id",
-          "admin_down",
-          "lacp",
-          "speed",
-          "childPort"
+          "member_state"
         ],
         "properties": {
           "id": {
@@ -1049,48 +1125,8 @@
             "type": "integer",
             "uniqueItems": true
           },
-          "port": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "port_status": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "name": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "slave_ports": {
-            "type": "integer",
-            "uniqueItems": true
-          },
           "member_state": {
             "type": "string",
-            "uniqueItems": true
-          },
-          "tenant_id": {
-            "type": "integer",
-            "uniqueItems": true
-          }, 
-          "site_id": {
-            "type": "integer",
-            "uniqueItems": true
-          },
-          "admin_down": {
-            "type": "integer",
-            "uniqueItems": true
-          },
-          "lacp": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "speed": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "childPort": {
-            "type": "integer",
             "uniqueItems": true
           }
         }

@@ -22,7 +22,7 @@ export class ActivePortNTUCreationSuccessResponse extends ActivePortNTU {
         this.firmwareVersion = activeportNTU.firmwareVersion;
         this.ipAddress = activeportNTU.ipAddress;
         this.loIp = activeportNTU.loIp;
-        this.locationId = activeportNTU.locationId;
+        this.serviceConfigurationId = activeportNTU.serviceConfigurationId;
         this.maxRate = activeportNTU.maxRate;
         this.minRate = activeportNTU.minRate;
         this.mode = activeportNTU.mode;

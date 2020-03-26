@@ -13,7 +13,7 @@ export class ActivePortNTU {
     firmwareVersion: string;
     ipAddress: string;
     loIp: string;
-    locationId: string;
+    serviceConfigurationId: string;
     maxRate: number;
     minRate: number;
     mode: string;
@@ -39,7 +39,7 @@ export class ActivePortNTU {
         this.firmwareVersion = "15.1X49-D130";
         this.ipAddress = "";
         this.loIp = "";
-        this.locationId = "";
+        this.serviceConfigurationId = "";
         this.maxRate = 1000;
         this.minRate = 100;
         this.mode = "EDGE";

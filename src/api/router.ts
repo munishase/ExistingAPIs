@@ -2,6 +2,7 @@ import express = require('express');
 import ServicesWrapper from '../Services/ServicesWrapper';
 var cors = require('cors')
 import { Authentication } from '../Services/Authentication'
+import { AuthenticationMiddleware } from '../Services/AuthenticationMiddleware'
 
 class Router {
 
@@ -208,6 +209,7 @@ class Router {
 
 
     router.get('/retrievetenantsforactiveport', (req, res) => {
+     
       return ServicesWrapper.retrievetenantsforactiveport(req.body, res);
     });
 
@@ -433,6 +435,62 @@ class Router {
     });
 
 
+    router.post('/createnewntuportforactiveport', (req, res) => {
+      
+      if (!req.body.ntuId) {
+        return res.status(400).send({
+          message: 'ntuId is required.'
+        });
+      }
+      else if (!req.body.description) {
+        return res.status(400).send({
+          message: 'description is required.'
+        });
+      }
+     /* else if (!req.body.internetPort) {
+        return res.status(400).send({
+          message: 'internetPort is required.'
+        });
+      }
+      else if (!req.body.jumbo) {
+        return res.status(400).send({
+          message: 'jumbo is required.'
+        });
+      }*/
+      else if (!req.body.label) {
+        return res.status(400).send({
+          message: 'label is required.'
+        });
+      }
+      else if (!req.body.mac) {
+        return res.status(400).send({
+          message: 'mac is required.'
+        });
+      }
+      else if (!req.body.name) {
+        return res.status(400).send({
+          message: 'name is required.'
+        });
+      }
+      else if (!req.body.portSpeed) {
+        return res.status(400).send({
+          message: 'portSpeed is required.'
+        });
+      }
+      else if (!req.body.portType) {
+        return res.status(400).send({
+          message: 'portType is required.'
+        });
+      }
+      else if (!req.body.trunk) {
+        return res.status(400).send({
+          message: 'trunk is required.'
+        });
+      }
+
+      return ServicesWrapper.createnewntuportforactiveport  (req.body, res);
+    });
+
     router.get('/getallcircuits', (req, res) => {
       return ServicesWrapper.getallcircuits(req.params, res);
     });
@@ -569,6 +627,23 @@ class Router {
 
 
       return ServicesWrapper.deletecircuitforxcloud(req.body, res);
+    });
+
+
+    router.get('/retrieveswitchportbyid/:switchportid', (req, res) => {
+      
+      if (!req.params.switchportid) {
+        return res.status(400).send({
+          message: 'switchportid is required.'
+        });
+      }
+      return ServicesWrapper.retrieveswitchportbyid(req.params, res);
+    });
+
+
+    router.post('/createntuasync', (req, res) => {
+      
+      return ServicesWrapper.createntuasync(req.body, res);
     });
 
     server.use('/', router);

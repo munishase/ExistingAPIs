@@ -15,7 +15,339 @@
     }
   ],
   "paths": {
-   
+    "/processstoragegrid": {
+      "post": {
+        "tags": [
+          "Storagegrid"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StorageGridInputParams"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "New Storagegrid account(tenant account, key creation and bucket creation) has been configured.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StorageGridSuccessOutputParams"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Some issue occured while configuring Storagegrid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StorageGridFailureOutputParams"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have necessary permissions for the resource"
+          }
+        }
+      }
+    },
+    "/processveeam": {
+      "post": {
+        "tags": [
+          "Veeam"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VeeamInputParams"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "New Veeam account details has been configured",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VeeamSuccessOutputParams"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Some issue occured while configuring Veeam",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VeeamFailureOutputParams"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have necessary permissions for the resource"
+          }
+        }
+      }
+    },
+    "/createnetsuiteclient": {
+      "post": {
+        "tags": [
+          "Netsuite"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NetsuiteCreateClientInputParams"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "New client has been configured",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetsuiteCreateClientSuccessOutputParams"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Some issue occured while configuring new client",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NetsuiteCreateClientFailureOutputParams"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have necessary permissions for the resource"
+          }
+        }
+      }
+    },
+    "/processrequest": {
+      "post": {
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProcessRequestInputParams"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "New details has been configured\n1. Netsuite Client created.\n2. Storagegrid details(tenant account, key creation and bucket creation) has been configured.\n3. Storagegrid account id updated in netsuite\n4. Veeam company has been configured.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessRequestSuccessOutputParams"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Some issue occured while configuring new details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessRequestFailureOutputParams"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have necessary permissions for the resource"
+          }
+        }
+      }
+    },
+    "/generatetokenforexistingstitchdataaccount": {
+      "post": {
+        "tags": [
+          "Stitchdata"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthenticateStitchdataInputParams"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Stitchdata token has been successfully generated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticateStitchdataSuccessOutputParams"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Some issue occured while generating Stitchdata token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessRequestFailureOutputParams"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have necessary permissions for the resource"
+          }
+        }
+      }
+    },
+    "/registeraccountforstitchdata": {
+      "post": {
+        "tags": [
+          "Stitchdata"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterAccountStitchdataInputParams"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Stitchdata token has been successfully generated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisterAccountForStitchdataSuccessOutputParams"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Some issue occured while generating Stitchdata token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessRequestFailureOutputParams"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have necessary permissions for the resource"
+          }
+        }
+      }
+    },
+    "/retrievesourcesfromstitchdata": {
+      "post": {
+        "tags": [
+          "Stitchdata"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RetrieveSourcesFromStitchdataInputParams"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Stitchdata source has been successfully retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RetrieveSourcesFromStitchdataOutputParams"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Some issue occured while retrieving sources for Stitchdata",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessRequestFailureOutputParams"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have necessary permissions for the resource"
+          }
+        }
+      }
+    },
+    "/retrievedestinationfromstitchdata": {
+      "post": {
+        "tags": [
+          "Stitchdata"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RetrieveSourcesFromStitchdataInputParams"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Stitchdata destination has been successfully retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RetrieveSourcesFromStitchdataOutputParams"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Some issue occured while retrieving destination for Stitchdata",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessRequestFailureOutputParams"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have necessary permissions for the resource"
+          }
+        }
+      }
+    },
     "/retrievetenantsforactiveport": {
       "get": {
         "tags": [
@@ -340,6 +672,48 @@
         }
       }
     },
+    "/createnewntuportforactiveport": {
+      "post": {
+        "tags": [
+          "ActivePort"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateNTUPortForActivePortInputParams"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "ActivePort NTU Port has been successfully created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateNTUPortForActivePortOutputParams"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Some issue occured while creating ActivePort NTU Port",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessRequestFailureOutputParams"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have necessary permissions for the resource"
+          }
+        }
+      }
+    },
     "/getallcircuits": {
       "get": {
         "tags": [
@@ -539,15 +913,866 @@
           }
         }
       }
+    },
+    "/retrieveswitchportbyid/{switchportid}": {
+      "get": {
+        "tags": [
+          "Xcloud"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "switchportid",
+            "in": "path",
+            "description": "switchportid of Xcloud that needs to be retrieved",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Xcloud switch port has been retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RetrieveWwitchPortOutputParams"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Some issue occured while retriving ActivePort NTU",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessRequestFailureOutputParams"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have necessary permissions for the resource"
+          }
+        }
+      }
+    },
+    "/createntuasync": {
+      "post": {
+        "tags": [
+          "FLUID"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateNTUForASEInputParams"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Xcloud switch port has been retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RetrieveWwitchPortOutputParams"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Some issue occured while retriving ActivePort NTU",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessRequestFailureOutputParams"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have necessary permissions for the resource"
+          }
+        }
+      }
+    },
+    "/retrieveclustersfromnetapp": {
+      "get": {
+        "tags": [
+          "NetApp"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateNksClusterInputputParams"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "NetApp Clusters are retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RetrieveClustersFromNetappOutputParams"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Some issue occured while retrieving NetApp Clusters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessRequestFailureOutputParams"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have necessary permissions for the resource"
+          }
+        }
+      }
+    },
+    "/createnkscluster": {
+      "post": {
+        "tags": [
+          "NetApp"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDataikuDatasetInputputParams"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "NetApp cluster has been successfully created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateClustersNetappOutputParams"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Some issue occured while creating ActivePort tenant",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessRequestFailureOutputParams"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have necessary permissions for the resource"
+          }
+        }
+      }
+    },
+    "/deletenkscluster/{clusterid}": {
+      "delete": {
+        "tags": [
+          "NetApp"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "clusterid",
+            "in": "path",
+            "description": "clusterid of cluster that needs to be deleted",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "NetApp cluster successfully deleted.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateClustersNetappOutputParams"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Some issue occured while creating ActivePort tenant",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessRequestFailureOutputParams"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have necessary permissions for the resource"
+          }
+        }
+      }
+    },
+    "/listdataikudatasets/{projectkey}": {
+      "get": {
+        "tags": [
+          "Dataiku"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "projectkey",
+            "in": "query",
+            "description": "projectkey of dataiku that needs to be executed",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Dataiku datasets are retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetDatasetsFromDataikuOutputParams"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Dataiku datasets retrieval failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessRequestFailureOutputParams"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have necessary permissions for the resource"
+          }
+        }
+      }
+    },
+    "/createdatasetfordataiku": {
+      "post": {
+        "tags": [
+          "Dataiku"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDatasetForDataikuInputParams"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Dataiku insert new dataset executed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetDatasetsFromDataikuOutputParams"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Dataiku insert new dataset failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessRequestFailureOutputParams"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have necessary permissions for the resource"
+          }
+        }
+      }
+    },
+    "/createmanageddatasetfordataiku": {
+      "post": {
+        "tags": [
+          "Dataiku"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateManagedDatasetForDataikuInputParams"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Dataiku insert new managed dataset executed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetDatasetsFromDataikuOutputParams"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Dataiku insert new managed dataset failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessRequestFailureOutputParams"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have necessary permissions for the resource"
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
-     
+      "CredentialsParams": {
+        "type": "object",
+        "required": [
+          "username",
+          "password"
+        ],
+        "properties": {
+          "username": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "password": {
+            "type": "string",
+            "uniqueItems": true
+          }
+        }
+      },
+      "StorageGridInputParams": {
+        "type": "object",
+        "required": [
+          "tenantname",
+          "bucketname"
+        ],
+        "properties": {
+          "tenantname": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "bucketname": {
+            "type": "string",
+            "uniqueItems": true
+          }
+        }
+      },
+      "VeeamInputParams": {
+        "type": "object",
+        "required": [
+          "name",
+          "username",
+          "vmsbackedup",
+          "vmsbackeduptocloud",
+          "managedphysicalservers"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "username": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "vmsbackedup": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "vmsbackeduptocloud": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "managedphysicalservers": {
+            "type": "integer",
+            "uniqueItems": true
+          }
+        }
+      },
+      "GenerateTokenSuccessOutputParams": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "uniqueItems": true
+          }
+        }
+      },
+      "StorageGridSuccessOutputParams": {
+        "type": "object",
+        "properties": {
+          "module": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "tenantname": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "tenantpassword": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "bucketname": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "tenantaccountid": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "tenantaccesskey": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "tenantsecretaccesskey": {
+            "type": "string",
+            "uniqueItems": true
+          }
+        }
+      },
+      "VeeamSuccessOutputParams": {
+        "type": "object",
+        "properties": {
+          "module": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "id": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "name": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "username": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "password": {
+            "type": "string",
+            "uniqueItems": true
+          }
+        }
+      },
+      "StorageGridFailureOutputParams": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "logs": {
+            "properties": {
+              "status": {
+                "type": "string",
+                "uniqueItems": true
+              },
+              "description": {
+                "type": "string",
+                "uniqueItems": true
+              },
+              "actualdetail": {
+                "properties": {
+                  "type": "object",
+                  "uniqueItems": true
+                }
+              },
+              "param": {
+                "properties": {
+                  "type": "object",
+                  "uniqueItems": true
+                }
+              },
+              "datetime": {
+                "type": "string",
+                "uniqueItems": true
+              }
+            }
+          }
+        }
+      },
+      "VeeamFailureOutputParams": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "logs": {
+            "properties": {
+              "status": {
+                "type": "string",
+                "uniqueItems": true
+              },
+              "description": {
+                "type": "string",
+                "uniqueItems": true
+              },
+              "actualdetail": {
+                "properties": {
+                  "type": "object",
+                  "uniqueItems": true
+                }
+              },
+              "param": {
+                "properties": {
+                  "type": "object",
+                  "uniqueItems": true
+                }
+              },
+              "datetime": {
+                "type": "string",
+                "uniqueItems": true
+              }
+            }
+          }
+        }
+      },
+      "NetsuiteCreateClientInputParams": {
+        "type": "object",
+        "required": [
+          "clientname",
+          "acn"
+        ],
+        "properties": {
+          "clientname": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "acn": {
+            "type": "string",
+            "uniqueItems": true
+          }
+        }
+      },
+      "NetsuiteCreateClientSuccessOutputParams": {
+        "type": "object",
+        "properties": {
+          "module": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "entityId": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "clientid": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "clientName": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "ACN": {
+            "type": "string",
+            "uniqueItems": true
+          }
+        }
+      },
+      "NetsuiteCreateClientFailureOutputParams": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "logs": {
+            "properties": {
+              "status": {
+                "type": "string",
+                "uniqueItems": true
+              },
+              "description": {
+                "type": "string",
+                "uniqueItems": true
+              },
+              "actualdetail": {
+                "properties": {
+                  "type": "object",
+                  "uniqueItems": true
+                }
+              },
+              "param": {
+                "properties": {
+                  "type": "object",
+                  "uniqueItems": true
+                }
+              },
+              "datetime": {
+                "type": "string",
+                "uniqueItems": true
+              }
+            }
+          }
+        }
+      },
+      "ProcessRequestInputParams": {
+        "type": "object",
+        "required": [
+          "bucketname",
+          "clientname",
+          "acn",
+          "address",
+          "vmsbackedup",
+          "vmsbackeduptocloud",
+          "managedphysicalservers"
+        ],
+        "properties": {
+          "bucketname": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "clientname": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "acn": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "address": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "vmsbackedup": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "vmsbackeduptocloud": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "managedphysicalservers": {
+            "type": "integer",
+            "uniqueItems": true
+          }
+        }
+      },
+      "ProcessRequestSuccessOutputParams": {
+        "type": "object",
+        "properties": {
+          "NetSuiteResponse": {
+            "$ref": "#/components/schemas/NetsuiteCreateClientSuccessOutputParams"
+          },
+          "StorageGridResponse": {
+            "$ref": "#/components/schemas/StorageGridSuccessOutputParams"
+          },
+          "VeeamResponse": {
+            "$ref": "#/components/schemas/VeeamSuccessOutputParams"
+          }
+        }
+      },
       "ProcessRequestFailureOutputParams": {
         "type": "array",
         "items": {
           "$ref": "#/components/schemas/NetsuiteCreateClientFailureOutputParams"
+        }
+      },
+      "AuthenticateStitchdataInputParams": {
+        "type": "object",
+        "required": [
+          "stitch_auth_code"
+        ],
+        "properties": {
+          "stitch_auth_code": {
+            "type": "string",
+            "uniqueItems": true
+          }
+        }
+      },
+      "AuthenticateStitchdataSuccessOutputParams": {
+        "type": "object",
+        "properties": {
+          "module": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "access_token": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "token_type": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "stitch_account_id": {
+            "type": "string",
+            "uniqueItems": true
+          }
+        }
+      },
+      "RegisterAccountForStitchdataSuccessOutputParams": {
+        "type": "object",
+        "properties": {
+          "module": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "firstname": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "lastname": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "company": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "email": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "access_token": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "stitch_account_id": {
+            "type": "string",
+            "uniqueItems": true
+          }
+        }
+      },
+      "AuthenticateStitchdataFailureOutputParams": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "logs": {
+            "properties": {
+              "status": {
+                "type": "string",
+                "uniqueItems": true
+              },
+              "description": {
+                "type": "string",
+                "uniqueItems": true
+              },
+              "actualdetail": {
+                "properties": {
+                  "type": "object",
+                  "uniqueItems": true
+                }
+              },
+              "param": {
+                "properties": {
+                  "type": "object",
+                  "uniqueItems": true
+                }
+              },
+              "datetime": {
+                "type": "string",
+                "uniqueItems": true
+              }
+            }
+          }
+        }
+      },
+      "RegisterAccountStitchdataInputParams": {
+        "type": "object",
+        "required": [
+          "firstname",
+          "lastname",
+          "company",
+          "email"
+        ],
+        "properties": {
+          "firstname": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "lastname": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "company": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "email": {
+            "type": "string",
+            "uniqueItems": true
+          }
+        }
+      },
+      "RetrieveSourcesFromStitchdataInputParams": {
+        "type": "object",
+        "required": [
+          "access_token"
+        ],
+        "properties": {
+          "access_token": {
+            "type": "string",
+            "uniqueItems": true
+          }
+        }
+      },
+      "RetrieveSourcesFromStitchdataOutputParams": {
+        "type": "object",
+        "properties": {
+          "module": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "access_token": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "message": {
+            "type": "object",
+            "uniqueItems": true
+          }
         }
       },
       "RetrieveTenantsForActivePortOutputParams": {
@@ -609,7 +1834,7 @@
             "type": "string",
             "uniqueItems": true
           },
-          "id_token": {
+          "message": {
             "type": "string",
             "uniqueItems": true
           }
@@ -689,7 +1914,7 @@
           "firmwareVersion",
           "ipAddress",
           "loIp",
-          "locationId",
+          "serviceConfigurationId",
           "maxRate",
           "minRate",
           "mode",
@@ -745,7 +1970,7 @@
             "type": "string",
             "uniqueItems": true
           },
-          "locationId": {
+          "serviceConfigurationId": {
             "type": "integer",
             "uniqueItems": true
           },
@@ -800,6 +2025,235 @@
           "uplinkPort": {
             "type": "string",
             "uniqueItems": true
+          }
+        }
+      },
+      "CreateNTUPortForActivePortInputParams": {
+        "type": "object",
+        "required": [
+          "ntuId",
+          "description",
+          "internetPort",
+          "jumbo",
+          "label",
+          "mac",
+          "name",
+          "portSpeed",
+          "portType",
+          "trunk"
+        ],
+        "properties": {
+          "ntuId": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "description": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "internetPort": {
+            "type": "boolean",
+            "uniqueItems": true
+          },
+          "jumbo": {
+            "type": "boolean",
+            "uniqueItems": true
+          },
+          "label": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "mac": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "name": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "portSpeed": {
+            "type": "string",
+            "example": "Auto"
+          },
+          "portType": {
+            "type": "string",
+            "example": "ETHERNET"
+          },
+          "trunk": {
+            "type": "boolean",
+            "uniqueItems": true,
+            "default": true
+          }
+        }
+      },
+      "CreateNTUPortForActivePortOutputParams": {
+        "type": "object",
+        "properties": {
+          "module": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "message": {
+            "type": "object",
+            "uniqueItems": true
+          }
+        }
+      },
+      "CreateNTUForASEInputParams": {
+        "type": "object",
+        "required": [
+          "switchportid",
+          "autoRollback",
+          "burstTime",
+          "configBackup",
+          "defaultRate",
+          "enableBod",
+          "endpoint",
+          "firmwareVersion",
+          "ipAddress",
+          "loIp",
+          "serviceConfigurationId",
+          "maxRate",
+          "minRate",
+          "mode",
+          "ntutypeId",
+          "restEnabled",
+          "restPassword",
+          "restUsername",
+          "secondUplinkPort",
+          "serialNumber",
+          "tenantId",
+          "timeZone",
+          "uplinkPort",
+          "ntuId",
+          "internetPort",
+          "jumbo",
+          "mac",
+          "portSpeed",
+          "portType",
+          "trunk"
+        ],
+        "properties": {
+          "switchportid": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "autoRollback": {
+            "type": "boolean",
+            "uniqueItems": true
+          },
+          "burstTime": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "configBackup": {
+            "type": "boolean",
+            "uniqueItems": true
+          },
+          "defaultRate": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "enableBod": {
+            "type": "boolean",
+            "uniqueItems": true
+          },
+          "endpoint": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "firmwareVersion": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "ipAddress": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "loIp": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "serviceConfigurationId": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "maxRate": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "minRate": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "mode": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "ntutypeId": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "restEnabled": {
+            "type": "boolean",
+            "uniqueItems": true
+          },
+          "restPassword": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "restUsername": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "secondUplinkPort": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "serialNumber": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "tenantId": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "timeZone": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "uplinkPort": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "ntuId": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "internetPort": {
+            "type": "boolean",
+            "uniqueItems": true
+          },
+          "jumbo": {
+            "type": "boolean",
+            "uniqueItems": true
+          },
+          "mac": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "portSpeed": {
+            "type": "string",
+            "example": "Auto"
+          },
+          "portType": {
+            "type": "string",
+            "example": "ETHERNET"
+          },
+          "trunk": {
+            "type": "boolean",
+            "uniqueItems": true,
+            "default": true
           }
         }
       },
@@ -1175,13 +2629,279 @@
           "port_id": {
             "type": "integer",
             "uniqueItems": true
-          },         
+          },
           "member_state": {
             "type": "string",
             "uniqueItems": true
           }
         }
+      },
+      "RetrieveWwitchPortOutputParams": {
+        "type": "object",
+        "properties": {
+          "module": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "message": {
+            "type": "object",
+            "uniqueItems": true
+          }
+        }
+      },
+      "NksSolution": {
+        "type": "object",
+        "required": [
+          "clusters"
+        ],
+        "properties": {
+          "solution": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "name": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "keysetRequired": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "tag": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "version": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "uniqueItems": true
+        }
+      },
+      "CreateNksClusterInputputParams": {
+        "type": "object",
+        "required": [
+          "clusters"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "provider": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "workspace": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "provider_keyset": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "master_count": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "master_size": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "master_root_disk_size": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "worker_count": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "worker_size": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "worker_root_disk_size": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "k8s_version": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "k8s_dashboard_enabled": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "k8s_rbac_enabled": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "k8s_pod_cidr": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "k8s_service_cidr": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "user_ssh_keyset": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "etcd_type": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "platform": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "channel": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "region": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "zone": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "provider_network_id": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "provider_network_cidr": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "provider_subnet_id": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "provider_subnet_cidr": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "provider_resource_group": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "solutions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NksSolution"
+            },
+            "uniqueItems": true
+          },
+          "owner": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "uniqueItems": true
+        }
+      },
+      "CreateClustersNetappOutputParams": {
+        "type": "object",
+        "properties": {
+          "module": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "cluster": {
+            "type": "object",
+            "uniqueItems": true
+          },
+          "uniqueItems": true
+        }
+      },
+      "DeleteNksClusterInputputParams": {
+        "type": "object",
+        "required": [
+          "clusterid"
+        ],
+        "properties": {
+          "clusterid": {
+            "type": "integer",
+            "uniqueItems": true
+          }
+        }
+      },
+      "GetDatasetsFromDataikuOutputParams": {
+        "type": "object",
+        "properties": {
+          "module": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "datasets": {
+            "type": "object",
+            "uniqueItems": true
+          },
+          "uniqueItems": true
+        }
+      },
+      "CreateDataikuDatasetInputputParams": {
+        "type": "object",
+        "required": [
+          "clusters"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "k8s_dashboard_enabled": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "solutions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NksSolution"
+            },
+            "uniqueItems": true
+          },
+          "owner": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "uniqueItems": true
+        }
+      },
+      "CreateDatasetForDataikuInputParams": {
+        "type": "object"
+      },
+      "CreateManagedDatasetForDataikuInputParams": {
+        "type": "object",
+        "required": [
+          "projectKey"
+        ],
+        "properties": {
+          "projectKey": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "dataset": {
+            "type": "object",
+            "uniqueItems": true
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "securitySchemes1": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "name": "api_key",
+        "in": "query"
       }
     }
-  }
+  },
+  "security1": [
+    {
+      "ApiKeyAuth": []
+    }
+  ]
 }

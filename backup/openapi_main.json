@@ -15,7 +15,6 @@
     }
   ],
   "paths": {
-   
     "/processstoragegrid": {
       "post": {
         "tags": [
@@ -673,6 +672,48 @@
         }
       }
     },
+    "/createnewntuportforactiveport": {
+      "post": {
+        "tags": [
+          "ActivePort"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateNTUPortForActivePortInputParams"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "ActivePort NTU Port has been successfully created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateNTUPortForActivePortOutputParams"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Some issue occured while creating ActivePort NTU Port",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessRequestFailureOutputParams"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have necessary permissions for the resource"
+          }
+        }
+      }
+    },
     "/getallcircuits": {
       "get": {
         "tags": [
@@ -859,6 +900,97 @@
           },
           "400": {
             "description": "Some issue occured while updating existing circuit in Xcloud",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessRequestFailureOutputParams"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have necessary permissions for the resource"
+          }
+        }
+      }
+    },
+    "/retrieveswitchportbyid/{switchportid}": {
+      "get": {
+        "tags": [
+          "Xcloud"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "switchportid",
+            "in": "path",
+            "description": "switchportid of Xcloud that needs to be retrieved",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Xcloud switch port has been retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RetrieveWwitchPortOutputParams"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Some issue occured while retriving ActivePort NTU",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessRequestFailureOutputParams"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have necessary permissions for the resource"
+          }
+        }
+      }
+    },
+    "/createntuasync": {
+      "post": {
+        "tags": [
+          "FLUID"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateNTUForASEInputParams"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Xcloud switch port has been retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RetrieveWwitchPortOutputParams"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Some issue occured while retriving ActivePort NTU",
             "content": {
               "application/json": {
                 "schema": {
@@ -1702,7 +1834,7 @@
             "type": "string",
             "uniqueItems": true
           },
-          "id_token": {
+          "message": {
             "type": "string",
             "uniqueItems": true
           }
@@ -1782,7 +1914,7 @@
           "firmwareVersion",
           "ipAddress",
           "loIp",
-          "locationId",
+          "serviceConfigurationId",
           "maxRate",
           "minRate",
           "mode",
@@ -1838,7 +1970,7 @@
             "type": "string",
             "uniqueItems": true
           },
-          "locationId": {
+          "serviceConfigurationId": {
             "type": "integer",
             "uniqueItems": true
           },
@@ -1893,6 +2025,235 @@
           "uplinkPort": {
             "type": "string",
             "uniqueItems": true
+          }
+        }
+      },
+      "CreateNTUPortForActivePortInputParams": {
+        "type": "object",
+        "required": [
+          "ntuId",
+          "description",
+          "internetPort",
+          "jumbo",
+          "label",
+          "mac",
+          "name",
+          "portSpeed",
+          "portType",
+          "trunk"
+        ],
+        "properties": {
+          "ntuId": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "description": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "internetPort": {
+            "type": "boolean",
+            "uniqueItems": true
+          },
+          "jumbo": {
+            "type": "boolean",
+            "uniqueItems": true
+          },
+          "label": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "mac": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "name": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "portSpeed": {
+            "type": "string",
+            "example": "Auto"
+          },
+          "portType": {
+            "type": "string",
+            "example": "ETHERNET"
+          },
+          "trunk": {
+            "type": "boolean",
+            "uniqueItems": true,
+            "default": true
+          }
+        }
+      },
+      "CreateNTUPortForActivePortOutputParams": {
+        "type": "object",
+        "properties": {
+          "module": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "message": {
+            "type": "object",
+            "uniqueItems": true
+          }
+        }
+      },
+      "CreateNTUForASEInputParams": {
+        "type": "object",
+        "required": [
+          "switchportid",
+          "autoRollback",
+          "burstTime",
+          "configBackup",
+          "defaultRate",
+          "enableBod",
+          "endpoint",
+          "firmwareVersion",
+          "ipAddress",
+          "loIp",
+          "serviceConfigurationId",
+          "maxRate",
+          "minRate",
+          "mode",
+          "ntutypeId",
+          "restEnabled",
+          "restPassword",
+          "restUsername",
+          "secondUplinkPort",
+          "serialNumber",
+          "tenantId",
+          "timeZone",
+          "uplinkPort",
+          "ntuId",
+          "internetPort",
+          "jumbo",
+          "mac",
+          "portSpeed",
+          "portType",
+          "trunk"
+        ],
+        "properties": {
+          "switchportid": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "autoRollback": {
+            "type": "boolean",
+            "uniqueItems": true
+          },
+          "burstTime": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "configBackup": {
+            "type": "boolean",
+            "uniqueItems": true
+          },
+          "defaultRate": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "enableBod": {
+            "type": "boolean",
+            "uniqueItems": true
+          },
+          "endpoint": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "firmwareVersion": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "ipAddress": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "loIp": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "serviceConfigurationId": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "maxRate": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "minRate": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "mode": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "ntutypeId": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "restEnabled": {
+            "type": "boolean",
+            "uniqueItems": true
+          },
+          "restPassword": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "restUsername": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "secondUplinkPort": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "serialNumber": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "tenantId": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "timeZone": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "uplinkPort": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "ntuId": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "internetPort": {
+            "type": "boolean",
+            "uniqueItems": true
+          },
+          "jumbo": {
+            "type": "boolean",
+            "uniqueItems": true
+          },
+          "mac": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "portSpeed": {
+            "type": "string",
+            "example": "Auto"
+          },
+          "portType": {
+            "type": "string",
+            "example": "ETHERNET"
+          },
+          "trunk": {
+            "type": "boolean",
+            "uniqueItems": true,
+            "default": true
           }
         }
       },
@@ -2084,7 +2445,6 @@
           }
         }
       },
-
       "ValidateCircuitForXcloudInputParams": {
         "type": "object",
         "required": [
@@ -2269,9 +2629,22 @@
           "port_id": {
             "type": "integer",
             "uniqueItems": true
-          },         
+          },
           "member_state": {
             "type": "string",
+            "uniqueItems": true
+          }
+        }
+      },
+      "RetrieveWwitchPortOutputParams": {
+        "type": "object",
+        "properties": {
+          "module": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "message": {
+            "type": "object",
             "uniqueItems": true
           }
         }
@@ -2519,10 +2892,10 @@
       }
     },
     "securitySchemes1": {
-      "api_key": {
+      "ApiKeyAuth": {
         "type": "apiKey",
         "name": "api_key",
-        "in": "header"
+        "in": "query"
       }
     }
   },

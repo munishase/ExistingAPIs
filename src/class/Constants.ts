@@ -77,6 +77,7 @@ class Constants {
     readonly ActivePortCreateTenantAccountURL: string = "/api/rest/v1/tenants";
     readonly ActivePortDeleteTenantAccountURL: string = "/api/rest/v1/tenants";
     readonly ActivePortNTUURL: string = "/devactiveportmicro/api/rest/v1/ntus";
+    readonly ActivePortNTUPortURL: string = "/devactiveportmicro/api/rest/v1/ntu-ports";
     
 
     readonly ActivePortAuthError: string = "ActivePort Authorization failed";
@@ -85,6 +86,8 @@ class Constants {
     readonly ActivePortTenantAccountCreationError: string = "ActivePort Tenant Account creation failed";
     readonly ActivePortTenantAccountDeletionError: string = "ActivePort Tenant Account deletion failed";
     readonly ActivePortNTUError: string = "ActivePort NTU retrieval failed";
+    readonly ActivePortNTUCreationError: string = "ActivePort NTU Port creation failed";
+    readonly ActivePortNTUPortCreationError: string = "ActivePort NTU Port creation failed";
 
     readonly ActivePortAuthSuccess: string = "ActivePort Authorization completed";
     readonly ActivePortTokenRemovedSuccess: string = "Activeport Token removed successfully";
@@ -92,12 +95,15 @@ class Constants {
     readonly ActivePortTenantAccountCreationSuccess: string = "ActivePort Tenant Account creation completed";
     readonly ActivePortTenantAccountDeletionSuccess: string = "ActivePort Tenant Account deletion completed";
     readonly ActivePortNTUSuccess: string = "ActivePort  NTU retrieval successfully";
+    readonly ActivePortNTUCreationSuccess: string = "ActivePort NTU created successfully";
+    readonly ActivePortNTUPortCreationSuccess: string = "ActivePort NTU Port created successfully";
 
 
      //Xcloud  
      readonly XcloudAuthURL: string = "/api/auth";
      readonly XcloudCircuitURL: string = "/api/circuit";
      readonly XcloudValidateCircuitURL: string = "/api/circuit/validate";
+     readonly XcloudSwitchPortURL: string = "/api/switchports";
 
      readonly XcloudAuthSuccess: string = "Xcloud Authorization completed";
      readonly XcloudTokenRemovedSuccess: string = "Xcloud cookie removed successfully";
@@ -106,6 +112,8 @@ class Constants {
      readonly XcloudUpdateCircuitSuccess: string = "Xcloud circuit updated successfully";
      readonly XcloudCreateCircuitSuccess: string = "Xcloud circuit adding successfully";
      readonly XcloudGetCircuitSuccess: string = "Xcloud circuit retrieved successfully";
+     readonly XcloudCreateNTUSuccess: string = "Xcloud NTU created successfully";
+     readonly XcloudGetSwitchPortSuccess: string = "Xcloud switch port retrieved successfully";
 
      readonly XcloudAuthError: string = "Xcloud Authorization failure";
      readonly XcloudTokenRemovedFailure: string = "Xcloud cookie removed failure";
@@ -114,7 +122,9 @@ class Constants {
      readonly XcloudUpdateCircuitError: string = "Xcloud circuit updated failure";
      readonly XcloudCreateCircuitError: string = "Xcloud circuit adding failure";
      readonly XcloudGetCircuitError: string = "Xcloud circuit retrieval failure";
-
+     readonly XcloudCreateNTUError: string = "Xcloud NTU adding failure";
+     readonly XcloudGetSwitchPortError: string = "Xcloud switch port retrieval failure";
+     readonly XcloudNoSwitchPortError: string = "No switch port found with the id";
 
 
 

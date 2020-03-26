@@ -6,6 +6,7 @@ export class AuthenticationMiddleware {
     constructor() { }
 
     verifyAuthentication(req: any, res: any, next: any) {
+        console.log(req.query)
         let doNotSecureUrls: string[] = ['/authenticate', 'swagger'];
         let secureUrl: Boolean = false;
         doNotSecureUrls.forEach(function (item, index) {

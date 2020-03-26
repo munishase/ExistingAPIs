@@ -47,9 +47,9 @@ export class VeeamHttpRequests extends VeeamBaseLayer {
 
         return httppromise(options).then(function (response: any) {
             veeam.Id = response.id;
-            Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Storagegrid, Constants.VeeamAccountCreationSuccess, response, body));
+            Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Veeam, Constants.VeeamAccountCreationSuccess, response, body));
         }).catch(function (err: any) {
-            Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Storagegrid, Constants.VeeamAccountCreationError, err, body));
+            Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Veeam, Constants.VeeamAccountCreationError, err, body));
         }).finally(() => this.removeToken());
     }
 

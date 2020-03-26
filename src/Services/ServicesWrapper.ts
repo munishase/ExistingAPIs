@@ -9,6 +9,7 @@ import ActivePortHttpRequests from './ActivePortHttpRequests';
 import NetAppHttpRequests from './NetAppHttpRequests';
 import DataikuHttpRequests from './DataikuHttpRequests';
 import XcloudHttpRequests from './XcloudHttpRequests';
+import { ActivePortNTUandNTUPortCreationSuccessResponse } from '../class/Response/ActivePortNTUandNTUPortCreationSuccessResponse';
 
 
 // this class is wrapper to call other services methods
@@ -113,8 +114,8 @@ class ServicesWrapper {
         return Common.beautifyResult(activeportResponse, webResponse, EnumPartOf.Individual);
     }
 
-     //List all NTU from Activeport
-     async retrieveallntu(requestBody: any, webResponse: any) {
+    //List all NTU from Activeport
+    async retrieveallntu(requestBody: any, webResponse: any) {
         Logger.cleanLogs();
         let activeportResponse = await ActivePortHttpRequests.retrieveAllNTUs(requestBody);
         return Common.beautifyResult(activeportResponse, webResponse, EnumPartOf.Individual);
@@ -138,12 +139,18 @@ class ServicesWrapper {
         let avtiveportResponse = await ActivePortHttpRequests.updateNTUById(requestBody);
         return Common.beautifyResult(avtiveportResponse, webResponse, EnumPartOf.Individual);
     }
-    
+
     //delete NTU by ntu id
     async deletentubyid(requestBody: any, webResponse: any) {
         Logger.cleanLogs();
         let ntuResponse = await ActivePortHttpRequests.deleteNTUById(requestBody);
         return Common.beautifyResult(ntuResponse, webResponse, EnumPartOf.Individual);
+    }
+
+    async createnewntuportforactiveport(requestBody: any, webResponse: any) {
+        Logger.cleanLogs();
+        let avtiveportResponse = await ActivePortHttpRequests.createNTUPort(requestBody);
+        return Common.beautifyResult(avtiveportResponse, webResponse, EnumPartOf.Individual);
     }
 
     //get all circuits
@@ -174,12 +181,20 @@ class ServicesWrapper {
         return Common.beautifyResult(xcloudResponse, webResponse, EnumPartOf.Individual);
     }
 
-    
+
     //delete existing circuits
     async deletecircuitforxcloud(requestBody: any, webResponse: any) {
         Logger.cleanLogs();
         let xcloudResponse = await XcloudHttpRequests.deletecircuitforxcloud(requestBody);
         return Common.beautifyResult(xcloudResponse, webResponse, EnumPartOf.Individual);
+    }
+
+    //retrieve NTU by ntu id
+    async retrieveswitchportbyid(requestBody: any, webResponse: any) {
+
+        Logger.cleanLogs();
+        let ntuResponse = await XcloudHttpRequests.retrieveswitchportbyid(requestBody);
+        return Common.beautifyResult(ntuResponse, webResponse, EnumPartOf.Individual);
     }
 
     //retrieve new existing Clusters in NetApp
@@ -196,35 +211,86 @@ class ServicesWrapper {
         return Common.beautifyResult(netappResponse, webResponse, EnumPartOf.Individual);
     }
 
-     //insert new cluster in NetApp Kubernetes
-     async deletenkscluster(requestBody: any, webResponse: any) {
+    //insert new cluster in NetApp Kubernetes
+    async deletenkscluster(requestBody: any, webResponse: any) {
         Logger.cleanLogs();
         let netappResponse = await NetAppHttpRequests.deleteNKSCluster(requestBody);
         return Common.beautifyResult(netappResponse, webResponse, EnumPartOf.Individual);
     }
 
-     //List dataiku list of datasets
-     async listdataikudatasets(requestBody: any, webResponse: any) {
+    //List dataiku list of datasets
+    async listdataikudatasets(requestBody: any, webResponse: any) {
         Logger.cleanLogs();
         let dataikuResponse = await DataikuHttpRequests.listDataSetsFromDataiku(requestBody);
         return Common.beautifyResult(dataikuResponse, webResponse, EnumPartOf.Individual);
     }
 
-     //insert new dataset in dataiku
-     async createdatasetfordataiku(requestBody: any, webResponse: any) {
+    //insert new dataset in dataiku
+    async createdatasetfordataiku(requestBody: any, webResponse: any) {
         Logger.cleanLogs();
         let dataikuResponse = await DataikuHttpRequests.createDatasetForDataiku(requestBody);
         return Common.beautifyResult(dataikuResponse, webResponse, EnumPartOf.Individual);
     }
 
-     //insert new managed dataset in dataiku
-     async createmanageddatasetfordataiku(requestBody: any, webResponse: any) {
+    //insert new managed dataset in dataiku
+    async createmanageddatasetfordataiku(requestBody: any, webResponse: any) {
         Logger.cleanLogs();
         let dataikuResponse = await DataikuHttpRequests.createManagedDatasetForDataiku(requestBody);
         return Common.beautifyResult(dataikuResponse, webResponse, EnumPartOf.Individual);
     }
 
-   
+    //combine multiple services as below
+    //Storagegrid, Netsuite
+    async createntuasync(requestBody: any, webResponse: any) {
+        Logger.cleanLogs();
+
+        let results: any[] = [];
+
+        //create netsuite
+        let xcloudSwitchPort: any = await XcloudHttpRequests.retrieveswitchportbyid(requestBody);
+        //Common.pushtoCollectionResult(results, xcloudSwitchPort);
+
+        if (xcloudSwitchPort == undefined) {
+
+            return Common.beautifyResult(xcloudSwitchPort, webResponse, EnumPartOf.Individual);
+        }
+        else {
+            
+            //ADD NAME AND DESCRIPTION RETRIEVED FROM SWITCHPORT TO NTU 
+            requestBody.name = xcloudSwitchPort.port_name;
+            requestBody.description = xcloudSwitchPort.port_name;
+            requestBody.label = xcloudSwitchPort.port_name;
+
+            //create activeport ntu
+            let activeportNtu: any = await ActivePortHttpRequests.createNTU(requestBody);
+            activeportNtu.module = "ActivePort - NTU"
+            Common.pushtoCollectionResult(results, activeportNtu);
+
+            if (activeportNtu.id > 0) //means ntu inserted successfully 
+            {
+                //assign newly created ntuid to ntu port
+                requestBody.ntuId = activeportNtu.id;
+
+                //create activeport ntu
+                let activeportNtuPort: any = await ActivePortHttpRequests.createNTUPort(requestBody);
+
+                //if any issue to create NTU port
+                if (activeportNtuPort != undefined)
+                    activeportNtuPort.module = "ActivePort - NTU Port"
+                Common.pushtoCollectionResult(results, activeportNtuPort);
+            }
+
+            //check if there is any error then it should return whole result, otherwise it should simplify the result.
+            if (Logger.hasErrorLogs() == false) {
+                let simplifyNTUandNTUPortrResponse = new ActivePortNTUandNTUPortCreationSuccessResponse(results);
+                return Common.beautifyResult(simplifyNTUandNTUPortrResponse, webResponse, EnumPartOf.Group);
+            }
+            else {
+                //in case of error want to observe whole response
+                return Common.beautifyResult(results, webResponse, EnumPartOf.Group);
+            }
+        }
+    }
 }
 
 export default new ServicesWrapper();

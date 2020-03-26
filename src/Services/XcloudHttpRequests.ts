@@ -12,6 +12,10 @@ import { response } from 'express';
 import { Xcloud } from '../class/Xcloud';
 import Common from '../class/Common'
 import { XcloudRetrieveSuccessResponse } from '../class/Response/XcloudRetrieveSuccessResponse';
+import { XcloudSwitchPort } from '../class/Response/XcloudSwitchPort';
+import { constants } from 'os';
+
+
 export class XcloudHttpRequests extends XcloudBaseLayer {
 
     constructor() {
@@ -39,13 +43,13 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
         let result;
         await httppromise(options).then(function (response: any) {
             result = response;
-            Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Xcloud, Constants.XcloudGetCircuitSuccess, response, ''));
+            Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Xcloud, Constants.XcloudCreateNTUSuccess, response, ''));
         }).catch(function (err: any) {
-            result=err;
-            Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Xcloud, Constants.XcloudGetCircuitError, err, ''));
+            result = err;
+            Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Xcloud, Constants.XcloudCreateNTUError, err, ''));
         })
 
-        
+
         return new XcloudRetrieveSuccessResponse(result);
     };
 
@@ -271,17 +275,57 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
             body: body,
             json: true
         };
-        
+
         let result;
         await httppromise(options).then(function (response: any) {
-            result= response;
+            result = response;
             Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Xcloud, Constants.XcloudDeleteCircuitSuccess, response, ''));
         }).catch(function (err: any) {
-            result=err;
+            result = err;
 
             Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Xcloud, Constants.XcloudDeleteCircuitError, err, ''));
         })
         return new XcloudRetrieveSuccessResponse(result);
+    };
+
+    //here to find switch port by id
+    async retrieveswitchportbyid(params: any) {
+       
+        if (await this.isAuthorized() == false)
+            return;
+
+        let options = {
+            url: this.baseUrl(Constants.XcloudSwitchPortURL),
+            method: 'GET',
+            headers: {
+                Cookie: sessionstorage.getItem(EnumToken.XcloudCookie),
+                'content-type': 'application/json'
+            },
+            json: true
+        };
+
+        let result;
+        let switchPort
+        await httppromise(options).then(function (response: any) {
+
+            switchPort = response.data.filter(function (switchport: any) {
+                return switchport.id == params.switchportid;
+            })[0]
+
+            Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Xcloud, Constants.XcloudGetSwitchPortSuccess, response, ''));
+        }).catch(function (err: any) {
+            result = err;
+            Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Xcloud, Constants.XcloudGetSwitchPortError, err, ''));
+        })
+
+        
+        //if there is o switchport with the id then
+        if (switchPort == undefined){
+            Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Xcloud, Constants.XcloudGetSwitchPortError, Constants.XcloudNoSwitchPortError, ''));
+            return undefined;
+        }
+        else
+            return new XcloudSwitchPort(switchPort);
     };
 
 }
