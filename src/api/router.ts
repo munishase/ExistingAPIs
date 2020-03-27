@@ -643,6 +643,119 @@ class Router {
 
     router.post('/createntuasync', (req, res) => {
       
+      if (!req.body.switchportid) {
+        return res.status(400).send({
+          message: 'switchportid is required.'
+        });
+      }
+      else if (!req.body.burstTime) {
+        return res.status(400).send({
+          message: 'burstTime is required.'
+        });
+      }
+      else if (!req.body.defaultRate) {
+        return res.status(400).send({
+          message: 'defaultRate is required.'
+        });
+      }
+      else if (!req.body.endpoint) {
+        return res.status(400).send({
+          message: 'endpoint is required.'
+        });
+      }
+      else if (!req.body.firmwareVersion) {
+        return res.status(400).send({
+          message: 'firmwareVersion is required.'
+        });
+      }
+      else if (!req.body.ipAddress) {
+        return res.status(400).send({
+          message: 'ipAddress is required.'
+        });
+      }
+      else if (!req.body.loIp) {
+        return res.status(400).send({
+          message: 'loIp is required.'
+        });
+      }
+      else if (!req.body.serviceConfigurationId) {
+        return res.status(400).send({
+          message: 'serviceConfigurationId is required.'
+        });
+      }
+      else if (!req.body.maxRate) {
+        return res.status(400).send({
+          message: 'maxRate is required.'
+        });
+      }
+      else if (!req.body.minRate) {
+        return res.status(400).send({
+          message: 'minRate is required.'
+        });
+      }
+      else if (!req.body.mode) {
+        return res.status(400).send({
+          message: 'mode is required.'
+        });
+      }
+      else if (!req.body.ntutypeId) {
+        return res.status(400).send({
+          message: 'ntutypeId is required.'
+        });
+      }
+      else if (!req.body.restPassword) {
+        return res.status(400).send({
+          message: 'restPassword is required.'
+        });
+      }
+      else if (!req.body.restUsername) {
+        return res.status(400).send({
+          message: 'restUsername is required.'
+        });
+      }
+      else if (!req.body.secondUplinkPort) {
+        return res.status(400).send({
+          message: 'secondUplinkPort is required.'
+        });
+      }
+      else if (!req.body.serialNumber) {
+        return res.status(400).send({
+          message: 'serialNumber is required.'
+        });
+      }
+      else if (!req.body.tenantId) {
+        return res.status(400).send({
+          message: 'tenantId is required.'
+        });
+      }
+      else if (!req.body.timeZone) {
+        return res.status(400).send({
+          message: 'timeZone is required.'
+        });
+      }
+      else if (!req.body.uplinkPort) {
+        return res.status(400).send({
+          message: 'uplinkPort is required.'
+        });
+      }
+      else if (!req.body.mac) {
+        return res.status(400).send({
+          message: 'mac is required.'
+        });
+      }
+
+
+      else if (!req.body.portSpeed) {
+        return res.status(400).send({
+          message: 'portSpeed is required.'
+        });
+      }
+      else if (!req.body.portType) {
+        return res.status(400).send({
+          message: 'portType is required.'
+        });
+      }
+
       return ServicesWrapper.createntuasync(req.body, res);
     });
 

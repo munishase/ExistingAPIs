@@ -132,7 +132,6 @@
           "tenantId",
           "timeZone",
           "uplinkPort",
-          "ntuId",
           "internetPort",
           "jumbo",
           "mac",
@@ -231,10 +230,6 @@
           },
           "uplinkPort": {
             "type": "string",
-            "uniqueItems": true
-          },
-          "ntuId": {
-            "type": "integer",
             "uniqueItems": true
           },
           "internetPort": {
