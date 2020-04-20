@@ -3,7 +3,7 @@ services:
   web:
     build: ./
     env_file:
-      - DockerEnvironment.env
+      - .env
     image: "${IMAGE_NAME}"
     ports:
       - "4000:3000"
