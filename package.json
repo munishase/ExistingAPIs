@@ -5,7 +5,8 @@
   "main": "./src/server.ts",
   "scripts": {
     "tsc": "tsc",
-    "dev": "ts-node-dev --respawn --transpileOnly ./src/server.ts",
+    "dev": "ts-node-dev --respawn --transpileOnly",
+    "dev1": "ts-node-dev --respawn --transpileOnly ./src/server.ts",
     "prod": "tsc && copy package.json .\\build\\ && copy  package-lock.json .\\build\\ && copy config.json .\\build\\ && node ./build/src/server.js",
     "prod1": "npm install --force ./build/",
     "build": "webpack --config webpack.config.js --mode production"
