@@ -3,7 +3,7 @@ services:
   web:
     build: ./
     image: munishsinghal/asedemoapi2
-    ports:
-      - "4000:3000"
+    #-ports:
+    #  - "4000:3000"
     environment:
       NODE_ENV: development
