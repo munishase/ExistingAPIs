@@ -2,7 +2,7 @@ version: '3'
 services:
   web:
     build: ./
-    image: munishsinghal/asedemoapi1
+    image: munishsinghal/asedemoapi2
     ports:
       - "4000:3000"
     environment:
