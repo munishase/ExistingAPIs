@@ -4,7 +4,7 @@ services:
     build: ./
     env_file:
       - .env
-    image: "${IMAGE_NAME}"
+    image: "${IMAGE_NAME}:${TAG_NAME}"
     ports:
       - "4000:3000"
     environment:
