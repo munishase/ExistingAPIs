@@ -15,7 +15,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag munishsinghal/latest
+      run: docker build . --file Dockerfile --tag munishsinghal/aseapi:latest
     - name: Push the latest Docker image
       run: docker push munishsinghal/latest
 
