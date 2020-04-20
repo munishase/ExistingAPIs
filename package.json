@@ -8,7 +8,6 @@
     "dev": "ts-node-dev --respawn --transpileOnly ./src/server.ts",
     "start": "npm run src/server.js",
     "prod": "tsc && copy package.json .\\build\\ && copy  package-lock.json .\\build\\ && copy config.json .\\build\\ && node ./build/src/server.js",
-    "prod1": "npm install --force ./build/"
   },
   "author": "",
   "license": "ASE IT POC",
