@@ -5,6 +5,3 @@ RUN npm install
 COPY . /app
 CMD npm run dev
 EXPOSE 8090
-
-
-ENV NODE_ENV development

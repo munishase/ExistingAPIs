@@ -1,0 +1,9 @@
+version: '3'
+services:
+  web:
+    build: ./
+    image: munishsinghal/asedemoapi1
+    ports:
+      - "4000:3000"
+    environment:
+      NODE_ENV: development

@@ -76,10 +76,10 @@
     },
     "Xcloud": {
       "Urls": {
-        "BaseUrl": "http://demo2.xcloudnetworks.com"
+        "BaseUrl": "https://xcloud.fluid.aseit.com.au"
       },
-      "Username": "demo",
-      "Password": "OdicN!esOQF5I#Q6KH%E",
+      "Username": "admin",
+      "Password": "secret",
       "auth_scheme_id": 1
     },
     "NetApp": {
@@ -181,10 +181,10 @@
     },
     "Xcloud": {
       "Urls": {
-        "BaseUrl": "http://demo2.xcloudnetworks.com"
+        "BaseUrl": "http://xcloud.fluid.aseit.com.au"
       },
-      "Username": "demo",
-      "Password": "OdicN!esOQF5I#Q6KH%E",
+      "Username": "admin",
+      "Password": "secret",
       "auth_scheme_id": 1
     },
     "NetApp": {
@@ -208,5 +208,10 @@
       "Audience": "http://www.aseit.com.au",
       "ExpiresIn": "12h"
     }
+  },
+  "common": {
+    "swagger": "fluid",
+    "pushtodocker": true,
+    "dockerimagename": "munishsinghal/aseapi"
   }
 }
