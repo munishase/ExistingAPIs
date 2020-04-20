@@ -2,7 +2,9 @@ version: '3'
 services:
   web:
     build: ./
-    image: munishsinghal/asedemoapi1
+    env_file:
+      - DockerEnvironment.env
+    image: "${IMAGE_NAME}"
     ports:
       - "4000:3000"
     environment:
