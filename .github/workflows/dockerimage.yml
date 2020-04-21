@@ -3,12 +3,11 @@ name: Run ESLint on Pull Requests
 on: [push]
 
 jobs:
-  eslint:
-    runs-on: ubuntu-latest
+  actions-tagger:
+    runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v1
-      - uses: 18F/github-action-eslint@1.0.0
+      - uses: Actions-R-Us/actions-tagger@latest
         with:
-          repo-token: ${{ secrets.GIT_TOKEN }}
-          files: src/
-          
+          publish_latest: true
+        env:
+          GITHUB_TOKEN: '${{secrets.GIT_TOKEN}}'
