@@ -21,3 +21,7 @@ jobs:
     - name: Push the latest Docker image
       run: docker-compose push
 
+    - uses: actions/checkout@v1
+    - uses: hallee/eslint-action@master
+      with:
+        repo-token: ${{secrets.CODEQUALITY_TOKEN}}
