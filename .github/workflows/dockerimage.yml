@@ -1,13 +1,22 @@
-name: Run ESLint on Pull Requests
+name: Docker Image CI Build & Push
 
-on: [push]
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
 jobs:
-  actions-tagger:
-    runs-on: windows-latest
+
+  build:
+
+    runs-on: ubuntu-latest
+
     steps:
-      - uses: Actions-R-Us/actions-tagger@latest
-        with:
-          publish_latest: true
-        env:
-          GITHUB_TOKEN: '${{secrets.GIT_TOKEN}}'
+    - uses: actions/checkout@v2
+    - name: Login to DockerHub Registry
+      run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+    - name: Build the Docker image
+      run: docker-compose up
+    - name: Push the latest Docker image
+      run: docker-compose push
