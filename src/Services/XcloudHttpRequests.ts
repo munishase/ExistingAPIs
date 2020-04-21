@@ -14,6 +14,7 @@ import Common from '../class/Common'
 import { XcloudRetrieveSuccessResponse } from '../class/Response/XcloudRetrieveSuccessResponse';
 import { XcloudSwitchPort } from '../class/Response/XcloudSwitchPort';
 import { constants } from 'os';
+import { XcloudEbgp } from '../class/XcloudEbgp';
 
 
 export class XcloudHttpRequests extends XcloudBaseLayer {
@@ -326,6 +327,88 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
         }
         else
             return new XcloudSwitchPort(switchPort);
+    };
+
+     //add ebgp in xcloud
+    async addEbgpforxcloud(requestBody: any) {
+
+        if (await this.isAuthorized() == false)
+            return;
+
+        let xcloudEbgp = new XcloudEbgp();
+        xcloudEbgp.name = requestBody.name;
+        xcloudEbgp.terminate_on_switch = requestBody.terminate_on_switch;
+        xcloudEbgp.neighbor_as = requestBody.neighbor_as;
+        xcloudEbgp.ip_version = requestBody.ip_version;
+        xcloudEbgp.status = requestBody.status;
+        xcloudEbgp.originate = requestBody.originate;
+        xcloudEbgp.vlan = requestBody.vlan;
+        xcloudEbgp.site_id = requestBody.site_id;
+        xcloudEbgp.local_ip = requestBody.local_ip;
+        xcloudEbgp.remote_ip = requestBody.remote_ip;
+        xcloudEbgp.local_preference = requestBody.local_preference;
+        xcloudEbgp.nfv_port_id = requestBody.nfv_port_id;
+        xcloudEbgp.prefix_length = requestBody.prefix_length;
+        xcloudEbgp.prefix_list_outbound = requestBody.prefix_list_outbound;
+        xcloudEbgp.prefix_list_inbound = requestBody.prefix_list_inbound;
+        xcloudEbgp.multihop = requestBody.multihop;
+        xcloudEbgp.weight = requestBody.weight;
+        xcloudEbgp.community = requestBody.community;
+        xcloudEbgp.term_switch_id = requestBody.term_switch_id;
+        xcloudEbgp.allowas_in = requestBody.allowas_in;
+        xcloudEbgp.rcircuit_id = requestBody.rcircuit_id;
+        xcloudEbgp.switch_port_id = requestBody.switch_port_id;
+        
+
+        let body = {
+            "name": xcloudEbgp.name,
+            "terminate_on_switch": xcloudEbgp.terminate_on_switch,
+            "neighbor_as": xcloudEbgp.neighbor_as,
+            "ip_version": xcloudEbgp.ip_version,
+            "status": xcloudEbgp.status,
+            "originate": xcloudEbgp.originate,
+            "vlan": xcloudEbgp.vlan,
+            "site_id": xcloudEbgp.site_id,
+            "local_ip": xcloudEbgp.local_ip,
+            "remote_ip": xcloudEbgp.remote_ip,
+            "local_preference": xcloudEbgp.local_preference,
+            "nfv_port_id": xcloudEbgp.nfv_port_id,
+            "prefix_length": xcloudEbgp.prefix_length,
+            "prefix_list_outbound": xcloudEbgp.prefix_list_outbound,
+            "prefix_list_inbound": xcloudEbgp.prefix_list_inbound,
+            "multihop": xcloudEbgp.multihop,
+            "weight": xcloudEbgp.weight,
+            "community": xcloudEbgp.community,
+            "term_switch_id": xcloudEbgp.term_switch_id,
+            "allowas_in": xcloudEbgp.allowas_in,
+            "rcircuit_id": xcloudEbgp.rcircuit_id,
+            "switch_port_id": xcloudEbgp.switch_port_id
+           
+        }
+
+
+        let options = {
+            url: this.baseUrl(Constants.XcloudEbgpURL),
+            method: 'POST',
+            headers: {
+                'Cookie': sessionstorage.getItem(EnumToken.XcloudCookie),
+                'content-type': 'application/json'
+            },
+            body: body,
+            json: true
+        };
+        let self = this;
+        let result;
+
+        await httppromise(options).then(function (response: any) {
+            xcloudEbgp.id = response.data.id;
+            result = xcloudEbgp;
+            Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Xcloud, Constants.XcloudCreateEbgpSuccess, response, ''));
+        }).catch(function (err: any) {
+            result = err;
+            Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Xcloud, Constants.XcloudCreateEbgpError, err, ''));
+        })
+        return new XcloudRetrieveSuccessResponse(result);
     };
 
 }

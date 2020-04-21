@@ -759,6 +759,10 @@ class Router {
       return ServicesWrapper.createntuasync(req.body, res);
     });
 
+    router.post('/createawscircuitasync', (req, res) => {
+      return ServicesWrapper.createawscircuitasync(req.body, res);
+    });
+
     server.use('/', router);
   }
 

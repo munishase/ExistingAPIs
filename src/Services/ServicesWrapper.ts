@@ -197,6 +197,13 @@ class ServicesWrapper {
         return Common.beautifyResult(ntuResponse, webResponse, EnumPartOf.Individual);
     }
 
+     //create/POST new circuits
+     async createawscircuitasync(requestBody: any, webResponse: any) {
+        Logger.cleanLogs();
+        let xcloudResponse = await XcloudHttpRequests.addEbgpforxcloud(requestBody);
+        return Common.beautifyResult(xcloudResponse, webResponse, EnumPartOf.Individual);
+    }
+
     //retrieve new existing Clusters in NetApp
     async retrieveclustersfromnetapp(requestBody: any, webResponse: any) {
         Logger.cleanLogs();
