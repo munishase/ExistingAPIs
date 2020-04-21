@@ -11,4 +11,4 @@ jobs:
         with:
           repo-token: ${{ secrets.GIT_TOKEN }}
           files: src/
-          path: web/
+          
