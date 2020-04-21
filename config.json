@@ -210,8 +210,6 @@
     }
   },
   "common": {
-    "swagger": "fluid",
-    "pushtodocker": true,
-    "dockerimagename": "munishsinghal/aseapi"
+    "swagger": "fluid"
   }
 }
