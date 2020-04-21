@@ -4,6 +4,7 @@
   "description": "",
   "main": "./src/server.ts",
   "scripts": {
+    "lint": "eslint",
     "tsc": "tsc",
     "dev": "ts-node-dev --respawn --transpileOnly ./src/server.ts",
     "start": "npm run src/server.js",
