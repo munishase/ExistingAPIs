@@ -78,6 +78,7 @@ class Constants {
     readonly ActivePortDeleteTenantAccountURL: string = "/api/rest/v1/tenants";
     readonly ActivePortNTUURL: string = "/devactiveportmicro/api/rest/v1/ntus";
     readonly ActivePortNTUPortURL: string = "/devactiveportmicro/api/rest/v1/ntu-ports";
+    readonly ActivePortValidateServiceRequestURL: string = "/devactiveportmicro/api/rest/v1/services/validate/new";
     
 
     readonly ActivePortAuthError: string = "ActivePort Authorization failed";
@@ -88,6 +89,7 @@ class Constants {
     readonly ActivePortNTUError: string = "ActivePort NTU retrieval failed";
     readonly ActivePortNTUCreationError: string = "ActivePort NTU Port creation failed";
     readonly ActivePortNTUPortCreationError: string = "ActivePort NTU Port creation failed";
+    readonly ActivePortValidateServiceRequestError: string = "ActivePort Validate Service Request creation failed";
 
     readonly ActivePortAuthSuccess: string = "ActivePort Authorization completed";
     readonly ActivePortTokenRemovedSuccess: string = "Activeport Token removed successfully";
@@ -97,6 +99,7 @@ class Constants {
     readonly ActivePortNTUSuccess: string = "ActivePort  NTU retrieval successfully";
     readonly ActivePortNTUCreationSuccess: string = "ActivePort NTU created successfully";
     readonly ActivePortNTUPortCreationSuccess: string = "ActivePort NTU Port created successfully";
+    readonly ActivePortValidateServiceRequestSuccess: string = "ActivePort Validate Service Request created successfully";
 
 
      //Xcloud  

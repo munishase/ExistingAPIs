@@ -16,6 +16,9 @@ import { ActivePortTenant } from '../class/ActivePortTenant';
 import { ActivePortNTU } from '../class/ActivePortNTU';
 import { ActivePortNTUPort } from '../class/ActivePortNTUPort';
 import { ActivePortNTUPortCreationSuccessResponse } from '../class/Response/ActivePortNTUPortCreationSuccessResponse'
+import { ActivePortServiceRequest } from '../class/ActivePortServiceRequest';
+import { EnumPartOf } from '../Enum/EnumPartOf';
+import { GroupedResults } from '../class/Response/GroupedResults';
 
 class ActivePortHttpRequests extends ActivePortBaseLayer {
 
@@ -467,7 +470,81 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
       return new ActivePortNTUPortCreationSuccessResponse(activePortNTUPort, result);
   };
 
-  
+
+  //Here we are creating NTU Port
+  //prerequisite: ActivePort Token in Header
+  async validateServiceRequestURL(requestBody: any, enumPartOf: any) {
+    if (await this.isActivePortAuthorized() == false)
+      return;
+
+    let activePortServiceRequest = new ActivePortServiceRequest();
+    activePortServiceRequest.name = requestBody.name;
+    activePortServiceRequest.serviceConfigurationId = requestBody.serviceConfigurationId;
+    activePortServiceRequest.ntuId = requestBody.ntuId;
+    activePortServiceRequest.description = requestBody.description;
+    activePortServiceRequest.type = requestBody.type;
+    activePortServiceRequest.remotePortUuid = requestBody.remotePortUuid;
+    activePortServiceRequest.accountId = requestBody.accountId;
+    activePortServiceRequest.rateLimit = requestBody.rateLimit;
+    activePortServiceRequest.hostedType = requestBody.hostedType;
+    activePortServiceRequest.awsType = requestBody.awsType;
+    activePortServiceRequest.circuitType = requestBody.circuitType;
+    activePortServiceRequest.callbackUrl = requestBody.callbackUrl;
+    activePortServiceRequest.downLinkPort = requestBody.downLinkPort;
+
+
+
+    let body = {
+      "name": activePortServiceRequest.name,
+      "serviceConfigurationId": activePortServiceRequest.serviceConfigurationId,
+      "ntuId": activePortServiceRequest.ntuId,
+      "description": activePortServiceRequest.description,
+      "type": activePortServiceRequest.type,
+      "remotePortUuid": activePortServiceRequest.remotePortUuid,
+      "accountId": activePortServiceRequest.accountId,
+      "rateLimit": activePortServiceRequest.rateLimit,
+      "hostedType": activePortServiceRequest.hostedType,
+      "awsType": activePortServiceRequest.awsType,
+      "circuitType": activePortServiceRequest.circuitType,
+      "callbackUrl": activePortServiceRequest.callbackUrl,
+      "downLinkPort": activePortServiceRequest.downLinkPort
+    }
+
+    let options = {
+      url: this.baseUrl(Constants.ActivePortValidateServiceRequestURL),
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + sessionstorage.getItem(EnumToken.ActivePortToken),
+        'content-type': 'application/json'
+      },
+      body: body,
+      json: true
+    };
+
+
+    let self = this;
+    let result;
+    await httppromise(options).then(function (response: any) {
+      activePortServiceRequest.uuid = response.uuid;
+      result = response;
+      Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortValidateServiceRequestSuccess, response, body));
+
+    }).catch(function (err: any) {
+
+      Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortValidateServiceRequestError, err, body));
+    })
+
+    if (enumPartOf == EnumPartOf.Individual)
+      return activePortServiceRequest;
+    else
+      {
+        let groupedResults = new GroupedResults() 
+        groupedResults.actualResult = activePortServiceRequest;
+        groupedResults.manipulatedResult = result;
+        return groupedResults;
+      }
+      return ""
+  }
 }
 
 

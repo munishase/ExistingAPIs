@@ -10,6 +10,7 @@ import NetAppHttpRequests from './NetAppHttpRequests';
 import DataikuHttpRequests from './DataikuHttpRequests';
 import XcloudHttpRequests from './XcloudHttpRequests';
 import { ActivePortNTUandNTUPortCreationSuccessResponse } from '../class/Response/ActivePortNTUandNTUPortCreationSuccessResponse';
+import { GroupedResults } from '../class/Response/GroupedResults';
 
 
 // this class is wrapper to call other services methods
@@ -200,8 +201,9 @@ class ServicesWrapper {
      //create/POST new circuits
      async createawscircuitasync(requestBody: any, webResponse: any) {
         Logger.cleanLogs();
-        let xcloudResponse = await XcloudHttpRequests.addEbgpforxcloud(requestBody);
-        return Common.beautifyResult(xcloudResponse, webResponse, EnumPartOf.Individual);
+         let activeportResponse = new GroupedResults(await ActivePortHttpRequests.validateServiceRequestURL(requestBody, EnumPartOf.Group));
+        //let xcloudResponse = await XcloudHttpRequests.addEbgpforxcloud(requestBody);
+        return Common.beautifyResult(activeportResponse.customResult, webResponse, EnumPartOf.Individual);
     }
 
     //retrieve new existing Clusters in NetApp
