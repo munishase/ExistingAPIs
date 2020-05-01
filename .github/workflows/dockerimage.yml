@@ -15,9 +15,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Docker login
-      run: docker login docker.pkg.github.com -u ${{ secrets.DOCKER_USERNAME }} -p $GITHUB_TOKEN
-      env:
-        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      run: docker login docker.pkg.github.com -u ${{ secrets.DOCKER_USERNAME }} -p ${{secrets.GITHUB_TOKEN}}
     - name: Build the Docker image
       run: docker-compose up
     - name: Push the latest Docker image
