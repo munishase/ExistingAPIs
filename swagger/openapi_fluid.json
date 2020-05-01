@@ -59,6 +59,51 @@
           }
         }
       }
+    },
+    "/createclouddxasync": {
+      "post": {
+        "tags": [
+          "FLUID"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAwsDxInputParams"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "AWS DX has been configured successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RetrieveSwitchPortOutputParams"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Some issue occured while configuring AWS DX",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessRequestFailureOutputParams"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have necessary permissions for the resource"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -268,6 +313,68 @@
           },
           "message": {
             "type": "object",
+            "uniqueItems": true
+          }
+        }
+      },
+      "CreateAwsDxInputParams": {
+        "type": "object",
+        "required": [
+          "name",
+          "serviceConfigurationId",
+          "ntuId",
+          "description",
+          "type",
+          "remotePortUuid",
+          "accountId",
+          "rateLimit",
+          "hostedType",
+          "awsType",
+          "downLinkPort"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "serviceConfigurationId": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "ntuId": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "description": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "type": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "remotePortUuid": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "accountId": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "rateLimit": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "hostedType": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "awsType": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "downLinkPort": {
+            "type": "integer",
             "uniqueItems": true
           }
         }

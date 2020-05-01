@@ -198,13 +198,7 @@ class ServicesWrapper {
         return Common.beautifyResult(ntuResponse, webResponse, EnumPartOf.Individual);
     }
 
-     //create/POST new circuits
-     async createawscircuitasync(requestBody: any, webResponse: any) {
-        Logger.cleanLogs();
-         let activeportResponse = new GroupedResults(await ActivePortHttpRequests.validateServiceRequestURL(requestBody, EnumPartOf.Group));
-        //let xcloudResponse = await XcloudHttpRequests.addEbgpforxcloud(requestBody);
-        return Common.beautifyResult(activeportResponse.customResult, webResponse, EnumPartOf.Individual);
-    }
+
 
     //retrieve new existing Clusters in NetApp
     async retrieveclustersfromnetapp(requestBody: any, webResponse: any) {
@@ -249,7 +243,7 @@ class ServicesWrapper {
     }
 
     //combine multiple services as below
-    //Storagegrid, Netsuite
+    //fluid
     async createntuasync(requestBody: any, webResponse: any) {
         Logger.cleanLogs();
 
@@ -260,11 +254,11 @@ class ServicesWrapper {
         //Common.pushtoCollectionResult(results, xcloudSwitchPort);
 
         if (xcloudSwitchPort == undefined) {
-
+            console.log(xcloudSwitchPort)
             return Common.beautifyResult(xcloudSwitchPort, webResponse, EnumPartOf.Individual);
         }
         else {
-            
+
             //ADD NAME AND DESCRIPTION RETRIEVED FROM SWITCHPORT TO NTU 
             requestBody.name = xcloudSwitchPort.port_name;
             requestBody.description = xcloudSwitchPort.port_name;
@@ -299,6 +293,48 @@ class ServicesWrapper {
                 return Common.beautifyResult(results, webResponse, EnumPartOf.Group);
             }
         }
+    }
+
+    //fluid
+    async createawscircuitasync(requestBody: any, webResponse: any) {
+
+        Logger.cleanLogs();
+        let results: any[] = [];
+        let activeportResponse;
+        let activeportCreateServiceByUUID;
+        let xcloudEbgpCreationResponse
+
+        //validate service activeport
+        activeportResponse = await ActivePortHttpRequests.validateServiceRequest(requestBody);
+
+        //create service activeport
+        if (activeportResponse != undefined) {
+            Common.pushtoCollectionResult(results, activeportResponse);
+            activeportCreateServiceByUUID = await ActivePortHttpRequests.createServiceByUUID(activeportResponse);
+            Common.pushtoCollectionResult(results, activeportCreateServiceByUUID);
+
+            //create xcloud ebgp
+            if (activeportCreateServiceByUUID != undefined) {
+                xcloudEbgpCreationResponse = await XcloudHttpRequests.addEbgpforxcloud(requestBody, activeportCreateServiceByUUID);
+                Common.pushtoCollectionResult(results, xcloudEbgpCreationResponse);
+            }
+
+        }
+
+        if (Logger.hasErrorLogs() == true)
+            return Common.beautifyResult(results, webResponse, EnumPartOf.Group);
+        else {
+
+            return Common.beautifyResult({
+                "ActivePortValidateServiceResponse": activeportResponse,
+                "ActivePortCreateServiceByUUIDResponse": activeportCreateServiceByUUID,
+                "XcloudEbgpResponse": xcloudEbgpCreationResponse
+            }, webResponse, EnumPartOf.Group);
+        }
+
+
+
+
     }
 }
 

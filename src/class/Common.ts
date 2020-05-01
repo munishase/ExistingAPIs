@@ -1,6 +1,9 @@
 import { EnumPartOf } from '../Enum/EnumPartOf'
 import { Logger } from './Logger'
 import { EnumModule } from '../Enum/EnumModule';
+import { EnumSessionForEachRequest } from '../Enum/EnumSessionForEachRequest';
+var sessionstorage = require('sessionstorage');
+const { v4: uuidv4 } = require('uuid');
 
 //this class will contain all the functions, used commonly throughout the application
 class Common {
@@ -91,6 +94,16 @@ class Common {
         //return "\"" + JSON.stringify(myJSONString).slice(1, -1) + "\"";
 
         
+    }
+
+
+    createRequestResponseObject(request: any, response: any) {
+        return {
+            "uuid": sessionstorage.getItem(EnumSessionForEachRequest.UUID),
+            "ApiName": sessionstorage.getItem(EnumSessionForEachRequest.ApiName),
+            "Request": request,
+            "Response": response
+        }
     }
 }
 

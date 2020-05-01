@@ -3,6 +3,10 @@ import ServicesWrapper from '../Services/ServicesWrapper';
 var cors = require('cors')
 import { Authentication } from '../Services/Authentication'
 import { AuthenticationMiddleware } from '../Services/AuthenticationMiddleware'
+import {  EnumSessionForEachRequest } from '../Enum/EnumSessionForEachRequest';
+import { EnumAPIs } from '../Enum/EnumAPIs';
+var sessionstorage = require('sessionstorage');
+const { v4: uuidv4 } = require('uuid');
 
 class Router {
 
@@ -209,7 +213,7 @@ class Router {
 
 
     router.get('/retrievetenantsforactiveport', (req, res) => {
-     
+
       return ServicesWrapper.retrievetenantsforactiveport(req.body, res);
     });
 
@@ -436,7 +440,7 @@ class Router {
 
 
     router.post('/createnewntuportforactiveport', (req, res) => {
-      
+
       if (!req.body.ntuId) {
         return res.status(400).send({
           message: 'ntuId is required.'
@@ -447,16 +451,16 @@ class Router {
           message: 'description is required.'
         });
       }
-     /* else if (!req.body.internetPort) {
-        return res.status(400).send({
-          message: 'internetPort is required.'
-        });
-      }
-      else if (!req.body.jumbo) {
-        return res.status(400).send({
-          message: 'jumbo is required.'
-        });
-      }*/
+      /* else if (!req.body.internetPort) {
+         return res.status(400).send({
+           message: 'internetPort is required.'
+         });
+       }
+       else if (!req.body.jumbo) {
+         return res.status(400).send({
+           message: 'jumbo is required.'
+         });
+       }*/
       else if (!req.body.label) {
         return res.status(400).send({
           message: 'label is required.'
@@ -488,7 +492,7 @@ class Router {
         });
       }
 
-      return ServicesWrapper.createnewntuportforactiveport  (req.body, res);
+      return ServicesWrapper.createnewntuportforactiveport(req.body, res);
     });
 
     router.get('/getallcircuits', (req, res) => {
@@ -631,7 +635,7 @@ class Router {
 
 
     router.get('/retrieveswitchportbyid/:switchportid', (req, res) => {
-      
+
       if (!req.params.switchportid) {
         return res.status(400).send({
           message: 'switchportid is required.'
@@ -641,8 +645,9 @@ class Router {
     });
 
 
+    //fluid
     router.post('/createntuasync', (req, res) => {
-      
+
       if (!req.body.switchportid) {
         return res.status(400).send({
           message: 'switchportid is required.'
@@ -756,14 +761,89 @@ class Router {
         });
       }
 
+      //initiate session for new uuid
+      this.initiateSession(EnumAPIs.createntuasync);
       return ServicesWrapper.createntuasync(req.body, res);
     });
 
-    router.post('/createawscircuitasync', (req, res) => {
+
+    //fluid
+    router.post('/createclouddxasync', (req, res) => {
+
+      if (!req.body.name) {
+        return res.status(400).send({
+          message: 'name is required.'
+        });
+      }
+      else if (!req.body.serviceConfigurationId) {
+        return res.status(400).send({
+          message: 'serviceConfigurationId is required.'
+        });
+      }
+      else if (!req.body.ntuId) {
+        return res.status(400).send({
+          message: 'ntuId is required.'
+        });
+      }
+      else if (!req.body.description) {
+        return res.status(400).send({
+          message: 'description is required.'
+        });
+      }
+      else if (!req.body.type) {
+        return res.status(400).send({
+          message: 'type is required.'
+        });
+      }
+      else if (!req.body.remotePortUuid) {
+        return res.status(400).send({
+          message: 'remotePortUuid is required.'
+        });
+      }
+      else if (!req.body.accountId) {
+        return res.status(400).send({
+          message: 'accountId is required.'
+        });
+      }
+      else if (!req.body.rateLimit) {
+        return res.status(400).send({
+          message: 'rateLimit is required.'
+        });
+      }
+      else if (!req.body.hostedType) {
+        return res.status(400).send({
+          message: 'hostedType is required.'
+        });
+      }
+      else if (!req.body.awsType) {
+        return res.status(400).send({
+          message: 'awsType is required.'
+        });
+      }
+
+      else if (!req.body.downLinkPort) {
+        return res.status(400).send({
+          message: 'downLinkPort is required.'
+        });
+      }
+
+      //initiate session for new uuid
+      this.initiateSession(EnumAPIs.createclouddxasync);
       return ServicesWrapper.createawscircuitasync(req.body, res);
     });
 
     server.use('/', router);
+  }
+
+  initiateSession(apiname: string) {
+    if (sessionstorage.getItem(EnumSessionForEachRequest.UUID) != null)
+      sessionstorage.removeItem(EnumSessionForEachRequest.UUID);
+
+    if (sessionstorage.getItem(EnumSessionForEachRequest.ApiName) != null)
+      sessionstorage.removeItem(EnumSessionForEachRequest.ApiName);
+
+    sessionstorage.setItem(EnumSessionForEachRequest.UUID, uuidv4())
+    sessionstorage.setItem(EnumSessionForEachRequest.ApiName, apiname)
   }
 
 };

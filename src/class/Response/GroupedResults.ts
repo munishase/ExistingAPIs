@@ -6,9 +6,9 @@ export class GroupedResults {
     customResult: any;
 
     //it will create one response of activeport ntu and ntu port creation and simplify that response
-    constructor(results: GroupedResults) {
-        this.actualResult = results.actualResult;
-        this.customResult = results.customResult;
+    constructor(actualResult: any, customResult: any) {
+        this.actualResult = actualResult;
+        this.customResult = customResult;
         return this;
     }
 }

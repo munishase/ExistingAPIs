@@ -27,7 +27,7 @@ export class ActivePortServiceRequest {
         this.rateLimit = 0;
         this.hostedType = "";
         this.awsType = "";
-        this.circuitType = "";
+        this.circuitType = "VLAN"; //default value
         this.callbackUrl = "";
         this.downLinkPort = "";
     }

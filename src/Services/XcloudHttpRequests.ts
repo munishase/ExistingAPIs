@@ -15,6 +15,7 @@ import { XcloudRetrieveSuccessResponse } from '../class/Response/XcloudRetrieveS
 import { XcloudSwitchPort } from '../class/Response/XcloudSwitchPort';
 import { constants } from 'os';
 import { XcloudEbgp } from '../class/XcloudEbgp';
+import DbCrudOperations from '../class/DbCrudOperations';
 
 
 export class XcloudHttpRequests extends XcloudBaseLayer {
@@ -291,7 +292,7 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
 
     //here to find switch port by id
     async retrieveswitchportbyid(params: any) {
-       
+
         if (await this.isAuthorized() == false)
             return;
 
@@ -313,15 +314,17 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
                 return switchport.id == params.switchportid;
             })[0]
 
+            DbCrudOperations.saveRecord(Common.createRequestResponseObject(options, response));
             Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.fluid, Constants.XcloudGetSwitchPortSuccess, response, ''));
         }).catch(function (err: any) {
             result = err;
+            DbCrudOperations.saveRecord(Common.createRequestResponseObject(options, err));
             Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.fluid, Constants.XcloudGetSwitchPortError, err, ''));
         })
 
-        
+
         //if there is o switchport with the id then
-        if (switchPort == undefined){
+        if (switchPort == undefined) {
             Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.fluid, Constants.XcloudGetSwitchPortError, Constants.XcloudNoSwitchPortError, ''));
             return undefined;
         }
@@ -329,36 +332,43 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
             return new XcloudSwitchPort(switchPort);
     };
 
-     //add ebgp in xcloud
-    async addEbgpforxcloud(requestBody: any) {
+    //add ebgp in xcloud
+    async addEbgpforxcloud(requestBody: any, activeportCreateServiceByUUID: any) {
 
         if (await this.isAuthorized() == false)
             return;
 
         let xcloudEbgp = new XcloudEbgp();
-        xcloudEbgp.name = requestBody.name;
-        xcloudEbgp.terminate_on_switch = requestBody.terminate_on_switch;
-        xcloudEbgp.neighbor_as = requestBody.neighbor_as;
-        xcloudEbgp.ip_version = requestBody.ip_version;
-        xcloudEbgp.status = requestBody.status;
-        xcloudEbgp.originate = requestBody.originate;
-        xcloudEbgp.vlan = requestBody.vlan;
-        xcloudEbgp.site_id = requestBody.site_id;
-        xcloudEbgp.local_ip = requestBody.local_ip;
-        xcloudEbgp.remote_ip = requestBody.remote_ip;
-        xcloudEbgp.local_preference = requestBody.local_preference;
-        xcloudEbgp.nfv_port_id = requestBody.nfv_port_id;
-        xcloudEbgp.prefix_length = requestBody.prefix_length;
-        xcloudEbgp.prefix_list_outbound = requestBody.prefix_list_outbound;
-        xcloudEbgp.prefix_list_inbound = requestBody.prefix_list_inbound;
-        xcloudEbgp.multihop = requestBody.multihop;
-        xcloudEbgp.weight = requestBody.weight;
-        xcloudEbgp.community = requestBody.community;
-        xcloudEbgp.term_switch_id = requestBody.term_switch_id;
-        xcloudEbgp.allowas_in = requestBody.allowas_in;
-        xcloudEbgp.rcircuit_id = requestBody.rcircuit_id;
-        xcloudEbgp.switch_port_id = requestBody.switch_port_id;
-        
+        xcloudEbgp.name = activeportCreateServiceByUUID.uuid;
+        xcloudEbgp.site_id = activeportCreateServiceByUUID.locationId;
+
+        //set for testing environment
+        //start
+        let customerIp = "40.40.40.1/30";
+        let ipDetails = customerIp.split("/");
+        xcloudEbgp.neighbor_as = "65999"; //requestBody.neighbor_as;
+        xcloudEbgp.vlan = 3; //activeportCreateServiceByUUID.vlanIdB;
+        xcloudEbgp.remote_ip = "40.40.40.2"; //activeportCreateServiceByUUID.providerIp;
+        xcloudEbgp.local_ip = ipDetails[0]; //activeportCreateServiceByUUID.customerIp;
+        xcloudEbgp.prefix_length = parseInt(ipDetails[1]);//requestBody.prefix_length;
+        xcloudEbgp.term_switch_id = 143;//requestBody.term_switch_id;
+        xcloudEbgp.switch_port_id = 18663;//requestBody.switch_port_id;
+        //end
+
+        //values set in class as default so no need to asign from any request
+        //xcloudEbgp.prefix_list_outbound = requestBody.prefix_list_outbound;
+        //xcloudEbgp.prefix_list_inbound = requestBody.prefix_list_inbound;
+        //xcloudEbgp.status = requestBody.status;
+        //xcloudEbgp.originate = requestBody.originate;
+        //xcloudEbgp.local_preference = activeportCreateServiceByUUID.bgpAuthKey;
+        //xcloudEbgp.terminate_on_switch = requestBody.terminate_on_switch;
+        //xcloudEbgp.ip_version = requestBody.ip_version;
+        //xcloudEbgp.multihop = requestBody.multihop;
+        //xcloudEbgp.weight = requestBody.weight;
+        //xcloudEbgp.community = requestBody.community;
+        //xcloudEbgp.allowas_in = requestBody.allowas_in;
+        //xcloudEbgp.rcircuit_id = requestBody.rcircuit_id;
+
 
         let body = {
             "name": xcloudEbgp.name,
@@ -372,7 +382,6 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
             "local_ip": xcloudEbgp.local_ip,
             "remote_ip": xcloudEbgp.remote_ip,
             "local_preference": xcloudEbgp.local_preference,
-            "nfv_port_id": xcloudEbgp.nfv_port_id,
             "prefix_length": xcloudEbgp.prefix_length,
             "prefix_list_outbound": xcloudEbgp.prefix_list_outbound,
             "prefix_list_inbound": xcloudEbgp.prefix_list_inbound,
@@ -383,7 +392,6 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
             "allowas_in": xcloudEbgp.allowas_in,
             "rcircuit_id": xcloudEbgp.rcircuit_id,
             "switch_port_id": xcloudEbgp.switch_port_id
-           
         }
 
 
@@ -403,9 +411,11 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
         await httppromise(options).then(function (response: any) {
             xcloudEbgp.id = response.data.id;
             result = xcloudEbgp;
+            DbCrudOperations.saveRecord(Common.createRequestResponseObject(options, response));
             Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Xcloud, Constants.XcloudCreateEbgpSuccess, response, ''));
         }).catch(function (err: any) {
             result = err;
+            DbCrudOperations.saveRecord(Common.createRequestResponseObject(options, err));
             Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Xcloud, Constants.XcloudCreateEbgpError, err, ''));
         })
         return new XcloudRetrieveSuccessResponse(result);
