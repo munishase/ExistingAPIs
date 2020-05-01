@@ -6,6 +6,6 @@ services:
       - .env
     image: "${IMAGE_NAME}:${TAG_NAME}"
     ports:
-      - "4000:3000"
+      - "4000:4000"
     environment:
       NODE_ENV: development
