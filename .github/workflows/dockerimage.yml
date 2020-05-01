@@ -14,13 +14,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Login to Git Docker Registry
-      with:
-        name: Login to Git Docker Registry1
-        username: ${{ github.Git_Docker_Usename }}
-        password: ${{ secrets.Github_Docker_Token }}
-        registry: docker.pkg.github.com
-       
+    - name: Login to Github Docker Registry
+      run: echo ${GITHUB_TOKEN} | docker login -u ${Git_Docker_Usename} --password-stdin docker.pkg.github.com
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Build the Docker image
       run: docker-compose up
     - name: Push the latest Docker image
