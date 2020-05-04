@@ -1,11 +1,11 @@
 version: '3'
 services:
   web:
-    build: ./
+    build: .
     env_file:
       - .env
     image: "${IMAGE_NAME}:${TAG_NAME}"
     ports:
-      - "4000:4000"
+      - "3000:3000"
     environment:
       NODE_ENV: development
