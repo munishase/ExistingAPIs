@@ -2,11 +2,12 @@ version: '3'
 services:
   web:
     build: .
-    command: npm run dev
     env_file:
       - .env
     image: "${IMAGE_NAME}:${TAG_NAME}"
-    ports:
-      - "3000:3000"
     environment:
       NODE_ENV: development
+    working_dir: /usr/src/service
+    command: npm run dev
+    ports:
+      - "3000:3000"
