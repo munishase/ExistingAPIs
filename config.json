@@ -102,6 +102,9 @@
       "Issuer": "ASE",
       "Audience": "http://www.aseit.com.au",
       "ExpiresIn": "12h"
+    },
+    "database": {
+      "Url": "mongodb://localhost:27017"
     }
   },
   "production": {
@@ -207,6 +210,9 @@
       "Issuer": "ASE",
       "Audience": "http://www.aseit.com.au",
       "ExpiresIn": "12h"
+    },
+    "database": {
+      "Url": "mongodb://localhost:27017"
     }
   },
   "common": {

@@ -15,7 +15,7 @@ import { XcloudRetrieveSuccessResponse } from '../class/Response/XcloudRetrieveS
 import { XcloudSwitchPort } from '../class/Response/XcloudSwitchPort';
 import { constants } from 'os';
 import { XcloudEbgp } from '../class/XcloudEbgp';
-import DbCrudOperations from '../class/DbCrudOperations';
+import DbCrudOperations from './DbCrudOperations';
 
 
 export class XcloudHttpRequests extends XcloudBaseLayer {

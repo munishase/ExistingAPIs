@@ -19,7 +19,7 @@ import { ActivePortNTUPortCreationSuccessResponse } from '../class/Response/Acti
 import { ActivePortServiceRequest } from '../class/ActivePortServiceRequest';
 import { EnumPartOf } from '../Enum/EnumPartOf';
 import { GroupedResults } from '../class/Response/GroupedResults';
-import DbCrudOperations from '../class/DbCrudOperations';
+import DbCrudOperations from './DbCrudOperations';
 
 class ActivePortHttpRequests extends ActivePortBaseLayer {
 

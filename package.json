@@ -24,6 +24,7 @@
     "js-yaml": "^3.13.1",
     "json-loader": "^0.5.7",
     "jsonwebtoken": "^8.5.1",
+    "mongodb": "^3.5.7",
     "nodemon": "^1.19.2",
     "path": "^0.12.7",
     "querystring": "^0.2.0",
