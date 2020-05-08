@@ -104,7 +104,11 @@
       "ExpiresIn": "12h"
     },
     "database": {
-      "Url": "mongodb://localhost:27017"
+      "enabled": false,
+      "urlprefix":"mongodb://",
+      "url": "113.29.246.10:27017",
+      "username": "admin",
+      "password": "munish"
     }
   },
   "production": {
@@ -212,7 +216,11 @@
       "ExpiresIn": "12h"
     },
     "database": {
-      "Url": "mongodb://localhost:27017"
+      "enabled": false,
+      "urlprefix":"mongodb://",
+      "url": "113.29.246.10:27017",
+      "username": "admin",
+      "password": "munish"
     }
   },
   "common": {
