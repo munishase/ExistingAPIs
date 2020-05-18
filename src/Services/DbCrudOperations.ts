@@ -8,13 +8,13 @@ class DbCrudOperations extends BaseLayer {
 
   //generate random password with length as input param
   saveRecord(record: any) {
-    console.log(this.environmentConfig.database.enabled)
+    let dbname = this.environmentConfig.database.dbname;
     if (this.environmentConfig.database.enabled == true) {
       MongoClient.connect(this.dbConnectionString(), function (error: any, dbConnection: any) {
         if (error)
           throw error;
 
-        dbConnection.collection("fluid").insertOne(record, function (error: any, result: any) {
+        dbConnection.collection(dbname).insertOne(record, function (error: any, result: any) {
           if (error)
             throw error;
 

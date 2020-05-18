@@ -104,11 +104,12 @@
       "ExpiresIn": "12h"
     },
     "database": {
-      "enabled": false,
+      "enabled": true,
       "urlprefix":"mongodb://",
-      "url": "113.29.246.10:27017",
+      "url": "113.29.246.14:27017",
       "username": "admin",
-      "password": "munish"
+      "password": "munish",
+      "dbname":"FLUID"
     }
   },
   "production": {
@@ -216,11 +217,12 @@
       "ExpiresIn": "12h"
     },
     "database": {
-      "enabled": false,
+      "enabled": true,
       "urlprefix":"mongodb://",
-      "url": "113.29.246.10:27017",
+      "url": "113.29.246.14:27017",
       "username": "admin",
-      "password": "munish"
+      "password": "munish",
+      "dbname":"FLUID"
     }
   },
   "common": {

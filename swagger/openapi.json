@@ -2310,7 +2310,8 @@
           "rateLimit",
           "hostedType",
           "awsType",
-          "downLinkPort"
+          "downLinkPort",
+          "site_id"
         ],
         "properties": {
           "name": {
@@ -2354,6 +2355,10 @@
             "uniqueItems": true
           },
           "downLinkPort": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "site_id": {
             "type": "integer",
             "uniqueItems": true
           }

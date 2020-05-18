@@ -97,10 +97,11 @@ class Common {
     }
 
 
-    createRequestResponseObject(request: any, response: any) {
+    createFluidDbObject(request: any, response: any) {
         return {
             "uuid": sessionstorage.getItem(EnumSessionForEachRequest.UUID),
             "ApiName": sessionstorage.getItem(EnumSessionForEachRequest.ApiName),
+            "module":"FLUID",
             "Request": request,
             "Response": response
         }

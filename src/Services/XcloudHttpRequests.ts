@@ -314,11 +314,11 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
                 return switchport.id == params.switchportid;
             })[0]
 
-            DbCrudOperations.saveRecord(Common.createRequestResponseObject(options, response));
+            DbCrudOperations.saveRecord(Common.createFluidDbObject(options, response));
             Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.fluid, Constants.XcloudGetSwitchPortSuccess, response, ''));
         }).catch(function (err: any) {
             result = err;
-            DbCrudOperations.saveRecord(Common.createRequestResponseObject(options, err));
+            DbCrudOperations.saveRecord(Common.createFluidDbObject(options, err));
             Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.fluid, Constants.XcloudGetSwitchPortError, err, ''));
         })
 
@@ -340,7 +340,8 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
 
         let xcloudEbgp = new XcloudEbgp();
         xcloudEbgp.name = activeportCreateServiceByUUID.uuid;
-        xcloudEbgp.site_id = activeportCreateServiceByUUID.locationId;
+        //xcloudEbgp.site_id = activeportCreateServiceByUUID.locationId;
+        xcloudEbgp.site_id = requestBody.site_id;
 
         //set for testing environment
         //start
@@ -411,11 +412,11 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
         await httppromise(options).then(function (response: any) {
             xcloudEbgp.id = response.data.id;
             result = xcloudEbgp;
-            DbCrudOperations.saveRecord(Common.createRequestResponseObject(options, response));
+            DbCrudOperations.saveRecord(Common.createFluidDbObject(options, response));
             Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Xcloud, Constants.XcloudCreateEbgpSuccess, response, ''));
         }).catch(function (err: any) {
             result = err;
-            DbCrudOperations.saveRecord(Common.createRequestResponseObject(options, err));
+            DbCrudOperations.saveRecord(Common.createFluidDbObject(options, err));
             Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Xcloud, Constants.XcloudCreateEbgpError, err, ''));
         })
         return new XcloudRetrieveSuccessResponse(result);
