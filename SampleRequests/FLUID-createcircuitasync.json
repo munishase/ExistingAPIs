@@ -1,0 +1,29 @@
+{
+    "cidr": "172.16.112.0/24",
+    "selectedTenant": "LinuxAdmin",
+    "selectedSite": 1,
+    "virtualNetworkName": "MunishTestCircuit11V",
+    "owner": 1,
+    "tenants": [
+     3,10
+    ],
+    "sites": [
+      1
+    ],
+    "gateways": [
+      {
+        "gateway": "172.16.101.2",
+        "gw_length": "24",
+        "version": "ipv4",
+        "nos": "ubuntu_switch_dev",
+        "reservedIps": [
+          {
+            "id": "172.16.101.253"
+          }
+        ],
+        "switchIds": [
+          143
+        ]
+      }
+    ]
+  }

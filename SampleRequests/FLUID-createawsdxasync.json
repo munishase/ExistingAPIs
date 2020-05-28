@@ -1,14 +1,15 @@
-{ 
-  "name": "Munish demo - AWS Service8",
-   "serviceConfigurationId": "27",
-   "ntuId": "146",
-   "description": "service desc",
-   "type": "AWS",
-   "remotePortUuid": "e5f28d51-c8c9-46fa-951a-ac3ce8159061",
-   "accountId": "018232283193",
-   "rateLimit": 100,
-   "hostedType": "AWSHC",
-   "awsType": "PRIVATE",
-   "circuitType": "VLAN",
-   "downLinkPort": "ge-0/0/21" 
- }
+{
+  "name": "Munish demo - AWS Service12",
+  "serviceConfigurationId": "27",
+  "ntuId": "146",
+  "description": "service desc",
+  "type": "AWS",
+  "remotePortUuid": "e5f28d51-c8c9-46fa-951a-ac3ce8159061",
+  "accountId": "018232283193",
+  "rateLimit": 100,
+  "hostedType": "AWSHC",
+  "awsType": "PRIVATE",
+  "circuitType": "VLAN",
+  "downLinkPort": "ge-0/0/21",
+  "site_id": 1
+}

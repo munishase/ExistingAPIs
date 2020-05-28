@@ -1,4 +1,5 @@
 export enum EnumAPIs {
   createclouddxasync = "createclouddxasync",
-  createntuasync = "createntuasync"
+  createntuasync = "createntuasync",
+  createsubnetasync = "createsubnetasync"
 }

@@ -20,6 +20,7 @@ import { ActivePortServiceRequest } from '../class/ActivePortServiceRequest';
 import { EnumPartOf } from '../Enum/EnumPartOf';
 import { GroupedResults } from '../class/Response/GroupedResults';
 import DbCrudOperations from './DbCrudOperations';
+import { EnumResultType } from '../Enum/EnumResultType';
 
 class ActivePortHttpRequests extends ActivePortBaseLayer {
 
@@ -372,11 +373,11 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
     let self = this;
     await httppromise(options).then(function (response: any) {
       activePortNTU.id = response.id
-      DbCrudOperations.saveRecord(Common.createFluidDbObject(options, response));
+      DbCrudOperations.saveRecord(Common.createFluidDbObject(options, response, EnumResultType.success));
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortNTUCreationSuccess, response, body));
 
     }).catch(function (err: any) {
-      DbCrudOperations.saveRecord(Common.createFluidDbObject(options, err));
+      DbCrudOperations.saveRecord(Common.createFluidDbObject(options, err, EnumResultType.fail));
       Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortNTUCreationError, err, body));
     })
 
@@ -462,12 +463,12 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
     let result;
     await httppromise(options).then(function (response: any) {
       result = response;
-      DbCrudOperations.saveRecord(Common.createFluidDbObject(options, response));
+      DbCrudOperations.saveRecord(Common.createFluidDbObject(options, response, EnumResultType.success));
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortNTUPortCreationSuccess, response, body));
 
     }).catch(function (err: any) {
 
-      DbCrudOperations.saveRecord(Common.createFluidDbObject(options, err));
+      DbCrudOperations.saveRecord(Common.createFluidDbObject(options, err, EnumResultType.fail));
       Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortNTUPortCreationError, err, body));
     })
 
@@ -535,12 +536,12 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
     await httppromise(options).then(function (response: any) {
       activePortServiceRequest.uuid = response.uuid;
       result = response;
-      DbCrudOperations.saveRecord(Common.createFluidDbObject(options, response));
+      DbCrudOperations.saveRecord(Common.createFluidDbObject(options, response, EnumResultType.success));
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortValidateServiceRequestSuccess, response, body));
 
     }).catch(function (err: any) {
 
-      DbCrudOperations.saveRecord(Common.createFluidDbObject(options, err));
+      DbCrudOperations.saveRecord(Common.createFluidDbObject(options, err, EnumResultType.fail));
       Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortValidateServiceRequestError, err, body));
     })
     return result;
@@ -570,12 +571,12 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
     let result;
     await httppromise(options).then(function (response: any) {
       result = response;
-      DbCrudOperations.saveRecord(Common.createFluidDbObject(options, response));
+      DbCrudOperations.saveRecord(Common.createFluidDbObject(options, response, EnumResultType.success));
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortCreateServiceRequestSuccess, response, body));
 
     }).catch(function (err: any) {
 
-      DbCrudOperations.saveRecord(Common.createFluidDbObject(options, err));
+      DbCrudOperations.saveRecord(Common.createFluidDbObject(options, err, EnumResultType.fail));
       Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortCreateServiceRequestError, err, body));
     })
 

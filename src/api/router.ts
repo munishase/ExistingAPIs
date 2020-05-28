@@ -501,24 +501,14 @@ class Router {
 
 
     router.post('/addnewcircuit', (req, res) => {
-      if (!req.body.name) {
+      if (!req.body.virtualNetworkName) {
         return res.status(400).send({
-          message: 'name is required.'
+          message: 'virtualNetworkName is required.'
         });
       }
       else if (!req.body.owner) {
         return res.status(400).send({
           message: 'owner is required.'
-        });
-      }
-      else if (!req.body.state) {
-        return res.status(400).send({
-          message: 'state is required.'
-        });
-      }
-      else if (!req.body.provisioning) {
-        return res.status(400).send({
-          message: 'provisioning is required.'
         });
       }
       else if (!req.body.sites) {
@@ -536,42 +526,6 @@ class Router {
           message: 'gateways is required.'
         });
       }
-      else if (!req.body.members) {
-        return res.status(400).send({
-          message: 'members is required.'
-        });
-      }
-      else if (!req.body.mac_address) {
-        return res.status(400).send({
-          message: 'mac_address is required.'
-        });
-      }
-      else if (!req.body.sites_id) {
-        return res.status(400).send({
-          message: 'sites_id is required.'
-        });
-      }
-      else if (!req.body.sites_name) {
-        return res.status(400).send({
-          message: 'sites_name is required.'
-        });
-      }
-      else if (!req.body.tenants_id) {
-        return res.status(400).send({
-          message: 'tenants_id is required.'
-        });
-      }
-      else if (!req.body.tenants_name) {
-        return res.status(400).send({
-          message: 'tenants_name is required.'
-        });
-      }
-      else if (!req.body.circuitTenants) {
-        return res.status(400).send({
-          message: 'circuitTenants is required.'
-        });
-      }
-
       return ServicesWrapper.addnewcircuitforxcloud(req.body, res);
     });
 
@@ -830,6 +784,15 @@ class Router {
       //initiate session for new uuid
       this.initiateSession(EnumAPIs.createclouddxasync);
       return ServicesWrapper.createawscircuitasync(req.body, res);
+    });
+
+
+    //fluid
+    router.post('/createcircuitasync', (req, res) => {
+
+      //initiate session for new uuid
+      this.initiateSession(EnumAPIs.createsubnetasync);
+      return ServicesWrapper.createcircuitasync(req.body, res);
     });
 
     server.use('/', router);

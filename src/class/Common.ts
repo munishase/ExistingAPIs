@@ -2,6 +2,7 @@ import { EnumPartOf } from '../Enum/EnumPartOf'
 import { Logger } from './Logger'
 import { EnumModule } from '../Enum/EnumModule';
 import { EnumSessionForEachRequest } from '../Enum/EnumSessionForEachRequest';
+import { EnumResultType } from '../Enum/EnumResultType';
 var sessionstorage = require('sessionstorage');
 const { v4: uuidv4 } = require('uuid');
 
@@ -97,10 +98,11 @@ class Common {
     }
 
 
-    createFluidDbObject(request: any, response: any) {
+    createFluidDbObject(request: any, response: any, resultType: EnumResultType) {
         return {
             "uuid": sessionstorage.getItem(EnumSessionForEachRequest.UUID),
             "ApiName": sessionstorage.getItem(EnumSessionForEachRequest.ApiName),
+            "result": resultType,
             "module":"FLUID",
             "Request": request,
             "Response": response

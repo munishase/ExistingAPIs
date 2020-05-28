@@ -104,6 +104,51 @@
           }
         }
       }
+    },
+    "/createcircuitasync": {
+      "post": {
+        "tags": [
+          "FLUID"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCircuitInputParams"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Subnet has been created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RetrieveSwitchPortOutputParams"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Some issue occured while configuring AWS DX",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessRequestFailureOutputParams"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have necessary permissions for the resource"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -380,6 +425,117 @@
           },
           "site_id": {
             "type": "integer",
+            "uniqueItems": true
+          }
+        }
+      },
+      "CreateCircuitInputParams": {
+        "type": "object",
+        "required": [
+          "cidr",
+          "selectedTenant",
+          "selectedSite",
+          "virtualNetworkName",
+          "owner",
+          "tenants",
+          "sites",
+          "gateways"
+        ],
+        "properties": {
+          "cidr": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "selectedTenant": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "selectedSite": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "virtualNetworkName": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "owner": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "tenants": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "uniqueItems": true
+          },
+          "sites": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "uniqueItems": true
+          },
+          "gateways": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CreateCircuitGatewayInputParams"
+            },
+            "uniqueItems": true
+          }
+        }
+      },
+      "CreateCircuitGatewayInputParams": {
+        "type": "object",
+        "required": [
+          "gateway",
+          "gw_length",
+          "version",
+          "nos",
+          "reservedIps",
+          "switchIds"
+        ],
+        "properties": {
+          "gateway": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "gw_length": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "version": {
+            "type": "string",
+            "uniqueItems": true,
+            "default": "ipv4"
+          },
+          "nos": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "reservedIps": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CreateCircuitGatewayReservedIpsInputParams"
+            }
+          },
+          "switchIds": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "uniqueItems": true
+          }
+        }
+      },
+      "CreateCircuitGatewayReservedIpsInputParams": {
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
             "uniqueItems": true
           }
         }

@@ -111,6 +111,8 @@ class Constants {
      readonly XcloudValidateCircuitURL: string = "/api/circuit/validate";
      readonly XcloudSwitchPortURL: string = "/api/switchports";
      readonly XcloudEbgpURL: string = "/api/ebgp";
+     readonly XcloudSubnetURL: string = "/api/subnets";
+     
 
      readonly XcloudAuthSuccess: string = "Xcloud Authorization completed";
      readonly XcloudTokenRemovedSuccess: string = "Xcloud cookie removed successfully";
@@ -122,6 +124,7 @@ class Constants {
      readonly XcloudCreateNTUSuccess: string = "Xcloud NTU created successfully";
      readonly XcloudGetSwitchPortSuccess: string = "Xcloud switch port retrieved successfully";
      readonly XcloudCreateEbgpSuccess: string = "Xcloud Ebgp added successfully";
+     readonly XcloudCreateSubnetSuccess: string = "Xcloud Subnet added successfully";
 
      readonly XcloudAuthError: string = "Xcloud Authorization failure";
      readonly XcloudTokenRemovedFailure: string = "Xcloud cookie removed failure";
@@ -134,6 +137,7 @@ class Constants {
      readonly XcloudGetSwitchPortError: string = "Xcloud switch port retrieval failure";
      readonly XcloudNoSwitchPortError: string = "No switch port found with the id";
      readonly XcloudCreateEbgpError: string = "Xcloud Ebgp added failure";
+     readonly XcloudCreateSubnetError: string = "Xcloud Subnet added failure";
 
 
 

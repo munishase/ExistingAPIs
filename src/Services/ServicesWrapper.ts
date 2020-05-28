@@ -11,6 +11,7 @@ import DataikuHttpRequests from './DataikuHttpRequests';
 import XcloudHttpRequests from './XcloudHttpRequests';
 import { ActivePortNTUandNTUPortCreationSuccessResponse } from '../class/Response/ActivePortNTUandNTUPortCreationSuccessResponse';
 import { GroupedResults } from '../class/Response/GroupedResults';
+import { EnumXcloudSubnetType } from '../Enum/EnumXcloudSubnetType';
 
 
 // this class is wrapper to call other services methods
@@ -331,9 +332,40 @@ class ServicesWrapper {
                 "XcloudEbgpResponse": xcloudEbgpCreationResponse
             }, webResponse, EnumPartOf.Group);
         }
+    }
 
+    //fluid
+    async createcircuitasync(requestBody: any, webResponse: any) {
+        Logger.cleanLogs();
+        let results: any[] = [];
 
+        let xcloudSubnetCreationResponse = await XcloudHttpRequests.addSubnetforxcloudAllocationAndAssignment(requestBody);
+        let xcloudCircuitCreationResponse;
 
+        if (Logger.hasErrorLogs()) {
+            //error while creating subnet
+            return Common.beautifyResult(xcloudSubnetCreationResponse, webResponse, EnumPartOf.Individual);
+        } 
+        else {
+            Common.pushtoCollectionResult(results, xcloudSubnetCreationResponse);
+
+            //create xcloud circuit
+            xcloudCircuitCreationResponse = await XcloudHttpRequests.addnewcircuitforxcloud(requestBody);
+            Common.pushtoCollectionResult(results, xcloudCircuitCreationResponse);
+        }
+
+        //check if there is any error then it should return whole result, otherwise it should simplify the result.
+        if (Logger.hasErrorLogs() == false) {
+            let result = {
+                "xcloudSubnet": xcloudSubnetCreationResponse,
+                "xcloudCircuit": xcloudCircuitCreationResponse
+            };
+            return Common.beautifyResult(result, webResponse, EnumPartOf.Group);
+        }
+        else {
+            //in case of error want to observe whole response
+            return Common.beautifyResult(results, webResponse, EnumPartOf.Group);
+        }
 
     }
 }

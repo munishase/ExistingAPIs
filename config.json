@@ -104,7 +104,7 @@
       "ExpiresIn": "12h"
     },
     "database": {
-      "enabled": true,
+      "enabled": false,
       "urlprefix":"mongodb://",
       "url": "113.29.246.14:27017",
       "username": "admin",
@@ -217,7 +217,7 @@
       "ExpiresIn": "12h"
     },
     "database": {
-      "enabled": true,
+      "enabled": false,
       "urlprefix":"mongodb://",
       "url": "113.29.246.14:27017",
       "username": "admin",
