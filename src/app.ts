@@ -4,7 +4,7 @@ import swaggerUi from 'swagger-ui-express';
 import * as mainSwaggerDocument from '../swagger/openapi.json';
 import * as fluidSwaggerDocument from '../swagger/openapi_fluid.json';
 import * as bodyParser from 'body-parser';
-var cors = require('cors');
+const cors = require('cors');
 const config = require('../config.json');
 
 class App {

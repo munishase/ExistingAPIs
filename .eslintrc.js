@@ -20,6 +20,7 @@ module.exports = {
         "node/prefer-global/url": ["error", "always"],
         "node/prefer-promises/dns": "error",
         "node/prefer-promises/fs": "error",
-        "node/no-unsupported-features/es-syntax": "off"
+        "node/no-unsupported-features/es-syntax": "off",
+        "node/no-missing-import": "off"
     }
 };
