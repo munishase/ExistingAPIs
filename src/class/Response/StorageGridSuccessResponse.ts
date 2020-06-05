@@ -19,7 +19,6 @@ export class StorageGridSuccessResponse extends BaseResponse {
         this.tenantaccountid = storageGrid.Tenant.AccountId;
         this.tenantaccesskey = storageGrid.Tenant.AccessKey;
         this.tenantsecretaccesskey = storageGrid.Tenant.SecretAccessKey;
-        return this;
     }
 }
 

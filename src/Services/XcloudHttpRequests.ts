@@ -19,7 +19,7 @@ import DbCrudOperations from './DbCrudOperations';
 import { XcloudSubnet } from '../class/XcloudSubnet';
 import { EnumResultType } from '../Enum/EnumResultType';
 import { EnumXcloudSubnetType } from '../Enum/EnumXcloudSubnetType';
-const uuidv1 = require('uuid/v1');
+const uuidv1 = require('uuid');
 
 export class XcloudHttpRequests extends XcloudBaseLayer {
 

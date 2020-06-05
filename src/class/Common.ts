@@ -3,18 +3,17 @@ import { Logger } from './Logger'
 import { EnumModule } from '../Enum/EnumModule';
 import { EnumSessionForEachRequest } from '../Enum/EnumSessionForEachRequest';
 import { EnumResultType } from '../Enum/EnumResultType';
-var sessionstorage = require('sessionstorage');
-const { v4: uuidv4 } = require('uuid');
+import sessionstorage from 'sessionstorage';
 
 //this class will contain all the functions, used commonly throughout the application
 class Common {
 
     //generate random password with length as input param
     randomPassword(length: number): string {
-        var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-        var pass = "";
-        for (var x = 0; x < length; x++) {
-            var i = Math.floor(Math.random() * chars.length);
+        const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        let pass = "";
+        for (let x = 0; x < length; x++) {
+            const i = Math.floor(Math.random() * chars.length);
             pass += chars.charAt(i);
         }
         return pass;
@@ -22,9 +21,9 @@ class Common {
 
     //return current datetime with a format
     currentDatetime(): string {
-        let today = new Date();
-        let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-        let time = "H" + today.getHours() + "M" + today.getMinutes() + "S" + today.getSeconds();
+        const today = new Date();
+        const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+        const time = "H" + today.getHours() + "M" + today.getMinutes() + "S" + today.getSeconds();
 
         return date + '#' + time;
     }
@@ -58,8 +57,8 @@ class Common {
                 return this.beautifySuccess(result, webResponse)
             //if mixed result
             else {
-                let errorModules: EnumModule[] = Logger.getErrorModuleNames();
-                let finalResult: any = [];
+                const errorModules: EnumModule[] = Logger.getErrorModuleNames();
+                const finalResult: any = [];
 
                 //find the error logs
                 for (let counter = 0; counter < errorModules.length; counter++)
@@ -89,7 +88,7 @@ class Common {
     }
 
     jsonToStringWithEscapeCharacter(jsonobject: any) {
-        var myJSONString = JSON.stringify(jsonobject, null, 0);
+        const myJSONString = JSON.stringify(jsonobject, null, 0);
         console.log(JSON.stringify(JSON.stringify(jsonobject, null, 0)))
         return  JSON.stringify(myJSONString)//.slice(1, -1) ;
         //return "\"" + JSON.stringify(myJSONString).slice(1, -1) + "\"";

@@ -1,37 +1,18 @@
-//const config = require('../config.json');
 import { Authentication } from './Authentication'
+import { Request, Response, NextFunction } from 'express';
 
 export class AuthenticationMiddleware {
 
-    constructor() { }
+    verifyAuthentication(req: Request, res: Response, next: NextFunction): void {
+        // console.log(req.query);
+        const bypassUrls = ['/authenticate', 'swagger'];
+        const isBypassUrl = bypassUrls.find((url) => (req.url || "").includes(url));
 
-    verifyAuthentication(req: any, res: any, next: any) {
-        console.log(req.query)
-        let doNotSecureUrls: string[] = ['/authenticate', 'swagger'];
-        let secureUrl: Boolean = false;
-        doNotSecureUrls.forEach(function (item, index) {
-            if (req.url.indexOf(item) >= 0) {
-                secureUrl = true;
-
-            }
-        });
-
-        if (secureUrl == true || new Authentication().verifyAuthentication(req.header('token')) == true) {
+        if (isBypassUrl || new Authentication().verifyAuthentication(req.header('token'))) {
             next();
-        }
-        else
+        } else {
             throw 'Invalid Login credentials';
-    }
-
-    
-    private doNotSecureUrls(requestedUrl: string) {
-
-        let doNotSecureUrls: string[] = ['/authenticate', 'swagger'];
-        doNotSecureUrls.forEach(function (item, index) {
-            if (requestedUrl.indexOf(item) >= 0)
-                return true;
-        });
-        return false;
+        }
     }
 
 }

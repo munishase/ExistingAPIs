@@ -13,8 +13,6 @@ export class StitchdataAccountCreationSuccessResponse extends StitchdataCreateAc
         this.LastName = stitchdataCreateAccount.LastName;
         this.Company = stitchdataCreateAccount.Company;
         this.Email = stitchdataCreateAccount.Email;
-
-        return this;
     }
 }
 

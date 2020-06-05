@@ -9,7 +9,6 @@ export class ActivePortTenantRetrieveSuccessResponse extends BaseResponse {
         super();
         this.module = EnumModule.ActivePort;
         this.ActivePortTenants = activeportTenants;
-        return this;
     }
 }
 

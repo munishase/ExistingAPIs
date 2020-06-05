@@ -1,6 +1,6 @@
 import { Log } from './Log'
 import { EnumCurrentStatus } from '../Enum/EnumCurrentStatus'
-const uuidv1 = require('uuid/v1');
+const uuidv1 = require('uuid');
 const fs = require('fs');
 import Common from './Common'
 import { EnumModule } from '../Enum/EnumModule';

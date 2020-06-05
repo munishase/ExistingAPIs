@@ -1,36 +1,19 @@
 export class Veeam {
-    Id: string;
-    Name: string;
-    Username: string;
-    Password: string;
-    BackupProtectionEnabled: boolean;
-    BackupProtectionPeriod: number;
-    MaxConcurrentTask: number;
-    VMsBackedUp: number;
-    VMsBackedUpToCloud: number;
-    ManagedPhysicalServers: number;
-    CloudConnectAgentUid: string;
-    ExpirationEnabled: boolean;
+    // input from other sources like netsuite
+    Id = "";
+    Name = "";
+    Username = "";
+    Password = "";
 
-    constructor() {
-        //inpit from other sources like netsuite
-        this.Id = "";
-        this.Name = "";
-        this.Username = "";
-        this.Password = "";
+    // below are default values for Veeam and need to be set from config 
+    BackupProtectionEnabled = false;
+    BackupProtectionPeriod = 0;
+    MaxConcurrentTask = 0;
+    CloudConnectAgentUid = "";
+    ExpirationEnabled = false;
 
-        //below are default values for Veeam and need to be set from config 
-        this.BackupProtectionEnabled = false;
-        this.BackupProtectionPeriod = 0;
-        this.MaxConcurrentTask = 0;
-        this.CloudConnectAgentUid = "";
-        this.ExpirationEnabled = false;
-        //
-
-        //below inputs will be provided by user
-        this.VMsBackedUp = 0;
-        this.VMsBackedUpToCloud = 0;
-        this.ManagedPhysicalServers = 0;
-    }
+    // below inputs will be provided by user
+    VMsBackedUp = 0;
+    VMsBackedUpToCloud = 0;
+    ManagedPhysicalServers = 0;
 }
-

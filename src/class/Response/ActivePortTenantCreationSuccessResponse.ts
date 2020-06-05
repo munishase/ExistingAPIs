@@ -18,8 +18,6 @@ export class ActivePortTenantCreationSuccessResponse extends BaseResponse {
         this.name = activeportTenant.name;
         this.tenantId = activeportTenant.tenantId;
         this.tiles = activeportTenant.tiles;
-        
-        return this;
     }
 }
 

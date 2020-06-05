@@ -22,8 +22,8 @@ export class ActivePortNTUandNTUPortCreationSuccessResponse extends BaseResponse
         super();
 
         //extract seperate NTU and NTU response and assign to simplify response 
-        let activeportNtuResponse = (activeportNTUandNTUPortResponse[0].module == "ActivePort - NTU") ? activeportNTUandNTUPortResponse[0] : activeportNTUandNTUPortResponse[1];
-        let activeportNtuPortResponse = (activeportNTUandNTUPortResponse[0].module == "ActivePort - NTU Port") ? activeportNTUandNTUPortResponse[0] : activeportNTUandNTUPortResponse[1];
+        const activeportNtuResponse = (activeportNTUandNTUPortResponse[0].module == "ActivePort - NTU") ? activeportNTUandNTUPortResponse[0] : activeportNTUandNTUPortResponse[1];
+        const activeportNtuPortResponse = (activeportNTUandNTUPortResponse[0].module == "ActivePort - NTU Port") ? activeportNTUandNTUPortResponse[0] : activeportNTUandNTUPortResponse[1];
         
         this.module = EnumModule.fluid;
         this.ntuId = activeportNtuResponse.ntuId;
@@ -41,7 +41,6 @@ export class ActivePortNTUandNTUPortCreationSuccessResponse extends BaseResponse
         this.portSpeed = activeportNtuPortResponse.portSpeed;
         this.portType = activeportNtuPortResponse.portType;
         this.trunk = activeportNtuPortResponse.trunk;
-        return this;
     }
 }
 

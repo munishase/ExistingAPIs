@@ -28,8 +28,6 @@ export class ActivePortNTUPortCreationSuccessResponse extends ActivePortNTUPort 
         this.orgId = result.orgId;
         this.orgName = result.orgName;
         this.tenantId = result.tenantId;
-        
-        return this;
     }
 }
 

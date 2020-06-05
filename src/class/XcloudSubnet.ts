@@ -1,27 +1,15 @@
 export class XcloudSubnet {
-    module: string;
-    assignmentId: number;
-    allocationId: number;
-    name: string;
-    cidr: string;
-    selectedSite: number;
-    selectedTenant: string;
-    selectedType: string;
-    ipVersion: string;
-    
-    constructor() {
-        this.module = "xcloudSubnet";
-        this.assignmentId = 0;
-        this.allocationId = 0;
-        this.name = "";
-        this.cidr = "";
-        this.selectedSite = 0;
-        this.selectedTenant = "";
-        this.selectedType = "";
-        this.ipVersion = "IPv4";
-    }
+    module = "xcloudSubnet";
+    assignmentId = 0;
+    allocationId = 0;
+    name = "";
+    cidr = "";
+    selectedSite = 0;
+    selectedTenant = "";
+    selectedType = "";
+    ipVersion = "IPv4";
 
-    convertToXcloudSubnetObject(xcloudSubnetObject: any): XcloudSubnet{
+    convertToXcloudSubnetObject(xcloudSubnetObject: XcloudSubnet): XcloudSubnet {
         this.module = "xcloudSubnet";
         this.assignmentId = xcloudSubnetObject.assignmentId;
         this.allocationId = xcloudSubnetObject.allocationId;
