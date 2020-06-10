@@ -14,12 +14,9 @@
   "license": "ASE IT POC",
   "type": "commonjs",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=12.18.0"
   },
   "dependencies": {
-    "@types/express": "^4.17.6",
-    "@types/node": "14.0.10",
-    "@types/swagger-ui-express": "^4.1.2",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
@@ -37,7 +34,13 @@
     "@babel/core": "^7.10.2",
     "@babel/preset-env": "^7.10.2",
     "@types/cors": "^2.8.6",
+    "@types/express": "^4.17.6",
     "@types/jsonwebtoken": "^8.5.0",
+    "@types/mongodb": "^3.5.20",
+    "@types/node": "^12.0.0",
+    "@types/request": "^2.48.5",
+    "@types/request-promise": "^4.1.46",
+    "@types/swagger-ui-express": "^4.1.2",
     "@types/uuid": "^8.0.0",
     "@typescript-eslint/eslint-plugin": "^3.1.0",
     "@typescript-eslint/parser": "^3.1.0",
@@ -47,12 +50,5 @@
     "ts-loader": "^7.0.5",
     "ts-node-dev": "^1.0.0-pre.44",
     "typescript": "^3.9.3"
-  },
-  "browser": {
-    "colors": false,
-    "events": "eventemitter3",
-    "checkForModuleDuplicates": false,
-    "url": "./shims/url",
-    "tracer": false
   }
 }
