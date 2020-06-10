@@ -1,4 +1,4 @@
-const config = require('../../config.json');
+import config from '../../config.json';
 
 //this baselayer is used to inherit all common things for entire application
 export class BaseLayer {

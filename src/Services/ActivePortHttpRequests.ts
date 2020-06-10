@@ -1,5 +1,5 @@
-const httppromise = require('request-promise');
-var sessionstorage = require('sessionstorage');
+import httppromise from 'request-promise';
+import sessionstorage from 'sessionstorage';
 import { Log } from '../class/Log'
 import { Logger } from '../class/Logger'
 import { EnumCurrentStatus } from '../Enum/EnumCurrentStatus'
@@ -17,7 +17,6 @@ import { ActivePortNTU } from '../class/ActivePortNTU';
 import { ActivePortNTUPort } from '../class/ActivePortNTUPort';
 import { ActivePortNTUPortCreationSuccessResponse } from '../class/Response/ActivePortNTUPortCreationSuccessResponse'
 import { ActivePortServiceRequest } from '../class/ActivePortServiceRequest';
-import { EnumPartOf } from '../Enum/EnumPartOf';
 import DbCrudOperations from './DbCrudOperations';
 import { EnumResultType } from '../Enum/EnumResultType';
 
@@ -164,7 +163,7 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
     }
 
     return new ActivePortNtuRetrieveSuccessResponse(this.activePort.ActivePortNTU);
-  };
+  }
 
   //Here we are retriving ntu by id
   //prerequisite: ActivePort Token in Header
@@ -193,7 +192,6 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
 
     return new ActivePortNtuRetrieveSuccessResponse(this.activePort.ActivePortNTU);
   }
-
 
   //Here we are updating NTU
   //prerequisite: ActivePort Token in Header
@@ -268,19 +266,17 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
       json: true
     };
 
-    const self = this;
-    await httppromise(options).then(function (response: any) {
+    try {
+      const response = await httppromise(options);
       activePortNTU.id = response.id
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortTenantAccountCreationSuccess, response, body));
-
-    }).catch(function (err: any) {
+    } catch (err) {
       Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortTenantAccountCreationError, err, body));
-    })
+    }
 
     return new ActivePortNTUCreationSuccessResponse(activePortNTU);
 
-  };
-
+  }
 
   //Here we are creating NTU
   //prerequisite: ActivePort Token in Header
@@ -353,20 +349,18 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
     };
 
 
-    const self = this;
-    await httppromise(options).then(function (response: any) {
+    try {
+      const response = await httppromise(options);
       activePortNTU.id = response.id
       DbCrudOperations.saveRecord(Common.createFluidDbObject(options, response, EnumResultType.success));
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortNTUCreationSuccess, response, body));
-
-    }).catch(function (err: any) {
+    } catch (err) {
       DbCrudOperations.saveRecord(Common.createFluidDbObject(options, err, EnumResultType.fail));
       Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortNTUCreationError, err, body));
-    })
+    }
 
     return new ActivePortNTUCreationSuccessResponse(activePortNTU);
-
-  };
+  }
 
   //Here we are retriving ntu by id
   //prerequisite: ActivePort Token in Header
@@ -384,17 +378,16 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
       json: true
     };
 
-    const self = this;
-    await httppromise(options).then(function (response: any) {
-      self.activePort.ActivePortNTU = response;
+    try {
+      const response = await httppromise(options);
+      this.activePort.ActivePortNTU = response;
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortTenantAccountDeletionSuccess, response, ''));
-    }).catch(function (err: any) {
-
+    } catch (err) {
       Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortTenantAccountDeletionError, err, ''));
-    })
+    }
 
     return new ActivePortNtuRetrieveSuccessResponse(this.activePort.ActivePortNTU);
-  };
+  }
 
 
   //Here we are creating NTU Port
@@ -441,24 +434,18 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
       json: true
     };
 
-
-    const self = this;
-    let result;
-    await httppromise(options).then(function (response: any) {
-      result = response;
+    try {
+      const response = await httppromise(options);
       DbCrudOperations.saveRecord(Common.createFluidDbObject(options, response, EnumResultType.success));
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortNTUPortCreationSuccess, response, body));
 
-    }).catch(function (err: any) {
-
+      if (response != undefined)
+        return new ActivePortNTUPortCreationSuccessResponse(activePortNTUPort, response);
+    } catch (err) {
       DbCrudOperations.saveRecord(Common.createFluidDbObject(options, err, EnumResultType.fail));
       Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortNTUPortCreationError, err, body));
-    })
-
-    if (result != undefined)
-      return new ActivePortNTUPortCreationSuccessResponse(activePortNTUPort, result);
-  };
-
+    }
+  }
 
   //Here we are creating validateServiceRequest
   //prerequisite: ActivePort Token in Header
@@ -510,24 +497,16 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
       json: true
     };
 
-
-    const self = this;
-    let result;
-
-
-
-    await httppromise(options).then(function (response: any) {
+    try {
+      const response = await httppromise(options);
       activePortServiceRequest.uuid = response.uuid;
-      result = response;
       DbCrudOperations.saveRecord(Common.createFluidDbObject(options, response, EnumResultType.success));
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortValidateServiceRequestSuccess, response, body));
-
-    }).catch(function (err: any) {
-
+      return response;
+    } catch (err) {
       DbCrudOperations.saveRecord(Common.createFluidDbObject(options, err, EnumResultType.fail));
       Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortValidateServiceRequestError, err, body));
-    })
-    return result;
+    }
 
   }
 
@@ -550,22 +529,18 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
       json: true
     };
 
-    const self = this;
-    let result;
-    await httppromise(options).then(function (response: any) {
-      result = response;
+    try {
+      const response = await httppromise(options);
       DbCrudOperations.saveRecord(Common.createFluidDbObject(options, response, EnumResultType.success));
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortCreateServiceRequestSuccess, response, body));
-
-    }).catch(function (err: any) {
-
+      return response;
+    } catch (err) {
       DbCrudOperations.saveRecord(Common.createFluidDbObject(options, err, EnumResultType.fail));
       Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortCreateServiceRequestError, err, body));
-    })
-
-    return result;
+    }
 
   }
+
 }
 
 

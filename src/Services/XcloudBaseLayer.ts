@@ -1,7 +1,6 @@
 import { BaseLayer } from './BaseLayer';
-const request = require('request');
-const httppromise = require('request-promise');
-var sessionstorage = require('sessionstorage');
+import request from 'request';
+import sessionstorage from 'sessionstorage';
 import { Log } from '../class/Log'
 import { Logger } from '../class/Logger'
 import { EnumCurrentStatus } from '../Enum/EnumCurrentStatus'
@@ -15,15 +14,15 @@ export class XcloudBaseLayer extends BaseLayer {
         super();
     }
 
-    baseUrl(url: string) {
+    baseUrl(url: string): string {
         return this.environmentConfig.Xcloud.Urls.BaseUrl + url;
     }
 
     //Generate new Token for Xcloud
     private generateXcloudToken() {
-        let body = "user=" + this.environmentConfig.Xcloud.Username + "&password=" + this.environmentConfig.Xcloud.Password + "&auth_scheme_id=" + this.environmentConfig.Xcloud.auth_scheme_id;
+        const body = "user=" + this.environmentConfig.Xcloud.Username + "&password=" + this.environmentConfig.Xcloud.Password + "&auth_scheme_id=" + this.environmentConfig.Xcloud.auth_scheme_id;
 
-        let options = {
+        const options = {
             url: this.baseUrl(Constants.XcloudAuthURL),
             method: 'POST',
             'headers': {
@@ -33,12 +32,12 @@ export class XcloudBaseLayer extends BaseLayer {
         };
 
         return options;
-    };
+    }
 
     //Check if Xcloud token already exists otherwise it will generate new Token for Xcloud
-    protected async authorizeXcloudGrid() {
+    protected async authorizeXcloudGrid(): Promise<any> {
 
-        let options = this.generateXcloudToken();
+        const options = this.generateXcloudToken();
         return new Promise((resolve, reject) => {
             request(options, function (error: any, response: any) {
                 if (error) {
@@ -46,7 +45,7 @@ export class XcloudBaseLayer extends BaseLayer {
                     throw new Error(error);
                 }
                 else {
-                    let cookie = ((response.headers["set-cookie"]).toString()).split(";")[0];
+                    const cookie = ((response.headers["set-cookie"]).toString()).split(";")[0];
                     sessionstorage.setItem(EnumToken.XcloudCookie, cookie)
                     return resolve({ connect_sid: cookie })
                 }
@@ -56,7 +55,7 @@ export class XcloudBaseLayer extends BaseLayer {
     }
 
     //isAuthorized token
-    protected async isAuthorized() {
+    protected async isAuthorized(): Promise<boolean> {
         sessionstorage.removeItem(EnumToken.XcloudCookie);
         if (await Logger.hasErrorLogs() == true)
             return false;
@@ -67,7 +66,7 @@ export class XcloudBaseLayer extends BaseLayer {
     }
 
     //remove token
-    protected removeToken() {
+    protected removeToken(): void {
         try {
             sessionstorage.removeItem(EnumToken.XcloudCookie);
             Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Xcloud, Constants.XcloudTokenRemovedSuccess, "", ""))

@@ -782,7 +782,7 @@ class Router {
     server.use('/', router);
   }
 
-  initiateSession(apiname: string) {
+  initiateSession(apiname: string): void {
     if (sessionstorage.getItem(EnumSessionForEachRequest.UUID) != null)
       sessionstorage.removeItem(EnumSessionForEachRequest.UUID);
 

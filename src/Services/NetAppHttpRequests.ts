@@ -1,5 +1,4 @@
-const httppromise = require('request-promise');
-var sessionstorage = require('sessionstorage');
+import httppromise from 'request-promise';
 import { Log } from '../class/Log'
 import { Logger } from '../class/Logger'
 import { EnumCurrentStatus } from '../Enum/EnumCurrentStatus'
@@ -21,36 +20,33 @@ class NetAppHttpRequests extends NetAppBaseLayer {
     if (await this.isNetAppAuthorized() == false)
       return;
 
-    let options = {
+    const options = {
       url: this.baseUrl(Constants.NetAppClusters),
       method: 'GET',
       headers: this.netAppHeader(),
       json: true
     };
 
-    let self = this;
-    let result;
-    await httppromise(options).then(function (response: any) {
-      result = response;
+    try {
+      const response = await httppromise(options);
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.NetApp, Constants.NetAppClusterRetrievalSuccess, response, ''));
-    }).catch(function (err: any) {
-
+      return new NetAppClustersRetrievalSuccessResponse(response);
+    } catch (err) {
       Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.NetApp, Constants.NetAppClusterRetrievalFailure, err, ''));
-    })
+    }
 
-    return new NetAppClustersRetrievalSuccessResponse(result);
-  };
+  }
 
-   //Here we are creating new NKS cluster
+  //Here we are creating new NKS cluster
   //prerequisite: NetApp Token in Header
   async createNKSCluster(requestBody: any) {
 
     if (await this.isNetAppAuthorized() == false)
       return;
 
-    let body = requestBody;
+    const body = requestBody;
 
-    let options = {
+    const options = {
       url: this.baseUrl(Constants.NetAppClusters),
       method: 'POST',
       headers: this.netAppHeader(),
@@ -58,49 +54,41 @@ class NetAppHttpRequests extends NetAppBaseLayer {
       json: true
     };
 
-    let self = this;
-    let result;
-    
-    await httppromise(options).then(function (response: any) {
-      result = response;
+    try {
+      const response = await httppromise(options);
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.NetApp, Constants.NetAppClusterCreationSuccess, response, ''));
-    }).catch(function (err: any) {
-
+      return new NetAppClustersRetrievalSuccessResponse(response);
+    } catch (err) {
       Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.NetApp, Constants.NetAppClusterCreationFailure, err, ''));
-    })
+    }
 
-    return new NetAppClustersRetrievalSuccessResponse(result);
-  };
+  }
 
 
-   //Here we are deleting NKS cluster
+  //Here we are deleting NKS cluster
   //prerequisite: NetApp Token in Header
   async deleteNKSCluster(param: any) {
 
     if (await this.isNetAppAuthorized() == false)
       return;
 
-    let options = {
+    const options = {
       url: this.baseUrl(Constants.NetAppClusters + "/" + param.clusterid),
       method: 'DELETE',
       headers: this.netAppHeader(),
       json: true
     };
 
-    let self = this;
-    let result;
-    
-    await httppromise(options).then(function (response: any) {
-      result = response;
+    try {
+      const response = await httppromise(options);
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.NetApp, Constants.NetAppClusterDeletionSuccess, response, ''));
-    }).catch(function (err: any) {
-
+      return new NetAppClustersRetrievalSuccessResponse(response);
+    } catch (err) {
       Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.NetApp, Constants.NetAppClusterDeletionFailure, err, ''));
-    })
+    }
 
-    return new NetAppClustersRetrievalSuccessResponse(result);
-  };
+  }
+
 }
-
 
 export default new NetAppHttpRequests();

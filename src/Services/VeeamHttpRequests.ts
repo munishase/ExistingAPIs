@@ -1,6 +1,6 @@
 import { Veeam } from '../class/Veeam';
-const httppromise = require('request-promise');
-var sessionstorage = require('sessionstorage');
+import httppromise from 'request-promise';
+import sessionstorage from 'sessionstorage';
 import { Log } from '../class/Log'
 import { Logger } from '../class/Logger'
 import { EnumCurrentStatus } from '../Enum/EnumCurrentStatus'
@@ -18,9 +18,9 @@ export class VeeamHttpRequests extends VeeamBaseLayer {
     }
 
     //Check if Veeam token already exists otherwise it will generate new Token for Veeam
-    async createVeeamWithStoragegrid(veeam: Veeam) {
+    async createVeeamWithStoragegrid(veeam: Veeam): Promise<void> {
 
-        let body = {
+        const body = {
             "name": this.veeam.Name,
             "userName": this.veeam.Username,
             "password": this.veeam.Password,
@@ -32,9 +32,9 @@ export class VeeamHttpRequests extends VeeamBaseLayer {
             "managedPhysicalServers": this.veeam.ManagedPhysicalServers,
             "cloudConnectAgentUid": this.veeam.CloudConnectAgentUid,
             "expirationEnabled": this.veeam.ExpirationEnabled
-        }
+        };
 
-        let options = {
+        const options = {
             url: this.baseUrl(Constants.VeeamTenantURL),
             method: 'POST',
             headers: {
@@ -45,16 +45,20 @@ export class VeeamHttpRequests extends VeeamBaseLayer {
             json: true
         };
 
-        return httppromise(options).then(function (response: any) {
+        try {
+            const response = await httppromise(options);
             veeam.Id = response.id;
             Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Veeam, Constants.VeeamAccountCreationSuccess, response, body));
-        }).catch(function (err: any) {
+        } catch (err) {
             Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Veeam, Constants.VeeamAccountCreationError, err, body));
-        }).finally(() => this.removeToken());
+        } finally {
+            this.removeToken()
+        }
+
     }
 
     //async createVeeamWithStoragegridAsync(netSuite: NetsuiteSuccessResponse, RequestBody: any, webResponse: any) {
-    async createVeeamWithStoragegridAsync(netSuite: any, RequestBody: any, webResponse: any) {
+    async createVeeamWithStoragegridAsync(netSuite: any, RequestBody: any, webResponse: any): Promise<unknown> {
 
         //if veeam authentication is incorrect
         if (await this.isAuthorized() == false)
@@ -67,11 +71,11 @@ export class VeeamHttpRequests extends VeeamBaseLayer {
         this.veeam.VMsBackedUpToCloud = RequestBody.vmsbackeduptocloud;
         this.veeam.ManagedPhysicalServers = RequestBody.managedphysicalservers;
 
-        let result = await this.createVeeamWithStoragegrid(this.veeam);
+        await this.createVeeamWithStoragegrid(this.veeam);
         return new VeeamSuccessResponse(this.veeam);
     }
 
-    async createVeeam(RequestBody: any, webResponse: any) {
+    async createVeeam(RequestBody: any, webResponse: any): Promise<unknown> {
 
         //if veeam authentication is incorrect
         if (await this.isAuthorized() == false)
@@ -85,7 +89,7 @@ export class VeeamHttpRequests extends VeeamBaseLayer {
             this.veeam.VMsBackedUpToCloud = RequestBody.vmsbackeduptocloud;
             this.veeam.ManagedPhysicalServers = RequestBody.managedphysicalservers;
 
-            let result = await this.createVeeamWithStoragegrid(this.veeam);
+            await this.createVeeamWithStoragegrid(this.veeam);
             return new VeeamSuccessResponse(this.veeam);
         }
         finally {

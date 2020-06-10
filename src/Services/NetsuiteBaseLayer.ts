@@ -5,7 +5,7 @@ import { BaseLayer } from './BaseLayer';
 export class NetsuiteBaseLayer extends BaseLayer {
 
     protected netsuiteCredentials: NetsuiteCredentials = new NetsuiteCredentials();
-    
+
     //initialize all required params
     constructor() {
         super();
@@ -16,17 +16,17 @@ export class NetsuiteBaseLayer extends BaseLayer {
     }
 
     //return the full url
-    baseUrl(url: string) {
+    baseUrl(url: string): string {
         return this.environmentConfig.Netsuite.Urls.BaseUrl + url;
     }
 
     //return header for netsuite
-    header() {
-       return  {
+    header(): any {
+        return {
             'Authorization': "NLAuth nlauth_account=" + this.netsuiteCredentials.AccountNumber + ", nlauth_email=" + this.netsuiteCredentials.Username + ", nlauth_signature="
-            + this.netsuiteCredentials.Password + ", nlauth_role=" + this.netsuiteCredentials.RoleId,
+                + this.netsuiteCredentials.Password + ", nlauth_role=" + this.netsuiteCredentials.RoleId,
             'Content-Type': 'application/json'
-          };
+        };
     }
 
 }

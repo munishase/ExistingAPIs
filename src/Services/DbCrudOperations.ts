@@ -1,5 +1,5 @@
 import { BaseLayer } from './BaseLayer';
-var MongoClient = require('mongodb').MongoClient;
+import { MongoClient } from 'mongodb';
 
 
 //this class will contain all the functions, used to interation with db
@@ -7,20 +7,15 @@ class DbCrudOperations extends BaseLayer {
 
 
   //generate random password with length as input param
-  saveRecord(record: any) {
-    let dbname = this.environmentConfig.database.dbname;
+  async saveRecord(record: any) {
+    const dbname = this.environmentConfig.database.dbname;
     if (this.environmentConfig.database.enabled == true) {
-      MongoClient.connect(this.dbConnectionString(), function (error: any, dbConnection: any) {
-        if (error)
-          throw error;
-
-        dbConnection.collection(dbname).insertOne(record, function (error: any, result: any) {
-          if (error)
-            throw error;
-
-          dbConnection.close();
-        });
-      });
+      const client = await new MongoClient(this.dbConnectionString());
+      await client.connect();
+      const db = client.db();
+      const collection = db.collection(dbname);
+      await collection.insert(record);
+      await client.close();
     }
   }
 
@@ -32,7 +27,5 @@ class DbCrudOperations extends BaseLayer {
   }
 
 }
-
-
 
 export default new DbCrudOperations();

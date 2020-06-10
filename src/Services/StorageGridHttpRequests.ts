@@ -1,5 +1,5 @@
-const httppromise = require('request-promise');
-var sessionstorage = require('sessionstorage');
+import httppromise from 'request-promise';
+import sessionstorage from 'sessionstorage';
 import { Log } from '../class/Log'
 import { Logger } from '../class/Logger'
 import { EnumCurrentStatus } from '../Enum/EnumCurrentStatus'
@@ -31,7 +31,7 @@ class StorageGridHttpRequests extends StorageGridBaseLayer {
     this.storageGrid.Tenant.Policy.AllowPlatformServices = this.environmentConfig.StorageGrid.Tenant.Policy.AllowPlatformServices;
     this.storageGrid.Tenant.Policy.QuotaObjectBytes = this.environmentConfig.StorageGrid.Tenant.Policy.QuotaObjectBytes;
 
-    let body = {
+    const body = {
       "name": this.storageGrid.Tenant.Name,
       "password": this.storageGrid.Tenant.UserPassword,
       "capabilities": this.storageGrid.Tenant.Capabilities,
@@ -42,7 +42,7 @@ class StorageGridHttpRequests extends StorageGridBaseLayer {
       }
     }
 
-    let options = {
+    const options = {
       url: this.baseUrl(Constants.StorageGridTenantAccountURL),
       method: 'POST',
       headers: {
@@ -53,14 +53,15 @@ class StorageGridHttpRequests extends StorageGridBaseLayer {
       json: true
     };
 
-    let self = this;
-    return httppromise(options).then(function (response: any) {
-      self.storageGrid.Tenant.AccountId = response.data.id;
+    try {
+      const response = await httppromise(options);
+      this.storageGrid.Tenant.AccountId = response.data.id;
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Storagegrid, Constants.StorageGridTenantAccountCreationSuccess, response, body));
-    }).catch(function (err: any) {
+    } catch (err) {
       Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Storagegrid, Constants.StorageGridTenantAccountCreationError, err, body));
-    })
-  };
+    }
+
+  }
 
   //Here we are deleting tenant Account
   //prerequisite: Storage Grid Token in Header and Tanent account with this id already there
@@ -68,7 +69,7 @@ class StorageGridHttpRequests extends StorageGridBaseLayer {
     if (await this.authorizeStorageGrid() == false)
       return;
 
-    let options = {
+    const options = {
       url: this.baseUrl(Constants.StorageGridTenantAccountURL + "/" + TenantId),
       method: 'DELETE',
       headers: {
@@ -78,12 +79,14 @@ class StorageGridHttpRequests extends StorageGridBaseLayer {
       json: true
     };
 
-    return httppromise(options).then(function (response: any) {
+    try {
+      const response = await httppromise(options);
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Storagegrid, Constants.StorageGridTenantAccountDeletionSuccess, response, "Tenant Id: " + TenantId));
-    }).catch(function (err: any) {
+    } catch (err) {
       Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Storagegrid, Constants.StorageGridTenantAccountDeletionError, err, "Tenant Id: " + TenantId));
-    })
-  };
+    }
+
+  }
 
   //Here create new pair of keys
   //prerequisite: Tenant Token in Header
@@ -93,14 +96,13 @@ class StorageGridHttpRequests extends StorageGridBaseLayer {
       return;
 
     await this.authorizeTenantAccount();
-    let body =
+    const body =
     {
       //below is commented because we want to generate key without any expiry date
       //"expires": expirayDate.toISOString()
-    }
+    };
 
-
-    let options = {
+    const options = {
       url: this.baseUrl(Constants.StorageGridTenantAccountS3KeysURL),
       method: "POST",
       headers: {
@@ -111,16 +113,17 @@ class StorageGridHttpRequests extends StorageGridBaseLayer {
       json: true,
     };
 
-    let self = this;
-    return httppromise(options).then(function (response: any) {
-      self.storageGrid.Tenant.AccessKey = response.data.accessKey;
-      self.storageGrid.Tenant.SecretAccessKey = response.data.secretAccessKey;
+    try {
+      const response = await httppromise(options);
+      this.storageGrid.Tenant.AccessKey = response.data.accessKey;
+      this.storageGrid.Tenant.SecretAccessKey = response.data.secretAccessKey;
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Storagegrid, Constants.StorageGridTenantKeyCreationSuccess, response, body));
-    }).catch(function (err: any) {
+    } catch (err) {
       Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Storagegrid, Constants.StorageGridTenantKeyCreationError, err, body));
-      self.deleteTenantAccount(self.storageGrid.Tenant.AccountId).then(function (response) { })
-    })
-  };
+      await this.deleteTenantAccount(this.storageGrid.Tenant.AccountId);
+    }
+
+  }
 
   //Here create new bucket for Tenant
   //prerequisite: Tenant Token in Header
@@ -131,17 +134,16 @@ class StorageGridHttpRequests extends StorageGridBaseLayer {
     if (await this.isTenantAuthorized() == false)
       return;
 
-    this.storageGrid.Tenant.Bucket.name = BucketName;//this.environmentConfig.StorageGrid.Tenant.Bucket.S3_Bucket_Name;
+    this.storageGrid.Tenant.Bucket.name = BucketName; // this.environmentConfig.StorageGrid.Tenant.Bucket.S3_Bucket_Name;
     this.storageGrid.Tenant.Bucket.region = this.environmentConfig.StorageGrid.Tenant.Bucket.Region;
 
-    let body =
+    const body =
     {
       "name": this.storageGrid.Tenant.Bucket.name,
       "region": this.storageGrid.Tenant.Bucket.region
-    }
+    };
 
-
-    let options = {
+    const options = {
       url: this.baseUrl(Constants.StorageGridTenantBucketURL),
       method: "POST",
       headers: {
@@ -152,15 +154,15 @@ class StorageGridHttpRequests extends StorageGridBaseLayer {
       json: true,
     };
 
-    let self = this;
-
-    return httppromise(options).then(function (response: any) {
+    try {
+      const response = await httppromise(options);
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Storagegrid, Constants.StorageGridTenantBucketCreationSuccess, response, body));
-    }).catch(async function (err: any) {
+    } catch (err) {
       Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Storagegrid, Constants.StorageGridTenantBucketCreationError, err, body));
-      await self.deleteTenantAccount(self.storageGrid.Tenant.AccountId).then(function (response) { })
-    })
-  };
+      await this.deleteTenantAccount(this.storageGrid.Tenant.AccountId);
+    }
+
+  }
 
   //here number of steps are called as 
   //createTenantAccount, createKeysforNewlyCreatedTenantAccount and createBucketForTenant

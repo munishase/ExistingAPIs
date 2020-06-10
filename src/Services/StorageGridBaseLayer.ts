@@ -1,7 +1,7 @@
 import { StorageGrid } from '../class/StorageGrid';
 import { BaseLayer } from './BaseLayer';
-const httppromise = require('request-promise');
-var sessionstorage = require('sessionstorage');
+import httppromise from 'request-promise';
+import sessionstorage from 'sessionstorage';
 import { Log } from '../class/Log'
 import { Logger } from '../class/Logger'
 import { EnumCurrentStatus } from '../Enum/EnumCurrentStatus'
@@ -15,7 +15,7 @@ export class StorageGridBaseLayer extends BaseLayer {
         super();
     }
 
-    baseUrl(url: string) {
+    baseUrl(url: string): string {
         return this.environmentConfig.StorageGrid.Urls.BaseUrl + url;
     }
 
@@ -29,14 +29,14 @@ export class StorageGridBaseLayer extends BaseLayer {
         this.storageGrid.Cookie = this.environmentConfig.StorageGrid.Cookie;
         this.storageGrid.CsrfToken = this.environmentConfig.StorageGrid.CsrfToken;
 
-        let body = {
+        const body = {
             "username": this.storageGrid.Username,
             "password": this.storageGrid.Password,
             "cookie": this.storageGrid.Cookie,
             "csrfToken": this.storageGrid.CsrfToken
         };
 
-        let options = {
+        const options = {
             url: this.baseUrl(Constants.StorageGridAuthURL),
             method: 'POST',
             json: true,
@@ -44,28 +44,27 @@ export class StorageGridBaseLayer extends BaseLayer {
         };
 
         return httppromise(options);
-    };
+    }
 
     //Check if StorageGrid token already exists otherwise it will generate new Token for StorageGrid
-    protected authorizeStorageGrid() {
-
+    protected async authorizeStorageGrid(): Promise<boolean> {
         if (sessionstorage.getItem(EnumToken.StorageGridToken) == null) {
-            return this.generateStorageGridToken().then(function (response: any) {
+            try {
+                const response = await this.generateStorageGridToken();
                 sessionstorage.setItem(EnumToken.StorageGridToken, response.data)
                 Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Storagegrid, Constants.StorageGridAuthSuccess, response, ""))
                 return true;
-            }).catch(function (err: any) {
+            } catch (err) {
                 Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Storagegrid, Constants.StorageGridAuthError, err, ""));
-                return false;
-            })
-            //return authorizeResponse;
+            }
         }
+        return false;
     }
 
     //Generate new Token for Tenant, but it require StorageGrid Token in Bearer Header
     private generateTenantToken() {
 
-        let body = {
+        const body = {
             "accountId": this.storageGrid.Tenant.AccountId,
             "username": this.environmentConfig.StorageGrid.Tenant.DefaultUsername,
             "password": this.storageGrid.Tenant.UserPassword,
@@ -73,7 +72,7 @@ export class StorageGridBaseLayer extends BaseLayer {
             "csrfToken": this.environmentConfig.StorageGrid.Tenant.CsrfToken
         };
 
-        let options = {
+        const options = {
             url: this.baseUrl(Constants.StorageGridAuthURL),
             method: "POST",
             json: true,
@@ -84,26 +83,25 @@ export class StorageGridBaseLayer extends BaseLayer {
             body: body
         };
         return httppromise(options);
-    };
+    }
 
     //Check if Tenant token already exists in session storage otherwise it will generate new Token for Tenant
-    protected authorizeTenantAccount() {
+    protected async authorizeTenantAccount(): Promise<boolean> {
         if (sessionstorage.getItem(EnumToken.TenantToken) == null) {
-            return this.generateTenantToken().then(function (response: any) {
+            try {
+                const response = await this.generateTenantToken();
                 sessionstorage.setItem(EnumToken.TenantToken, response.data)
                 Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Storagegrid, Constants.StorageGridTenantAuthSuccess, response, ""));
-            })
-                .catch(function (err: any) {
-                    Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Storagegrid, Constants.StorageGridTenantAuthError, err, ""));
-                    return false;
-                })
-            //return authorizeResponse;
-            return true;
+            } catch (err) {
+                Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Storagegrid, Constants.StorageGridTenantAuthError, err, ""));
+                return false;
+            }
         }
+        return true;
     }
 
     //isTenantAuthorized token
-    protected async isStoragegridAuthorized() {
+    protected async isStoragegridAuthorized(): Promise<boolean> {
         if (await Logger.hasErrorLogs() == true)
             return false;
         else if (await this.authorizeStorageGrid() == false)
@@ -113,7 +111,7 @@ export class StorageGridBaseLayer extends BaseLayer {
     }
 
     //isTenantAuthorized token
-    protected async isTenantAuthorized() {
+    protected async isTenantAuthorized(): Promise<boolean> {
         if (await Logger.hasErrorLogs() == true)
             return false;
         else if (await this.authorizeStorageGrid() == false)
@@ -125,8 +123,8 @@ export class StorageGridBaseLayer extends BaseLayer {
     }
 
     //remove token
-    protected removeToken() {
-      try {
+    protected removeToken(): void {
+        try {
             sessionstorage.removeItem(EnumToken.StorageGridToken);
             Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Storagegrid, Constants.StoragegridTokenRemovedSuccess, "", ""))
         }

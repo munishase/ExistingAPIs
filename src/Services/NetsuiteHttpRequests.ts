@@ -1,7 +1,7 @@
 import { NetsuiteClient } from '../class/NetsuiteClient';
 import { NetsuiteSuccessResponse } from '../class/Response/NetsuiteSuccessResponse';
 import { NetsuiteBaseLayer } from './NetsuiteBaseLayer';
-const httppromise = require('request-promise');
+import httppromise from 'request-promise';
 import { Log } from '../class/Log'
 import { Logger } from '../class/Logger'
 import { EnumCurrentStatus } from '../Enum/EnumCurrentStatus'
@@ -21,9 +21,9 @@ class NetsuiteHttpRequests extends NetsuiteBaseLayer {
     }
 
     //create netsuite client
-    createnetsuiteclient(netsuiteClient: NetsuiteClient) {
+    async createnetsuiteclient(netsuiteClient: NetsuiteClient) {
 
-        let body = {
+        const body = {
             "recordtype": netsuiteClient.RecordType,
             "customform": netsuiteClient.CustomForm,
             "companyname": netsuiteClient.ClientName,
@@ -31,7 +31,7 @@ class NetsuiteHttpRequests extends NetsuiteBaseLayer {
             "custentity_acn": netsuiteClient.ACN
         };
 
-        let options = {
+        const options = {
             url: this.baseUrl(Constants.NetsuiteCreateClientURL),
             method: 'POST',
             json: true,
@@ -39,20 +39,20 @@ class NetsuiteHttpRequests extends NetsuiteBaseLayer {
             body: body
         };
 
-        return httppromise(options).then(function (response: any) {
-            let result = JSON.parse(response);
+        try {
+            const response = await httppromise(options);
+            const result = JSON.parse(response);
             netsuiteClient.EntityId = result.fields.entityid;
             netsuiteClient.ClientId = result.id;
             Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Netsuite, Constants.NetsuiteClientCreationSuccess, response, body));
-        }).catch(function (err: any) {
+        } catch (err) {
             Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Netsuite, Constants.NetsuiteClientCreationError, err, body));
-        })
+        }
 
-    };
+    }
 
-    updatenetsuiteclient(netsuiteClient: NetsuiteClient) {
-
-        let body = {
+    async updatenetsuiteclient(netsuiteClient: NetsuiteClient) {
+        const body = {
             "id": netsuiteClient.ClientId,
             "recordtype": netsuiteClient.RecordType,
             "address": netsuiteClient.Address,
@@ -60,7 +60,7 @@ class NetsuiteHttpRequests extends NetsuiteBaseLayer {
             "status": netsuiteClient.Status
         };
 
-        let options = {
+        const options = {
             url: this.baseUrl(Constants.NetsuiteCreateClientURL),
             method: 'PUT',
             json: true,
@@ -68,13 +68,14 @@ class NetsuiteHttpRequests extends NetsuiteBaseLayer {
             body: body
         };
 
-        return httppromise(options).then(function (response: any) {
+        try {
+            const response = await httppromise(options);
             Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Netsuite, Constants.NetsuiteClientUpdationSuccess, response, body));
-        }).catch(function (err: any) {
+        } catch (err) {
             Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Netsuite, Constants.NetsuiteClientUpdationError, err, body));
-        })
+        }
 
-    };
+    }
 
     //setup netsuite client details with storagegrid details & call create netsuite client
     async createnetsuiteclientAsync(RequestBody: any, webResponse: any) {

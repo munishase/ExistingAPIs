@@ -1,5 +1,4 @@
-const httppromise = require('request-promise');
-var sessionstorage = require('sessionstorage');
+import httppromise from 'request-promise';
 import { Log } from '../class/Log'
 import { Logger } from '../class/Logger'
 import { EnumCurrentStatus } from '../Enum/EnumCurrentStatus'
@@ -20,15 +19,16 @@ class StitchdataHttpRequests extends StitchdataBaseLayer {
 
     this.removeToken();
     this.stitchdata.AuthorizationCode = RequestBody.stitch_auth_code;
-    let self = this;
-    await this.authorizeStitchdata(self.stitchdata).then(function (response: any) {
+
+    try {
+      const response = await this.authorizeStitchdata(this.stitchdata);
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Stitchdata, Constants.StitchdataAuthError, response, ""));
-    }).catch(function (err: any) {
+    } catch (err) {
       Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Stitchdata, Constants.StitchdataAuthSuccess, err, ""));
-    });
+    }
 
     return new StitchdataAccountAuthorizationSuccessResponse(this.stitchdata);
-  };
+  }
 
 
   //Here we are creating tenant Account
@@ -37,7 +37,7 @@ class StitchdataHttpRequests extends StitchdataBaseLayer {
 
     this.assignStitchdataEssentials();
 
-    let body = {
+    const body = {
       "partner_id": this.stitchdata.PartnerId,
       "partner_secret": this.stitchdata.PartnerSecret,
       "first_name": RequestBody.firstname,
@@ -46,7 +46,7 @@ class StitchdataHttpRequests extends StitchdataBaseLayer {
       "email": RequestBody.email,
     }
 
-    let options = {
+    const options = {
       url: this.baseUrl(Constants.StitchdataCreateAccountURL),
       method: 'POST',
       headers: {
@@ -56,19 +56,18 @@ class StitchdataHttpRequests extends StitchdataBaseLayer {
       json: true
     };
 
-    let self = this;
-    await httppromise(options).then(function (response: any) {
-
-      self.stitchdata.AccountId = response.stitch_account_id;
-      self.stitchdata.Token = response.access_token;
+    try {
+      const response = await httppromise(options);
+      this.stitchdata.AccountId = response.stitch_account_id;
+      this.stitchdata.Token = response.access_token;
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Stitchdata, Constants.StitchdataCreateAccountSuccess, response, body));
-    }).catch(function (err: any) {
+      return new StitchdataAccountAuthorizationSuccessResponse(this.stitchdata);
+    } catch (err) {
       Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Stitchdata, Constants.StitchdataCreateAccountError, err, body));
-    })
+    }
+    
+  }
 
-
-    return new StitchdataAccountAuthorizationSuccessResponse(this.stitchdata);
-  };
 }
 
 
