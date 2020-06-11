@@ -9,8 +9,8 @@ export class Log {
     actualdetail: any;
     param: any;
     datetime: string;
-    
-    constructor(_enumCurrentStatus: EnumCurrentStatus, _enumModule: EnumModule,_description: string, _actualdetail: string, _param: any) {
+
+    constructor(_enumCurrentStatus: EnumCurrentStatus, _enumModule: EnumModule, _description: string, _actualdetail: string, _param: any) {
         this.status = _enumCurrentStatus;
         this.module = _enumModule;
         this.description = _description;

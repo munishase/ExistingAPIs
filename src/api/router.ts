@@ -1,12 +1,11 @@
 import express = require('express');
 import ServicesWrapper from '../Services/ServicesWrapper';
-var cors = require('cors')
+import cors from 'cors';
 import { Authentication } from '../Services/Authentication'
-import { AuthenticationMiddleware } from '../Services/AuthenticationMiddleware'
-import {  EnumSessionForEachRequest } from '../Enum/EnumSessionForEachRequest';
+import { EnumSessionForEachRequest } from '../Enum/EnumSessionForEachRequest';
 import { EnumAPIs } from '../Enum/EnumAPIs';
-var sessionstorage = require('sessionstorage');
-const { v4: uuidv4 } = require('uuid');
+import sessionstorage from 'sessionstorage';
+import { v4 as uuidv4 } from 'uuid';
 
 class Router {
 
@@ -37,9 +36,8 @@ class Router {
         });
       }
 
-      new Authentication().Authorize(req.body.username, req.body.password).then(function (response) {
-        res.json({ 'token': response });
-      });
+      const token = new Authentication().Authorize(req.body.username, req.body.password);
+      res.json({ token });
     });
 
 
@@ -114,20 +112,6 @@ class Router {
       } else if (!req.body.acn) {
         return res.status(400).send({
           message: 'ACN number is required'
-        });
-      }
-      else if (!req.body.clientname) {
-        return res.status(400).send({
-          message: 'Client Name is required'
-        });
-      } else if (!req.body.acn) {
-        return res.status(400).send({
-          message: 'ACN number is required'
-        });
-      }
-      else if (!req.body.acn) {
-        return res.status(400).send({
-          message: 'Address is required'
         });
       }
       else if (!req.body.vmsbackedup) {
@@ -798,7 +782,7 @@ class Router {
     server.use('/', router);
   }
 
-  initiateSession(apiname: string) {
+  initiateSession(apiname: string): void {
     if (sessionstorage.getItem(EnumSessionForEachRequest.UUID) != null)
       sessionstorage.removeItem(EnumSessionForEachRequest.UUID);
 
@@ -809,6 +793,6 @@ class Router {
     sessionstorage.setItem(EnumSessionForEachRequest.ApiName, apiname)
   }
 
-};
+}
 
 export default Router;

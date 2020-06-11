@@ -1,5 +1,4 @@
-const httppromise = require('request-promise');
-var sessionstorage = require('sessionstorage');
+import httppromise, { Options } from 'got';
 import { Log } from '../class/Log'
 import { Logger } from '../class/Logger'
 import { EnumCurrentStatus } from '../Enum/EnumCurrentStatus'
@@ -20,82 +19,71 @@ class DataikuHttpRequests extends DataikuBaseLayer {
   //prerequisite: dataiku Token in Header
   async listDataSetsFromDataiku(param: any) {
 
-    let options = {
+    const options: Options = {
       url: Common.replaceCurleBrasesInUrl(this.baseUrl(Constants.DataikuListDatasetsURL), param.projectkey),
       method: 'GET',
-      auth: this.dataikuHeader(),
-      json: true
+      username: this.dataikuHeader().user,
+      password: this.dataikuHeader().password
     };
 
-    let self = this;
-
-    let result;
-    await httppromise(options).then(function (response: any) {
-      result = response;
+    try {
+      const response: any = await httppromise(options);
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Dataiku, Constants.DataikuDatasetsRetrievalSuccess, response, ''));
-    }).catch(function (err: any) {
-
+      return new DataikuListDatasetsSuccessResponse(response);
+    } catch (err) {
       Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Dataiku, Constants.DataikuDatasetsRetrievalFailure, err, ''));
-    })
+    }
 
-    return new DataikuListDatasetsSuccessResponse(result);
-  };
+  }
 
   //Here we are creating new NKS cluster
   //prerequisite: dataiku Token in Header
   async createDatasetForDataiku(requestBody: any) {
 
-    let body = requestBody;
+    const body = requestBody;
 
-    let options = {
+    const options: Options = {
       url: Common.replaceCurleBrasesInUrl(this.baseUrl(Constants.DataikuListDatasetsURL), requestBody.projectKey),
       method: 'POST',
-      auth: this.dataikuHeader(),
-      body: body,
-      json: true
+      username: this.dataikuHeader().user,
+      password: this.dataikuHeader().password,
+      json: body
     };
 
-    let self = this;
-    let result;
-
-    await httppromise(options).then(function (response: any) {
-      result = response;
+    try {
+      const response: any = await httppromise(options);
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Dataiku, Constants.DataikuInsertDatasetSuccess, response, ''));
-    }).catch(function (err: any) {
-
+      return new DataikuListDatasetsSuccessResponse(response);
+    } catch (err) {
       Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Dataiku, Constants.DataikuInsertDatasetFailure, err, ''));
-    })
+    }
 
-    return new DataikuListDatasetsSuccessResponse(result);
-  };
+  }
 
   //Here we are creating new NKS cluster
   //prerequisite: dataiku Token in Header
   async createManagedDatasetForDataiku(requestBody: any) {
 
-    let body = requestBody.dataset;
+    const body = requestBody.dataset;
 
-    let options = {
+    const options: Options = {
       url: Common.replaceCurleBrasesInUrl(this.baseUrl(Constants.DataikuCreateManagedDatasetURL), requestBody.projectKey),
       method: 'POST',
-      auth: this.dataikuHeader(),
-      body: body,
-      json: true
+      username: this.dataikuHeader().user,
+      password: this.dataikuHeader().password,
+      json: body
     };
 
-    let self = this;
-    let result;
-
-    await httppromise(options).then(function (response: any) {
-      result = response;
+    try {
+      const response: any = await httppromise(options);
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Dataiku, Constants.DataikuInsertManagedDatasetSuccess, response, ''));
-    }).catch(function (err: any) {
-
+      return new DataikuListDatasetsSuccessResponse(response);
+    } catch (err) {
       Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Dataiku, Constants.DataikuInsertManagedDatasetFailure, err, ''));
-    })
+    }
 
-    return new DataikuListDatasetsSuccessResponse(result);
-  };
+  }
+
 }
 
 

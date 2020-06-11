@@ -10,8 +10,6 @@ import NetAppHttpRequests from './NetAppHttpRequests';
 import DataikuHttpRequests from './DataikuHttpRequests';
 import XcloudHttpRequests from './XcloudHttpRequests';
 import { ActivePortNTUandNTUPortCreationSuccessResponse } from '../class/Response/ActivePortNTUandNTUPortCreationSuccessResponse';
-import { GroupedResults } from '../class/Response/GroupedResults';
-import { EnumXcloudSubnetType } from '../Enum/EnumXcloudSubnetType';
 
 
 // this class is wrapper to call other services methods
@@ -22,21 +20,21 @@ class ServicesWrapper {
     async processrequestAsync(requestBody: any, webResponse: any) {
         Logger.cleanLogs();
 
-        let results: any[] = [];
+        const results: any[] = [];
 
         //create netsuite
-        let netsuite = await NetsuiteHttpRequests.createnetsuiteclientAsync(requestBody, webResponse);
+        const netsuite = await NetsuiteHttpRequests.createnetsuiteclientAsync(requestBody, webResponse);
         Common.pushtoCollectionResult(results, netsuite);
 
         //create storagegrid
-        let storageGrid = await StorageGridHttpRequests.processStorageGridWithNetsuite(netsuite, requestBody, webResponse);
+        const storageGrid = await StorageGridHttpRequests.processStorageGridWithNetsuite(netsuite, requestBody, webResponse);
         Common.pushtoCollectionResult(results, storageGrid);
 
         //if no error update netsuite with storagegrid
         await NetsuiteHttpRequests.updatenetsuiteclientAsync(storageGrid, requestBody, webResponse)
 
         //create veeam with storagegrid imput like entity id
-        let veeam = await VeeamHttpRequests.createVeeamWithStoragegridAsync(netsuite, requestBody, webResponse);
+        const veeam = await VeeamHttpRequests.createVeeamWithStoragegridAsync(netsuite, requestBody, webResponse);
         Common.pushtoCollectionResult(results, veeam);
 
         return Common.beautifyResult(results, webResponse, EnumPartOf.Group);
@@ -45,28 +43,28 @@ class ServicesWrapper {
     //call storageGrid processStorageGrid
     async createStorageGridTanent(requestBody: any, webResponse: any) {
         Logger.cleanLogs();
-        let storagegridResponse = await StorageGridHttpRequests.processStorageGrid(requestBody, webResponse)
+        const storagegridResponse = await StorageGridHttpRequests.processStorageGrid(requestBody, webResponse)
         return Common.beautifyResult(storagegridResponse, webResponse, EnumPartOf.Individual);
     }
 
     //call Netsuite createnetsuiteclientAsync
     async createVeeam(requestBody: any, webResponse: any) {
         Logger.cleanLogs();
-        let veeamResponse = await VeeamHttpRequests.createVeeam(requestBody, webResponse);
+        const veeamResponse = await VeeamHttpRequests.createVeeam(requestBody, webResponse);
         return Common.beautifyResult(veeamResponse, webResponse, EnumPartOf.Individual);
     }
 
     //call Netsuite createnetsuiteclientAsync
     async createNetsuiteClient(requestBody: any, webResponse: any) {
         Logger.cleanLogs();
-        let netsuiteResponse = await NetsuiteHttpRequests.createnetsuiteclientAsync(requestBody, webResponse);
+        const netsuiteResponse = await NetsuiteHttpRequests.createnetsuiteclientAsync(requestBody, webResponse);
         return Common.beautifyResult(netsuiteResponse, webResponse, EnumPartOf.Individual);
     }
 
     //generate token for existing account in Stitchdata 
     async generateTokenForExistingStitchdataAccount(requestBody: any, webResponse: any) {
         Logger.cleanLogs();
-        let stitchdataResponse = await StitchdataHttpRequests.generateTokenForExistingStitchdataAccount(requestBody);
+        const stitchdataResponse = await StitchdataHttpRequests.generateTokenForExistingStitchdataAccount(requestBody);
         return Common.beautifyResult(stitchdataResponse, webResponse, EnumPartOf.Individual);
     }
 
@@ -74,7 +72,7 @@ class ServicesWrapper {
     //register new account in Stitchdata
     async registerAccountForStitchdata(requestBody: any, webResponse: any) {
         Logger.cleanLogs();
-        let stitchdataResponse = await StitchdataHttpRequests.registerAccountForStitchdata(requestBody);
+        const stitchdataResponse = await StitchdataHttpRequests.registerAccountForStitchdata(requestBody);
         return Common.beautifyResult(stitchdataResponse, webResponse, EnumPartOf.Individual);
     }
 
@@ -82,7 +80,7 @@ class ServicesWrapper {
     //retreive all sources in Stitchdata
     async retrievesourcesfromstitchdata(requestBody: any, webResponse: any) {
         Logger.cleanLogs();
-        let stitchdataResponse = await StitchdataHttpRequests.retrievesourcesfromstitchdata(requestBody);
+        const stitchdataResponse = await StitchdataHttpRequests.retrievesourcesfromstitchdata(requestBody);
         return Common.beautifyResult(stitchdataResponse, webResponse, EnumPartOf.Individual);
     }
 
@@ -90,7 +88,7 @@ class ServicesWrapper {
     //retreive all destination in Stitchdata
     async retrievedestinationfromstitchdata(requestBody: any, webResponse: any) {
         Logger.cleanLogs();
-        let stitchdataResponse = await StitchdataHttpRequests.retrievedestinationfromstitchdata(requestBody);
+        const stitchdataResponse = await StitchdataHttpRequests.retrievedestinationfromstitchdata(requestBody);
         return Common.beautifyResult(stitchdataResponse, webResponse, EnumPartOf.Individual);
     }
 
@@ -98,104 +96,104 @@ class ServicesWrapper {
     //retreive all tenants from ActivePort
     async retrievetenantsforactiveport(requestBody: any, webResponse: any) {
         Logger.cleanLogs();
-        let activeportResponse = await ActivePortHttpRequests.retrieveAllTenants(requestBody);
+        const activeportResponse = await ActivePortHttpRequests.retrieveAllTenants(requestBody);
         return Common.beautifyResult(activeportResponse, webResponse, EnumPartOf.Individual);
     }
 
     //insert new tenant in ActivePort
     async createnewtenantforactiveport(requestBody: any, webResponse: any) {
         Logger.cleanLogs();
-        let avtiveportResponse = await ActivePortHttpRequests.createTenantAccount(requestBody);
+        const avtiveportResponse = await ActivePortHttpRequests.createTenantAccount(requestBody);
         return Common.beautifyResult(avtiveportResponse, webResponse, EnumPartOf.Individual);
     }
 
     //insert new tenant in ActivePort
     async updateexistingtenantforactiveport(requestBody: any, webResponse: any) {
         Logger.cleanLogs();
-        let activeportResponse = await ActivePortHttpRequests.updateTenantAccount(requestBody);
+        const activeportResponse = await ActivePortHttpRequests.updateTenantAccount(requestBody);
         return Common.beautifyResult(activeportResponse, webResponse, EnumPartOf.Individual);
     }
 
     //List all NTU from Activeport
     async retrieveallntu(requestBody: any, webResponse: any) {
         Logger.cleanLogs();
-        let activeportResponse = await ActivePortHttpRequests.retrieveAllNTUs(requestBody);
+        const activeportResponse = await ActivePortHttpRequests.retrieveAllNTUs(requestBody);
         return Common.beautifyResult(activeportResponse, webResponse, EnumPartOf.Individual);
     }
 
     //retrieve NTU by ntu id
     async retrieventubyid(requestBody: any, webResponse: any) {
         Logger.cleanLogs();
-        let ntuResponse = await ActivePortHttpRequests.retrieveNTUById(requestBody);
+        const ntuResponse = await ActivePortHttpRequests.retrieveNTUById(requestBody);
         return Common.beautifyResult(ntuResponse, webResponse, EnumPartOf.Individual);
     }
 
     async createnewntuforactiveport(requestBody: any, webResponse: any) {
         Logger.cleanLogs();
-        let avtiveportResponse = await ActivePortHttpRequests.createNTU(requestBody);
+        const avtiveportResponse = await ActivePortHttpRequests.createNTU(requestBody);
         return Common.beautifyResult(avtiveportResponse, webResponse, EnumPartOf.Individual);
     }
 
     async updatentuforactiveport(requestBody: any, webResponse: any) {
         Logger.cleanLogs();
-        let avtiveportResponse = await ActivePortHttpRequests.updateNTUById(requestBody);
+        const avtiveportResponse = await ActivePortHttpRequests.updateNTUById(requestBody);
         return Common.beautifyResult(avtiveportResponse, webResponse, EnumPartOf.Individual);
     }
 
     //delete NTU by ntu id
     async deletentubyid(requestBody: any, webResponse: any) {
         Logger.cleanLogs();
-        let ntuResponse = await ActivePortHttpRequests.deleteNTUById(requestBody);
+        const ntuResponse = await ActivePortHttpRequests.deleteNTUById(requestBody);
         return Common.beautifyResult(ntuResponse, webResponse, EnumPartOf.Individual);
     }
 
     async createnewntuportforactiveport(requestBody: any, webResponse: any) {
         Logger.cleanLogs();
-        let avtiveportResponse = await ActivePortHttpRequests.createNTUPort(requestBody);
+        const avtiveportResponse = await ActivePortHttpRequests.createNTUPort(requestBody);
         return Common.beautifyResult(avtiveportResponse, webResponse, EnumPartOf.Individual);
     }
 
     //get all circuits
     async getallcircuits(requestBody: any, webResponse: any) {
         Logger.cleanLogs();
-        let xcloudResponse = await XcloudHttpRequests.getallcircuits(requestBody);
+        const xcloudResponse = await XcloudHttpRequests.getallcircuits(requestBody);
         return Common.beautifyResult(xcloudResponse, webResponse, EnumPartOf.Individual);
     }
 
     //create/POST new circuits
     async addnewcircuitforxcloud(requestBody: any, webResponse: any) {
         Logger.cleanLogs();
-        let xcloudResponse = await XcloudHttpRequests.addnewcircuitforxcloud(requestBody);
+        const xcloudResponse = await XcloudHttpRequests.addnewcircuitforxcloud(requestBody);
         return Common.beautifyResult(xcloudResponse, webResponse, EnumPartOf.Individual);
     }
 
-    //update/PUT new circuits
-    async updateexistingcircuitforxcloud(requestBody: any, webResponse: any) {
-        Logger.cleanLogs();
-        let xcloudResponse = await XcloudHttpRequests.updateexistingcircuitforxcloud(requestBody);
-        return Common.beautifyResult(xcloudResponse, webResponse, EnumPartOf.Individual);
-    }
+    // //update/PUT new circuits
+    // async updateexistingcircuitforxcloud(requestBody: any, webResponse: any) {
+    //     Logger.cleanLogs();
+    //     const xcloudResponse = await XcloudHttpRequests.updateexistingcircuitforxcloud(requestBody);
+    //     return Common.beautifyResult(xcloudResponse, webResponse, EnumPartOf.Individual);
+    // }
 
-    //update/PUT new circuits
-    async validateexistingcircuitforxcloud(requestBody: any, webResponse: any) {
-        Logger.cleanLogs();
-        let xcloudResponse = await XcloudHttpRequests.validateexistingcircuitforxcloud(requestBody);
-        return Common.beautifyResult(xcloudResponse, webResponse, EnumPartOf.Individual);
-    }
+    // //update/PUT new circuits
+    // async validateexistingcircuitforxcloud(requestBody: any, webResponse: any) {
+    //     Logger.cleanLogs();
+    //     const xcloudResponse = await XcloudHttpRequests.validateexistingcircuitforxcloud(requestBody);
+    //     return Common.beautifyResult(xcloudResponse, webResponse, EnumPartOf.Individual);
+    // }
 
 
-    //delete existing circuits
-    async deletecircuitforxcloud(requestBody: any, webResponse: any) {
-        Logger.cleanLogs();
-        let xcloudResponse = await XcloudHttpRequests.deletecircuitforxcloud(requestBody);
-        return Common.beautifyResult(xcloudResponse, webResponse, EnumPartOf.Individual);
-    }
+    // //delete existing circuits
+    // async deletecircuitforxcloud(requestBody: any, webResponse: any) {
+    //     Logger.cleanLogs();
+    //     const xcloudResponse = await XcloudHttpRequests.deletecircuitforxcloud(requestBody);
+    //     return Common.beautifyResult(xcloudResponse, webResponse, EnumPartOf.Individual);
+    // }
 
     //retrieve NTU by ntu id
     async retrieveswitchportbyid(requestBody: any, webResponse: any) {
 
         Logger.cleanLogs();
-        let ntuResponse = await XcloudHttpRequests.retrieveswitchportbyid(requestBody);
+        const ntuResponse = await XcloudHttpRequests.retrieveswitchportbyid(requestBody);
         return Common.beautifyResult(ntuResponse, webResponse, EnumPartOf.Individual);
     }
 
@@ -204,42 +202,42 @@ class ServicesWrapper {
     //retrieve new existing Clusters in NetApp
     async retrieveclustersfromnetapp(requestBody: any, webResponse: any) {
         Logger.cleanLogs();
-        let netappResponse = await NetAppHttpRequests.retrieveClustersFromNetapp(requestBody);
+        const netappResponse = await NetAppHttpRequests.retrieveClustersFromNetapp(requestBody);
         return Common.beautifyResult(netappResponse, webResponse, EnumPartOf.Individual);
     }
 
     //insert new cluster in NetApp Kubernetes
     async createnkscluster(requestBody: any, webResponse: any) {
         Logger.cleanLogs();
-        let netappResponse = await NetAppHttpRequests.createNKSCluster(requestBody);
+        const netappResponse = await NetAppHttpRequests.createNKSCluster(requestBody);
         return Common.beautifyResult(netappResponse, webResponse, EnumPartOf.Individual);
     }
 
     //insert new cluster in NetApp Kubernetes
     async deletenkscluster(requestBody: any, webResponse: any) {
         Logger.cleanLogs();
-        let netappResponse = await NetAppHttpRequests.deleteNKSCluster(requestBody);
+        const netappResponse = await NetAppHttpRequests.deleteNKSCluster(requestBody);
         return Common.beautifyResult(netappResponse, webResponse, EnumPartOf.Individual);
     }
 
     //List dataiku list of datasets
     async listdataikudatasets(requestBody: any, webResponse: any) {
         Logger.cleanLogs();
-        let dataikuResponse = await DataikuHttpRequests.listDataSetsFromDataiku(requestBody);
+        const dataikuResponse = await DataikuHttpRequests.listDataSetsFromDataiku(requestBody);
         return Common.beautifyResult(dataikuResponse, webResponse, EnumPartOf.Individual);
     }
 
     //insert new dataset in dataiku
     async createdatasetfordataiku(requestBody: any, webResponse: any) {
         Logger.cleanLogs();
-        let dataikuResponse = await DataikuHttpRequests.createDatasetForDataiku(requestBody);
+        const dataikuResponse = await DataikuHttpRequests.createDatasetForDataiku(requestBody);
         return Common.beautifyResult(dataikuResponse, webResponse, EnumPartOf.Individual);
     }
 
     //insert new managed dataset in dataiku
     async createmanageddatasetfordataiku(requestBody: any, webResponse: any) {
         Logger.cleanLogs();
-        let dataikuResponse = await DataikuHttpRequests.createManagedDatasetForDataiku(requestBody);
+        const dataikuResponse = await DataikuHttpRequests.createManagedDatasetForDataiku(requestBody);
         return Common.beautifyResult(dataikuResponse, webResponse, EnumPartOf.Individual);
     }
 
@@ -248,10 +246,10 @@ class ServicesWrapper {
     async createntuasync(requestBody: any, webResponse: any) {
         Logger.cleanLogs();
 
-        let results: any[] = [];
+        const results: any[] = [];
 
         //create netsuite
-        let xcloudSwitchPort: any = await XcloudHttpRequests.retrieveswitchportbyid(requestBody);
+        const xcloudSwitchPort: any = await XcloudHttpRequests.retrieveswitchportbyid(requestBody);
         //Common.pushtoCollectionResult(results, xcloudSwitchPort);
 
         if (xcloudSwitchPort == undefined) {
@@ -266,7 +264,7 @@ class ServicesWrapper {
             requestBody.label = xcloudSwitchPort.port_name;
 
             //create activeport ntu
-            let activeportNtu: any = await ActivePortHttpRequests.createNTU(requestBody);
+            const activeportNtu: any = await ActivePortHttpRequests.createNTU(requestBody);
             activeportNtu.module = "ActivePort - NTU"
             Common.pushtoCollectionResult(results, activeportNtu);
 
@@ -276,7 +274,7 @@ class ServicesWrapper {
                 requestBody.ntuId = activeportNtu.id;
 
                 //create activeport ntu
-                let activeportNtuPort: any = await ActivePortHttpRequests.createNTUPort(requestBody);
+                const activeportNtuPort: any = await ActivePortHttpRequests.createNTUPort(requestBody);
 
                 //if any issue to create NTU port
                 if (activeportNtuPort != undefined)
@@ -286,7 +284,7 @@ class ServicesWrapper {
 
             //check if there is any error then it should return whole result, otherwise it should simplify the result.
             if (Logger.hasErrorLogs() == false) {
-                let simplifyNTUandNTUPortrResponse = new ActivePortNTUandNTUPortCreationSuccessResponse(results);
+                const simplifyNTUandNTUPortrResponse = new ActivePortNTUandNTUPortCreationSuccessResponse(results);
                 return Common.beautifyResult(simplifyNTUandNTUPortrResponse, webResponse, EnumPartOf.Group);
             }
             else {
@@ -300,13 +298,12 @@ class ServicesWrapper {
     async createawscircuitasync(requestBody: any, webResponse: any) {
 
         Logger.cleanLogs();
-        let results: any[] = [];
-        let activeportResponse;
+        const results: any[] = [];
         let activeportCreateServiceByUUID;
         let xcloudEbgpCreationResponse
 
         //validate service activeport
-        activeportResponse = await ActivePortHttpRequests.validateServiceRequest(requestBody);
+        const activeportResponse = await ActivePortHttpRequests.validateServiceRequest(requestBody);
 
         //create service activeport
         if (activeportResponse != undefined) {
@@ -337,9 +334,9 @@ class ServicesWrapper {
     //fluid
     async createcircuitasync(requestBody: any, webResponse: any) {
         Logger.cleanLogs();
-        let results: any[] = [];
+        const results: any[] = [];
 
-        let xcloudSubnetCreationResponse = await XcloudHttpRequests.addSubnetforxcloudAllocationAndAssignment(requestBody);
+        const xcloudSubnetCreationResponse = await XcloudHttpRequests.addSubnetforxcloudAllocationAndAssignment(requestBody);
         let xcloudCircuitCreationResponse;
 
         if (Logger.hasErrorLogs()) {
@@ -356,7 +353,7 @@ class ServicesWrapper {
 
         //check if there is any error then it should return whole result, otherwise it should simplify the result.
         if (Logger.hasErrorLogs() == false) {
-            let result = {
+            const result = {
                 "xcloudSubnet": xcloudSubnetCreationResponse,
                 "xcloudCircuit": xcloudCircuitCreationResponse
             };

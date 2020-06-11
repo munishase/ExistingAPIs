@@ -4,40 +4,23 @@ import swaggerUi from 'swagger-ui-express';
 import * as mainSwaggerDocument from '../swagger/openapi.json';
 import * as fluidSwaggerDocument from '../swagger/openapi_fluid.json';
 import * as bodyParser from 'body-parser';
-var cors = require('cors');
-const config = require('../config.json');
+import config from '../config.json';
 
 class App {
-  private httpServer: any
+  private express = express();
 
-  constructor() {
+  constructor(port: number | string) {
 
-    this.httpServer = express()
+    this.express.use(bodyParser.urlencoded({ extended: true }));
+    this.express.use(bodyParser.json());
 
-    this.httpServer.use(bodyParser.urlencoded({ extended: true }));
-    this.httpServer.use(bodyParser.json());
+    new Router(this.express);
 
-    new Router(this.httpServer);
+    const swaggerDocument = config["common"].swagger == "fluid" ? fluidSwaggerDocument : mainSwaggerDocument;
+    this.express.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-    let swaggerDocument;
-    if (config["common"].swagger == "fluid")
-      swaggerDocument = fluidSwaggerDocument
-    else
-      swaggerDocument = mainSwaggerDocument
-
-    this.httpServer.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
-  }
-
-
-  public Start = (port: number) => {
-
-    return new Promise((resolve, reject) => {
-      this.httpServer.listen(port, () => {
-        resolve(port)
-      }).on('error', (err: object) => reject(err));
-    })
+    this.express.listen(port, () => console.log(`Server running on port ${port}`));
   }
 }
 
-export default App;
+new App(process.env.PORT || 4000);

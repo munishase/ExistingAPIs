@@ -1,35 +1,16 @@
-
-
 export class ActivePortServiceRequest {
-    uuid: string;
-    name: string;
-    serviceConfigurationId: number;
-    ntuId: number;
-    description: string
-    type: string
-    remotePortUuid: string
-    accountId: string
-    rateLimit: number
-    hostedType: string
-    awsType: string
-    circuitType: string
-    callbackUrl: string
-    downLinkPort: string
-    constructor() {
-        this.uuid = "";
-        this.name = "";
-        this.serviceConfigurationId = 0;
-        this.ntuId = 0;
-        this.description = "";
-        this.type = "";
-        this.remotePortUuid = "";
-        this.accountId = "";
-        this.rateLimit = 0;
-        this.hostedType = "";
-        this.awsType = "";
-        this.circuitType = "VLAN"; //default value
-        this.callbackUrl = "";
-        this.downLinkPort = "";
-    }
+    uuid = "";
+    name = "";
+    serviceConfigurationId = 0;
+    ntuId = 0;
+    description = "";
+    type = "";
+    remotePortUuid = "";
+    accountId = "";
+    rateLimit = 0;
+    hostedType = "";
+    awsType = "";
+    circuitType = "VLAN"; //TODO default config
+    callbackUrl = "";
+    downLinkPort = "";
 }
-

@@ -1,5 +1,5 @@
-const httppromise = require('request-promise');
-var sessionstorage = require('sessionstorage');
+import httppromise, { Options } from 'got';
+import sessionstorage from 'sessionstorage';
 import { Log } from '../class/Log'
 import { Logger } from '../class/Logger'
 import { EnumCurrentStatus } from '../Enum/EnumCurrentStatus'
@@ -17,8 +17,6 @@ import { ActivePortNTU } from '../class/ActivePortNTU';
 import { ActivePortNTUPort } from '../class/ActivePortNTUPort';
 import { ActivePortNTUPortCreationSuccessResponse } from '../class/Response/ActivePortNTUPortCreationSuccessResponse'
 import { ActivePortServiceRequest } from '../class/ActivePortServiceRequest';
-import { EnumPartOf } from '../Enum/EnumPartOf';
-import { GroupedResults } from '../class/Response/GroupedResults';
 import DbCrudOperations from './DbCrudOperations';
 import { EnumResultType } from '../Enum/EnumResultType';
 
@@ -30,93 +28,85 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
 
   //Here we are creating tenant Account
   //prerequisite: ActivePort Token in Header
-  async retrieveAllTenants(requestBody: any) {
+  async retrieveAllTenants(requestBody) {
 
     if (await this.isActivePortAuthorized() == false)
       return;
 
-    let options = {
+    const options: Options = {
       url: this.baseUrl(Constants.ActivePortCreateTenantAccountURL),
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + sessionstorage.getItem(EnumToken.ActivePortToken),
         'content-type': 'application/json'
-      },
-      json: true
+      }
     };
 
-    let self = this;
-    await httppromise(options).then(function (response: any) {
-
-      self.activePort.ActivePortTenants = response;
-
+    try {
+      const response: any = await httppromise(options);
+      this.activePort.ActivePortTenants = response;
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortTenantAccountsSuccess, response, ''));
-      return response;
-    }).catch(function (err: any) {
-
+    } catch (err) {
       Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortTenantAccountsError, err, ''));
-    })
+    }
 
     return new ActivePortTenantRetrieveSuccessResponse(this.activePort.ActivePortTenants);
-  };
-
+  }
 
   //Here we are creating tenant Account
   //prerequisite: ActivePort Token in Header
-  async createTenantAccount(requestBody: any) {
+  async createTenantAccount(requestBody: ActivePortTenant) {
 
     if (await this.isActivePortAuthorized() == false)
       return;
 
-    let activePortTenant = new ActivePortTenant();
+    const activePortTenant = new ActivePortTenant();
     activePortTenant.name = requestBody.name;
     activePortTenant.description = requestBody.description;
     activePortTenant.tiles = requestBody.tiles;
 
-    let body = {
+    const body = {
       "description": activePortTenant.description,
       "name": activePortTenant.name,
       "tiles": activePortTenant.tiles
     }
 
-    let options = {
+    const options: Options = {
       url: this.baseUrl(Constants.ActivePortCreateTenantAccountURL),
       method: 'POST',
       headers: {
         'Authorization': 'Bearer ' + sessionstorage.getItem(EnumToken.ActivePortToken),
         'content-type': 'application/json'
       },
-      body: body,
-      json: true
+      json: body
     };
 
-    let self = this;
-    await httppromise(options).then(function (response: any) {
-      activePortTenant.id = response.id
-      activePortTenant.tenantId = response.tenantId
+    try {
+      const response: any = await httppromise(options);
+      activePortTenant.id = response.id;
+      activePortTenant.tenantId = response.tenantId;
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortTenantAccountCreationSuccess, response, body));
-
-    }).catch(function (err: any) {
+    } catch (err) {
       Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortTenantAccountCreationError, err, body));
-    })
+    }
 
     return new ActivePortTenantCreationSuccessResponse(activePortTenant);
-  };
+  }
 
   //Here we are deleting ActivePort tenant Account
   //prerequisite: ActivePort Token in Header and ActivePort Tanent account with this id already there
-  async updateTenantAccount(requestBody: any) {
+  async updateTenantAccount(requestBody: ActivePortTenant) {
     if (await this.isActivePortAuthorized() == false)
       return;
 
-    let activePortTenant = new ActivePortTenant();
+    const activePortTenant = new ActivePortTenant();
     activePortTenant.name = requestBody.name;
     activePortTenant.description = requestBody.description;
     activePortTenant.tiles = requestBody.tiles;
     activePortTenant.id = requestBody.id
     activePortTenant.tenantId = requestBody.tenantId
 
-    let body = {
+    const body = {
       "description": activePortTenant.description,
       "name": activePortTenant.name,
       "tiles": activePortTenant.tiles,
@@ -124,28 +114,25 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
       "tenantId": activePortTenant.tenantId
     }
 
-    let options = {
+    const options: Options = {
       url: this.baseUrl(Constants.ActivePortCreateTenantAccountURL),
       method: 'PUT',
       headers: {
         'Authorization': 'Bearer ' + sessionstorage.getItem(EnumToken.ActivePortToken),
         'content-type': 'application/json'
       },
-      body: body,
-      json: true
+      json: body
     };
 
-    let self = this;
-    await httppromise(options).then(function (response: any) {
-
+    try {
+      const response: any = await httppromise(options);
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortTenantAccountCreationSuccess, response, body));
-    }).catch(function (err: any) {
-
+    } catch (err) {
       Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortTenantAccountCreationError, err, body));
-    })
+    }
 
     return new ActivePortTenantCreationSuccessResponse(activePortTenant);
-  };
+  }
 
   //Here we are retriving all ntu
   //prerequisite: ActivePort Token in Header
@@ -154,30 +141,25 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
     if (await this.isActivePortAuthorized() == false)
       return;
 
-    let options = {
+    const options: Options = {
       url: this.baseUrl(Constants.ActivePortNTUURL),
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + sessionstorage.getItem(EnumToken.ActivePortToken),
         'content-type': 'application/json'
-      },
-      json: true
+      }
     };
 
-    let self = this;
-    await httppromise(options).then(function (response: any) {
-
-      self.activePort.ActivePortNTU = response;
-
+    try {
+      const response: any = await httppromise(options);
+      this.activePort.ActivePortNTU = response;
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortNTUSuccess, response, ''));
-      return response;
-    }).catch(function (err: any) {
-
+    } catch (err) {
       Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortNTUError, err, ''));
-    })
+    }
 
     return new ActivePortNtuRetrieveSuccessResponse(this.activePort.ActivePortNTU);
-  };
+  }
 
   //Here we are retriving ntu by id
   //prerequisite: ActivePort Token in Header
@@ -186,31 +168,25 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
     if (await this.isActivePortAuthorized() == false)
       return;
 
-    let options = {
+    const options: Options = {
       url: this.baseUrl(Constants.ActivePortNTUURL + "/" + params.ntuid),
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + sessionstorage.getItem(EnumToken.ActivePortToken),
         'content-type': 'application/json'
-      },
-      json: true
+      }
     };
 
-    let self = this;
-    await httppromise(options).then(function (response: any) {
-
-      self.activePort.ActivePortNTU = response;
-
+    try {
+      const response: any = await httppromise(options);
+      this.activePort.ActivePortNTU = response;
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortNTUSuccess, response, ''));
-      return response;
-    }).catch(function (err: any) {
-
+    } catch (err) {
       Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortNTUError, err, ''));
-    })
+    }
 
     return new ActivePortNtuRetrieveSuccessResponse(this.activePort.ActivePortNTU);
-  };
-
+  }
 
   //Here we are updating NTU
   //prerequisite: ActivePort Token in Header
@@ -219,7 +195,7 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
     if (await this.isActivePortAuthorized() == false)
       return;
 
-    let activePortNTU = new ActivePortNTU();
+    const activePortNTU = new ActivePortNTU();
     activePortNTU.id = requestBody.id;
     activePortNTU.autoRollback = requestBody.autoRollback;
     activePortNTU.burstTime = requestBody.burstTime;
@@ -246,7 +222,7 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
     activePortNTU.timeZone = requestBody.timeZone;
     activePortNTU.uplinkPort = requestBody.uplinkPort;
 
-    let body = {
+    const body = {
       "id": activePortNTU.id,
       "autoRollback": activePortNTU.autoRollback,
       "burstTime": activePortNTU.burstTime,
@@ -274,30 +250,27 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
       "uplinkPort": activePortNTU.uplinkPort
     }
 
-    let options = {
+    const options: Options = {
       url: this.baseUrl(Constants.ActivePortNTUURL),
       method: 'PUT',
       headers: {
         'Authorization': 'Bearer ' + sessionstorage.getItem(EnumToken.ActivePortToken),
         'content-type': 'application/json'
       },
-      body: body,
-      json: true
+      json: body
     };
 
-    let self = this;
-    await httppromise(options).then(function (response: any) {
+    try {
+      const response: any = await httppromise(options);
       activePortNTU.id = response.id
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortTenantAccountCreationSuccess, response, body));
-
-    }).catch(function (err: any) {
+    } catch (err) {
       Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortTenantAccountCreationError, err, body));
-    })
+    }
 
     return new ActivePortNTUCreationSuccessResponse(activePortNTU);
 
-  };
-
+  }
 
   //Here we are creating NTU
   //prerequisite: ActivePort Token in Header
@@ -305,7 +278,7 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
     if (await this.isActivePortAuthorized() == false)
       return;
 
-    let activePortNTU = new ActivePortNTU();
+    const activePortNTU = new ActivePortNTU();
     activePortNTU.autoRollback = requestBody.autoRollback;
     activePortNTU.burstTime = requestBody.burstTime;
     activePortNTU.configBackup = requestBody.configBackup;
@@ -331,7 +304,7 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
     activePortNTU.timeZone = requestBody.timeZone;
     activePortNTU.uplinkPort = requestBody.uplinkPort;
 
-    let body = {
+    const body = {
       "autoRollback": activePortNTU.autoRollback,
       "burstTime": activePortNTU.burstTime,
       "configBackup": activePortNTU.configBackup,
@@ -358,32 +331,29 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
       "uplinkPort": activePortNTU.uplinkPort
     }
 
-    let options = {
+    const options: Options = {
       url: this.baseUrl(Constants.ActivePortNTUURL),
       method: 'POST',
       headers: {
         'Authorization': 'Bearer ' + sessionstorage.getItem(EnumToken.ActivePortToken),
         'content-type': 'application/json'
       },
-      body: body,
-      json: true
+      json: body
     };
 
 
-    let self = this;
-    await httppromise(options).then(function (response: any) {
+    try {
+      const response: any = await httppromise(options);
       activePortNTU.id = response.id
       DbCrudOperations.saveRecord(Common.createFluidDbObject(options, response, EnumResultType.success));
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortNTUCreationSuccess, response, body));
-
-    }).catch(function (err: any) {
+    } catch (err) {
       DbCrudOperations.saveRecord(Common.createFluidDbObject(options, err, EnumResultType.fail));
       Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortNTUCreationError, err, body));
-    })
+    }
 
     return new ActivePortNTUCreationSuccessResponse(activePortNTU);
-
-  };
+  }
 
   //Here we are retriving ntu by id
   //prerequisite: ActivePort Token in Header
@@ -391,27 +361,25 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
     if (await this.isActivePortAuthorized() == false)
       return;
 
-    let options = {
+    const options: Options = {
       url: this.baseUrl(Constants.ActivePortNTUURL + "/" + params.ntuid),
       method: 'DELETE',
       headers: {
         'Authorization': 'Bearer ' + sessionstorage.getItem(EnumToken.ActivePortToken),
         'content-type': 'application/json'
-      },
-      json: true
+      }
     };
 
-    let self = this;
-    await httppromise(options).then(function (response: any) {
-      self.activePort.ActivePortNTU = response;
+    try {
+      const response: any = await httppromise(options);
+      this.activePort.ActivePortNTU = response;
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortTenantAccountDeletionSuccess, response, ''));
-    }).catch(function (err: any) {
-
+    } catch (err) {
       Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortTenantAccountDeletionError, err, ''));
-    })
+    }
 
     return new ActivePortNtuRetrieveSuccessResponse(this.activePort.ActivePortNTU);
-  };
+  }
 
 
   //Here we are creating NTU Port
@@ -420,7 +388,7 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
     if (await this.isActivePortAuthorized() == false)
       return;
 
-    let activePortNTUPort = new ActivePortNTUPort();
+    const activePortNTUPort = new ActivePortNTUPort();
     activePortNTUPort.ntuId = requestBody.ntuId;
     activePortNTUPort.description = requestBody.description;
     activePortNTUPort.internetPort = requestBody.internetPort;
@@ -433,7 +401,7 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
     activePortNTUPort.trunk = requestBody.trunk;
 
 
-    let body = {
+    const body = {
       "ntuId": activePortNTUPort.ntuId,
       "description": activePortNTUPort.description,
       "internetPort": activePortNTUPort.internetPort,
@@ -447,35 +415,28 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
 
     }
 
-    let options = {
+    const options: Options = {
       url: this.baseUrl(Constants.ActivePortNTUPortURL),
       method: 'POST',
       headers: {
         'Authorization': 'Bearer ' + sessionstorage.getItem(EnumToken.ActivePortToken),
         'content-type': 'application/json'
       },
-      body: body,
-      json: true
+      json: body
     };
 
-
-    let self = this;
-    let result;
-    await httppromise(options).then(function (response: any) {
-      result = response;
+    try {
+      const response: any = await httppromise(options);
       DbCrudOperations.saveRecord(Common.createFluidDbObject(options, response, EnumResultType.success));
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortNTUPortCreationSuccess, response, body));
 
-    }).catch(function (err: any) {
-
+      if (response != undefined)
+        return new ActivePortNTUPortCreationSuccessResponse(activePortNTUPort, response);
+    } catch (err) {
       DbCrudOperations.saveRecord(Common.createFluidDbObject(options, err, EnumResultType.fail));
       Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortNTUPortCreationError, err, body));
-    })
-
-    if (result != undefined)
-      return new ActivePortNTUPortCreationSuccessResponse(activePortNTUPort, result);
-  };
-
+    }
+  }
 
   //Here we are creating validateServiceRequest
   //prerequisite: ActivePort Token in Header
@@ -483,7 +444,7 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
     if (await this.isActivePortAuthorized() == false)
       return;
 
-    let activePortServiceRequest = new ActivePortServiceRequest();
+    const activePortServiceRequest = new ActivePortServiceRequest();
     activePortServiceRequest.name = requestBody.name;
     activePortServiceRequest.serviceConfigurationId = requestBody.serviceConfigurationId;
     activePortServiceRequest.ntuId = requestBody.ntuId;
@@ -500,7 +461,7 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
 
 
 
-    let body = {
+    const body = {
       "name": activePortServiceRequest.name,
       "serviceConfigurationId": activePortServiceRequest.serviceConfigurationId,
       "ntuId": activePortServiceRequest.ntuId,
@@ -516,35 +477,26 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
       "downLinkPort": activePortServiceRequest.downLinkPort
     }
 
-    let options = {
+    const options: Options = {
       url: this.baseUrl(Constants.ActivePortValidateServiceRequestURL),
       method: 'POST',
       headers: {
         'Authorization': 'Bearer ' + sessionstorage.getItem(EnumToken.ActivePortToken),
         'content-type': 'application/json'
       },
-      body: body,
-      json: true
+      json: body
     };
 
-
-    let self = this;
-    let result;
-
-
-
-    await httppromise(options).then(function (response: any) {
+    try {
+      const response: any = await httppromise(options);
       activePortServiceRequest.uuid = response.uuid;
-      result = response;
       DbCrudOperations.saveRecord(Common.createFluidDbObject(options, response, EnumResultType.success));
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortValidateServiceRequestSuccess, response, body));
-
-    }).catch(function (err: any) {
-
+      return response;
+    } catch (err) {
       DbCrudOperations.saveRecord(Common.createFluidDbObject(options, err, EnumResultType.fail));
       Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortValidateServiceRequestError, err, body));
-    })
-    return result;
+    }
 
   }
 
@@ -555,34 +507,29 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
     if (await this.isActivePortAuthorized() == false)
       return;
 
-    let body = {};
-    let options = {
+    const body = {};
+    const options: Options = {
       url: this.baseUrl(Constants.ActivePortCreateServiceByUUidRequestURL + requestBody.uuid),
       method: 'POST',
       headers: {
         'Authorization': 'Bearer ' + sessionstorage.getItem(EnumToken.ActivePortToken),
         'content-type': 'application/json'
       },
-      body: body,
-      json: true
+      json: body
     };
 
-    let self = this;
-    let result;
-    await httppromise(options).then(function (response: any) {
-      result = response;
+    try {
+      const response: any = await httppromise(options);
       DbCrudOperations.saveRecord(Common.createFluidDbObject(options, response, EnumResultType.success));
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortCreateServiceRequestSuccess, response, body));
-
-    }).catch(function (err: any) {
-
+      return response;
+    } catch (err) {
       DbCrudOperations.saveRecord(Common.createFluidDbObject(options, err, EnumResultType.fail));
       Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortCreateServiceRequestError, err, body));
-    })
-
-    return result;
+    }
 
   }
+
 }
 
 

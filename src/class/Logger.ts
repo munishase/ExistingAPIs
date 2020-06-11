@@ -1,7 +1,8 @@
+/* eslint-disable node/prefer-promises/fs */
 import { Log } from './Log'
 import { EnumCurrentStatus } from '../Enum/EnumCurrentStatus'
-const uuidv1 = require('uuid/v1');
-const fs = require('fs');
+import { v1 as uuidv1 } from 'uuid';
+import fs from 'fs';
 import Common from './Common'
 import { EnumModule } from '../Enum/EnumModule';
 
@@ -30,10 +31,10 @@ export class Logger {
 
     //get module names with errors
     static getErrorModuleNames(): EnumModule[] {
-        let listlog = this.getErrorLogs().logs as Log[];
-        let listEnumModule: EnumModule[] = [];
+        const listlog = this.getErrorLogs().logs as Log[];
+        const listEnumModule: EnumModule[] = [];
         if (listlog != undefined) {
-            for (var i = 0; i < listlog.length; i++) {
+            for (let i = 0; i < listlog.length; i++) {
                 if (!(listEnumModule.indexOf(listlog[i].module) >= 0))
                     listEnumModule.push(listlog[i].module);
             }
@@ -94,14 +95,13 @@ export class Logger {
 
     //write log file in logd folder
     static writeLogs() {
-        let instance = this;
         //file name is combination of current datetime and auto generated id
-        let filename = Common.currentDatetime() + "-" + this.id + ".log";
-        let filepath = instance.dirname + "\\" + filename;
-        this.createLogFileIfDoesNotExists(instance.dirname, filepath);
+        const filename = Common.currentDatetime() + "-" + this.id + ".log";
+        const filepath = this.dirname + "\\" + filename;
+        this.createLogFileIfDoesNotExists(this.dirname, filepath);
 
-        fs.open(filepath, 'r', function (err: any, fd: any) {
-            fs.appendFile(filepath, JSON.stringify(instance.getAllLogs()), function (err: any) {
+        fs.open(filepath, 'r', (err: any, fd: any) => {
+            fs.appendFile(filepath, JSON.stringify(this.getAllLogs()), (err: any) => {
                 if (err) {
                     console.log(err);
                 }

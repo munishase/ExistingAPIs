@@ -1,6 +1,5 @@
-const httppromise = require('request-promise');
-const request = require('request');
-var sessionstorage = require('sessionstorage');
+import httppromise, { Options } from 'got';
+import sessionstorage from 'sessionstorage';
 import { Log } from '../class/Log'
 import { Logger } from '../class/Logger'
 import { EnumCurrentStatus } from '../Enum/EnumCurrentStatus'
@@ -8,25 +7,22 @@ import Constants from '../class/Constants'
 import { EnumModule } from '../Enum/EnumModule';
 import { XcloudBaseLayer } from './XcloudBaseLayer';
 import { EnumToken } from '../Enum/EnumToken';
-import { response } from 'express';
 import { XcloudCircuit } from '../class/XcloudCircuit';
 import Common from '../class/Common'
 import { XcloudRetrieveSuccessResponse } from '../class/Response/XcloudRetrieveSuccessResponse';
 import { XcloudSwitchPort } from '../class/Response/XcloudSwitchPort';
-import { constants } from 'os';
 import { XcloudEbgp } from '../class/XcloudEbgp';
 import DbCrudOperations from './DbCrudOperations';
 import { XcloudSubnet } from '../class/XcloudSubnet';
 import { EnumResultType } from '../Enum/EnumResultType';
 import { EnumXcloudSubnetType } from '../Enum/EnumXcloudSubnetType';
-const uuidv1 = require('uuid/v1');
+import { v1 as uuidv1 } from 'uuid';
 
 export class XcloudHttpRequests extends XcloudBaseLayer {
 
     constructor() {
         super();
     }
-
 
     //Here we are retriving all xcloud circuit
     //prerequisite: Xcloud cookie in Header
@@ -35,29 +31,25 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
         if (await this.isAuthorized() == false)
             return;
 
-        let options = {
+        const options: Options = {
             url: this.baseUrl(Constants.XcloudCircuitURL),
             method: 'GET',
             headers: {
                 'Cookie': sessionstorage.getItem(EnumToken.XcloudCookie),
                 'content-type': 'application/json'
-            },
-            json: true
+            }
         };
-        let self = this;
-        let result;
-        await httppromise(options).then(function (response: any) {
-            result = response;
+
+        try {
+            const response: any = await httppromise(options);
             Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Xcloud, Constants.XcloudCreateNTUSuccess, response, ''));
-        }).catch(function (err: any) {
-            result = err;
+            return new XcloudRetrieveSuccessResponse(response);
+        } catch (err) {
             Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Xcloud, Constants.XcloudCreateNTUError, err, ''));
-        })
+            return new XcloudRetrieveSuccessResponse(err);
+        }
 
-
-        return new XcloudRetrieveSuccessResponse(result);
-    };
-
+    }
 
     //Here we add new circuit in xcloud
     async addnewcircuitforxcloud(requestBody: any) {
@@ -65,14 +57,14 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
         if (await this.isAuthorized() == false)
             return;
 
-        let xcloudCircuit = new XcloudCircuit();
+        const xcloudCircuit = new XcloudCircuit();
         xcloudCircuit.name = requestBody.virtualNetworkName;
         xcloudCircuit.owner = requestBody.owner;
         xcloudCircuit.tenants = requestBody.tenants;
         xcloudCircuit.sites = requestBody.sites;
         xcloudCircuit.gateways = requestBody.gateways;
 
-        let body = {
+        const body = {
             "name": xcloudCircuit.name,
             "owner": xcloudCircuit.owner,
             "state": xcloudCircuit.state,
@@ -86,28 +78,26 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
         }
 
 
-        let options = {
+        const options: Options = {
             url: this.baseUrl(Constants.XcloudCircuitURL),
             method: 'POST',
             headers: {
                 'Cookie': sessionstorage.getItem(EnumToken.XcloudCookie),
                 'content-type': 'application/json'
             },
-            body: body,
-            json: true
+            json: body
         };
-        let self = this;
-        let result;
 
-        await httppromise(options).then(function (response: any) {
+        try {
+            const response: any = await httppromise(options);
             xcloudCircuit.id = response.circuitID;
             Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Xcloud, Constants.XcloudCreateCircuitSuccess, response, ''));
-        }).catch(function (err: any) {
-            result = err;
+        } catch (err) {
             Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Xcloud, Constants.XcloudCreateCircuitError, err, ''));
-        })
+        }
+
         return new XcloudRetrieveSuccessResponse(xcloudCircuit);
-    };
+    }
 
     /*
     
@@ -288,41 +278,36 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
         if (await this.isAuthorized() == false)
             return;
 
-        let options = {
+        const options: Options = {
             url: this.baseUrl(Constants.XcloudSwitchPortURL),
             method: 'GET',
             headers: {
                 Cookie: sessionstorage.getItem(EnumToken.XcloudCookie),
                 'content-type': 'application/json'
-            },
-            json: true
+            }
         };
 
-        let result;
-        let switchPort
-        await httppromise(options).then(function (response: any) {
-
-            switchPort = response.data.filter(function (switchport: any) {
-                return switchport.id == params.switchportid;
-            })[0]
+        try {
+            const response: any = await httppromise(options);
+            const switchPort = ((response || {}).data || []).find((switchport: any) => switchport.id == params.switchportid);
 
             DbCrudOperations.saveRecord(Common.createFluidDbObject(options, response, EnumResultType.success));
             Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.fluid, Constants.XcloudGetSwitchPortSuccess, response, ''));
-        }).catch(function (err: any) {
-            result = err;
+
+            //if there is no switchport with the id then
+            if (!switchPort) {
+                Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.fluid, Constants.XcloudGetSwitchPortError, Constants.XcloudNoSwitchPortError, ''));
+                return;
+            } else {
+                return new XcloudSwitchPort(switchPort);
+            }
+
+        } catch (err) {
             DbCrudOperations.saveRecord(Common.createFluidDbObject(options, err, EnumResultType.fail));
             Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.fluid, Constants.XcloudGetSwitchPortError, err, ''));
-        })
-
-
-        //if there is o switchport with the id then
-        if (switchPort == undefined) {
-            Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.fluid, Constants.XcloudGetSwitchPortError, Constants.XcloudNoSwitchPortError, ''));
-            return undefined;
         }
-        else
-            return new XcloudSwitchPort(switchPort);
-    };
+
+    }
 
     //add ebgp in xcloud
     async addEbgpforxcloud(requestBody: any, activeportCreateServiceByUUID: any) {
@@ -330,15 +315,15 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
         if (await this.isAuthorized() == false)
             return;
 
-        let xcloudEbgp = new XcloudEbgp();
+        const xcloudEbgp = new XcloudEbgp();
         xcloudEbgp.name = activeportCreateServiceByUUID.uuid;
         //xcloudEbgp.site_id = activeportCreateServiceByUUID.locationId;
         xcloudEbgp.site_id = requestBody.site_id;
 
         //set for testing environment
         //start
-        let customerIp = "40.40.40.1/30";
-        let ipDetails = customerIp.split("/");
+        const customerIp = "40.40.40.1/30";
+        const ipDetails = customerIp.split("/");
         xcloudEbgp.neighbor_as = "65999"; //requestBody.neighbor_as;
         xcloudEbgp.vlan = 3; //activeportCreateServiceByUUID.vlanIdB;
         xcloudEbgp.remote_ip = "40.40.40.2"; //activeportCreateServiceByUUID.providerIp;
@@ -363,7 +348,7 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
         //xcloudEbgp.rcircuit_id = requestBody.rcircuit_id;
 
 
-        let body = {
+        const body = {
             "name": xcloudEbgp.name,
             "terminate_on_switch": xcloudEbgp.terminate_on_switch,
             "neighbor_as": xcloudEbgp.neighbor_as,
@@ -385,45 +370,42 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
             "allowas_in": xcloudEbgp.allowas_in,
             "rcircuit_id": xcloudEbgp.rcircuit_id,
             "switch_port_id": xcloudEbgp.switch_port_id
-        }
+        };
 
-
-        let options = {
+        const options: Options = {
             url: this.baseUrl(Constants.XcloudEbgpURL),
             method: 'POST',
             headers: {
                 'Cookie': sessionstorage.getItem(EnumToken.XcloudCookie),
                 'content-type': 'application/json'
             },
-            body: body,
-            json: true
+            json: body
         };
-        let self = this;
-        let result;
 
-        await httppromise(options).then(function (response: any) {
+        try {
+            const response: any = await httppromise(options);
             xcloudEbgp.id = response.data.id;
-            result = xcloudEbgp;
             DbCrudOperations.saveRecord(Common.createFluidDbObject(options, response, EnumResultType.success));
             Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Xcloud, Constants.XcloudCreateEbgpSuccess, response, ''));
-        }).catch(function (err: any) {
-            result = err;
+            return new XcloudRetrieveSuccessResponse(xcloudEbgp);
+        } catch (err) {
             DbCrudOperations.saveRecord(Common.createFluidDbObject(options, err, EnumResultType.fail));
             Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Xcloud, Constants.XcloudCreateEbgpError, err, ''));
-        })
-        return new XcloudRetrieveSuccessResponse(result);
-    };
+            return new XcloudRetrieveSuccessResponse(err); // is this correct?
+        }
+
+    }
 
     //add subet proxy in xcloud
     async addSubnetforxcloudAllocationAndAssignment(requestBody: any) {
 
-        let subnetName = uuidv1();
-        let xcloudSubnetObject = new XcloudSubnet()
-        let xcloudSubnetResponse = await this.addSubnetforxcloud(requestBody, EnumXcloudSubnetType.allocation, subnetName, xcloudSubnetObject);
+        const subnetName = uuidv1();
+        const xcloudSubnetObject = new XcloudSubnet()
+        const xcloudSubnetResponse = await this.addSubnetforxcloud(requestBody, EnumXcloudSubnetType.allocation, subnetName, xcloudSubnetObject);
         if (Logger.hasErrorLogs())
             return xcloudSubnetResponse;
         else {
-            let xcloudSubnetFinalResult = await this.addSubnetforxcloud(requestBody, EnumXcloudSubnetType.assignment, subnetName, xcloudSubnetObject.convertToXcloudSubnetObject(xcloudSubnetResponse));
+            const xcloudSubnetFinalResult = await this.addSubnetforxcloud(requestBody, EnumXcloudSubnetType.assignment, subnetName, xcloudSubnetObject.convertToXcloudSubnetObject(xcloudSubnetResponse));
             return xcloudSubnetObject.convertToXcloudSubnetObject(xcloudSubnetFinalResult);
         }
     }
@@ -440,45 +422,44 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
         xcloudSubnetObject.selectedTenant = requestBody.selectedTenant;
         xcloudSubnetObject.selectedType = xcloudSubnetType;
 
-        let body = {
+        const body = {
             "name": xcloudSubnetObject.name,
             "cidr": xcloudSubnetObject.cidr,
             "selectedSite": xcloudSubnetObject.selectedSite,
             "selectedTenant": xcloudSubnetObject.selectedTenant,
             "selectedType": xcloudSubnetObject.selectedType,
             "ipVersion": xcloudSubnetObject.ipVersion
-        }
+        };
 
-        let options = {
+        const options: Options = {
             url: this.baseUrl(Constants.XcloudSubnetURL),
             method: 'POST',
             headers: {
                 'Cookie': sessionstorage.getItem(EnumToken.XcloudCookie),
                 'content-type': 'application/json'
             },
-            body: body,
-            json: true
+            json: body
         };
-        let self = this;
-        let result;
 
-        await httppromise(options).then(function (response: any) {
+        try {
+            const response: any = await httppromise(options);
             //this function runs two time so depending upon the type assign the result id
-            if (xcloudSubnetType == EnumXcloudSubnetType.allocation)
+            if (xcloudSubnetType == EnumXcloudSubnetType.allocation) {
                 xcloudSubnetObject.allocationId = response.data.id;
-            else if (xcloudSubnetType == EnumXcloudSubnetType.assignment)
+            } else if (xcloudSubnetType == EnumXcloudSubnetType.assignment) {
                 xcloudSubnetObject.assignmentId = response.data.id;
+            }
 
-            result = xcloudSubnetObject;
             DbCrudOperations.saveRecord(Common.createFluidDbObject(options, response, EnumResultType.success));
             Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Xcloud, Constants.XcloudCreateSubnetSuccess, response, ''));
-        }).catch(function (err: any) {
-            result = err;
+            return response;
+        } catch (err) {
             DbCrudOperations.saveRecord(Common.createFluidDbObject(options, err, EnumResultType.fail));
             Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Xcloud, Constants.XcloudCreateSubnetError, err, ''));
-        })
-        return result;
-    };
+            return err;
+        }
+
+    }
 
 }
 

@@ -15,7 +15,6 @@ export class VeeamSuccessResponse extends BaseResponse {
         this.name = veeam.Name;
         this.userName = veeam.Username;
         this.password = veeam.Password;
-        return this;
     }
 }
 

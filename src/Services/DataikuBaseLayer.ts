@@ -1,11 +1,5 @@
 import { BaseLayer } from './BaseLayer';
-const httppromise = require('request-promise');
-var sessionstorage = require('sessionstorage');
-import { Log } from '../class/Log'
-import { Logger } from '../class/Logger'
-import { EnumCurrentStatus } from '../Enum/EnumCurrentStatus'
-import Constants from '../class/Constants'
-import { EnumModule } from '../Enum/EnumModule';
+import sessionstorage from 'sessionstorage';
 import { EnumToken } from '../Enum/EnumToken';
 
 export class DataikuBaseLayer extends BaseLayer {
@@ -25,12 +19,10 @@ export class DataikuBaseLayer extends BaseLayer {
     }
 
     protected dataikuHeader() {
-        let auth =
-        {
+        return {
             user: '6SBXJWiJWg7BUAiKcgodLwXEczrIL3pf',
             password: ''
-          }
-        return auth;
+        }
     }
 
- }
+}

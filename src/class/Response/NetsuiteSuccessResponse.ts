@@ -15,7 +15,6 @@ export class NetsuiteSuccessResponse extends BaseResponse {
         this.clientId = netsuiteClient.ClientId;
         this.ClientName = netsuiteClient.ClientName;
         this.ACN = netsuiteClient.ACN;
-        return this;
     }
 }
 

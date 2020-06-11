@@ -1,6 +1,5 @@
 import { BaseLayer } from './BaseLayer';
-const httppromise = require('request-promise');
-var sessionstorage = require('sessionstorage');
+import sessionstorage from 'sessionstorage';
 import { Log } from '../class/Log'
 import { Logger } from '../class/Logger'
 import { EnumCurrentStatus } from '../Enum/EnumCurrentStatus'
@@ -14,21 +13,18 @@ export class NetAppBaseLayer extends BaseLayer {
         super();
     }
 
-    baseUrl(url: string) {
+    baseUrl(url: string): string {
         return this.environmentConfig.NetApp.Urls.BaseUrl + Constants.NetAppOrg + this.environmentConfig.NetApp.OrgId + url;
     }
 
-    //protected activePort: ActivePort = new ActivePort();
-
-
     //retrieve new Token for NetApp
-    protected authorizeNetApp() {
+    protected authorizeNetApp(): boolean {
         sessionstorage.setItem(EnumToken.NetAppToken, this.environmentConfig.NetApp.Token)
         return true;
     }
 
     //isNetAppAuthorized token
-    protected async isNetAppAuthorized() {
+    protected async isNetAppAuthorized(): Promise<boolean> {
         if (await Logger.hasErrorLogs() == true)
             return false;
         else if (await this.authorizeNetApp() == false)
@@ -37,16 +33,14 @@ export class NetAppBaseLayer extends BaseLayer {
             return true;
     }
 
-    protected netAppHeader() {
-        let header =
-        {
+    protected netAppHeader(): any {
+        return {
             'Authorization': 'Bearer ' + sessionstorage.getItem(EnumToken.NetAppToken),
             'content-type': 'application/json'
         }
-        return header;
     }
     //remove token
-    protected removeToken() {
+    protected removeToken(): void {
         try {
             sessionstorage.removeItem(EnumToken.NetAppToken);
             Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.NetApp, Constants.ActivePortTokenRemovedSuccess, "", ""))

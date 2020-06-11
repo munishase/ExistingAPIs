@@ -9,7 +9,6 @@ export class ActivePortNtuRetrieveSuccessResponse extends BaseResponse {
         super();
         this.module = EnumModule.ActivePort;
         this.ActivePortNTU = activeportNTUs;
-        return this;
     }
 }
 
