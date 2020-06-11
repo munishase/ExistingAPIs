@@ -1,5 +1,5 @@
 - Set the enrironment variable from command prompt before deploying to respective environment 
-and make, sure same environment should be declared in config.json file as well. Below is the example to set environment variable
+and make, sure same environment should be declared in config folder as well. Below is the example to set environment variable
 
 SET NODE_ENV=production
 

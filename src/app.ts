@@ -4,7 +4,7 @@ import swaggerUi from 'swagger-ui-express';
 import * as mainSwaggerDocument from '../swagger/openapi.json';
 import * as fluidSwaggerDocument from '../swagger/openapi_fluid.json';
 import * as bodyParser from 'body-parser';
-import config from '../config.json';
+import config from 'config';
 
 class App {
   private express = express();
@@ -16,7 +16,7 @@ class App {
 
     new Router(this.express);
 
-    const swaggerDocument = config["common"].swagger == "fluid" ? fluidSwaggerDocument : mainSwaggerDocument;
+    const swaggerDocument = (config.get("swagger") as any).config === "fluid" ? fluidSwaggerDocument : mainSwaggerDocument;
     this.express.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
     this.express.listen(port, () => console.log(`Server running on port ${port}`));

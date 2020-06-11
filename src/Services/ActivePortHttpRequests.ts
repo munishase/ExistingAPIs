@@ -28,7 +28,7 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
 
   //Here we are creating tenant Account
   //prerequisite: ActivePort Token in Header
-  async retrieveAllTenants(requestBody) {
+  async retrieveAllTenants(requestBody: any) {
 
     if (await this.isActivePortAuthorized() == false)
       return;

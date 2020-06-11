@@ -1,6 +1,6 @@
 export class GroupedResults {
-    actualResult;
-    customResult;
+    actualResult: unknown;
+    customResult: unknown;
 
     //it will create one response of activeport ntu and ntu port creation and simplify that response
     constructor(actualResult: unknown, customResult: unknown) {

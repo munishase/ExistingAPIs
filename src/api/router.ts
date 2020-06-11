@@ -514,62 +514,62 @@ class Router {
     });
 
 
-    router.put('/updateexistingcircuit', (req, res) => {
-      return ServicesWrapper.updateexistingcircuitforxcloud(req.body, res);
-    });
+    // router.put('/updateexistingcircuit', (req, res) => {
+    //   return ServicesWrapper.updateexistingcircuitforxcloud(req.body, res);
+    // });
 
 
-    router.put('/validateexistingcircuit', (req, res) => {
-      return ServicesWrapper.validateexistingcircuitforxcloud(req.body, res);
-    });
+    // router.put('/validateexistingcircuit', (req, res) => {
+    //   return ServicesWrapper.validateexistingcircuitforxcloud(req.body, res);
+    // });
 
 
-    router.delete('/deletecircuit', (req, res) => {
-      if (!req.body.id) {
-        return res.status(400).send({
-          message: 'name is required.'
-        });
-      }
-      else if (!req.body.owner) {
-        return res.status(400).send({
-          message: 'owner is required.'
-        });
-      }
+    // router.delete('/deletecircuit', (req, res) => {
+    //   if (!req.body.id) {
+    //     return res.status(400).send({
+    //       message: 'name is required.'
+    //     });
+    //   }
+    //   else if (!req.body.owner) {
+    //     return res.status(400).send({
+    //       message: 'owner is required.'
+    //     });
+    //   }
 
-      if (!req.body.members) {
-        return res.status(400).send({
-          message: 'members is required.'
-        });
-      }
-      else {
-        req.body.members.forEach(function (value: any) {
-          if (!value.id) {
-            return res.status(400).send({
-              message: 'members.id is required.'
-            });
-          }
-          else if (!value.port_id) {
-            return res.status(400).send({
-              message: 'members.port_id is required.'
-            });
-          }
-          else if (!value.vlan_id) {
-            return res.status(400).send({
-              message: 'members.vlan_id is required.'
-            });
-          }
+    //   if (!req.body.members) {
+    //     return res.status(400).send({
+    //       message: 'members is required.'
+    //     });
+    //   }
+    //   else {
+    //     req.body.members.forEach(function (value: any) {
+    //       if (!value.id) {
+    //         return res.status(400).send({
+    //           message: 'members.id is required.'
+    //         });
+    //       }
+    //       else if (!value.port_id) {
+    //         return res.status(400).send({
+    //           message: 'members.port_id is required.'
+    //         });
+    //       }
+    //       else if (!value.vlan_id) {
+    //         return res.status(400).send({
+    //           message: 'members.vlan_id is required.'
+    //         });
+    //       }
 
-          else if (!value.member_state) {
-            return res.status(400).send({
-              message: 'members.member_state is required.'
-            });
-          }
-        });
-      }
+    //       else if (!value.member_state) {
+    //         return res.status(400).send({
+    //           message: 'members.member_state is required.'
+    //         });
+    //       }
+    //     });
+    //   }
 
 
-      return ServicesWrapper.deletecircuitforxcloud(req.body, res);
-    });
+    //   return ServicesWrapper.deletecircuitforxcloud(req.body, res);
+    // });
 
 
     router.get('/retrieveswitchportbyid/:switchportid', (req, res) => {

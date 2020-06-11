@@ -1,14 +1,8 @@
-import config from '../../config.json';
+import config from 'config';
 
 //this baselayer is used to inherit all common things for entire application
 export class BaseLayer {
-    private _environmentConfig: any;
-    protected get environmentConfig(): any {
-        return this._environmentConfig;
-    }
-    protected set environmentConfig(value: any) {
-        this._environmentConfig = value;
-    }
+    protected environmentConfig: any = config;
 
     constructor() {
         const environment = (process.env.NODE_ENV || 'development').toLowerCase();
@@ -18,6 +12,5 @@ export class BaseLayer {
         else if (environment === "production") {
             process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
         }
-        this.environmentConfig = config[environment];
     }
 }

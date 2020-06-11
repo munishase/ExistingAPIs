@@ -1,0 +1,116 @@
+{
+  "StorageGrid": {
+    "Urls": {
+      "BaseUrl": "https://storgrid-nms-dev.aseit.com.au/api"
+    },
+    "Username": "munish.singla.dev",
+    "Password": "munishtest2019",
+    "Cookie": true,
+    "CsrfToken": false,
+    "Tenant": {
+      "DefaultUsername": "root",
+      "UserPassword": "munish123",
+      "Capabilities": [
+        "management",
+        "s3"
+      ],
+      "Policy": {
+        "UseAccountIdentitySource": true,
+        "AllowPlatformServices": true,
+        "QuotaObjectBytes": 100000000000
+      },
+      "Cookie": true,
+      "CsrfToken": false,
+      "Bucket": {
+        "Region": "us-east-1",
+        "S3_Bucket_Name": "test33-demo-bucket",
+        "Compliance": {
+          "AutoDelete": false,
+          "LegalHold": false,
+          "RetentionPeriodMinutes": 2629800,
+          "Access_Key_Id": "0YH990DB41BN1RI0TY2E",
+          "Secret_Access_Key": "kqmf+GjgMPu30fDtVU8DYqqHz7hZrU/JUeVm3v1Z"
+        }
+      }
+    }
+  },
+  "Veeam": {
+    "Urls": {
+      "BaseUrl": "https://storcloud-vac-dev.syd.nsw.au.imase.io:1281"
+    },
+    "Username": "TESTING.ASEIT.NET\\munish.singla",
+    "Password": "munishtest2019",
+    "CloudConnectAgentUid": "86749222-e160-4a8e-bb1a-678bc27d7046",
+    "DefaultValues": {
+      "BackupProtectionEnabled": true,
+      "BackupProtectionPeriod": 2,
+      "MaxConcurrentTask": 2,
+      "ExpirationEnabled": false
+    }
+  },
+  "Netsuite": {
+    "Urls": {
+      "BaseUrl": "https://36326.restlets.api.netsuite.com/app/site/hosting/restlet.nl"
+    },
+    "AccountNumber": "36326",
+    "Username": "munish.singla@aseit.com.au",
+    "Password": "munish@123",
+    "RoleId": "1016"
+  },
+  "Stitchdata": {
+    "Urls": {
+      "BaseUrl": "https://api.stitchdata.com"
+    },
+    "PartnerId": "oc_8b5592809654988c94a04a0ed6fd84cd",
+    "PartnerSecret": "os_369a3cdcb1b8b81a00eac088a1858384",
+    "GrantType": "authorization_code",
+    "ContentType": "application/x-www-form-urlencoded"
+  },
+  "ActivePort": {
+    "Urls": {
+      "BaseUrl": "https://54.206.35.7"
+    },
+    "Username": "munish",
+    "Password": "mun1sh"
+  },
+  "Xcloud": {
+    "Urls": {
+      "BaseUrl": "https://xcloud.fluid.aseit.com.au"
+    },
+    "Username": "admin",
+    "Password": "secret",
+    "auth_scheme_id": 1
+  },
+  "NetApp": {
+    "Urls": {
+      "BaseUrl": "https://api.nks.netapp.io"
+    },
+    "OrgId": "16378",
+    "TokenName": "test",
+    "Token": "61c47c7706ac16e7101005073098612fa2476c01a785f05d0fd73eaac19642e2",
+    "Password": "ganesh@123"
+  },
+  "Dataiku": {
+    "Urls": {
+      "BaseUrl": "http://192.168.55.160:11000"
+    }
+  },
+  "PrivateKey": {
+    "Value": "v6A7>o$2rfw5sdfdfg^-{e)>m!?)BIwa=I^'6x^rB?}a2aJsgmCBrfdgsdgh,jTkJ3K&_Cnz@d^R/",
+    "Subject": "help@aseit.com.au",
+    "Issuer": "ASE",
+    "Audience": "http://www.aseit.com.au",
+    "ExpiresIn": "12h"
+  },
+  "database": {
+    "enabled": false,
+    "urlprefix": "mongodb://",
+    "url": "113.29.246.14:27017",
+    "username": "admin",
+    "password": "munish",
+    "dbname": "FLUID"
+  },
+  "swagger": {
+    "config": "fluid"
+  }
+}
