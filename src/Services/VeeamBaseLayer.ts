@@ -1,6 +1,6 @@
 import { Veeam } from '../class/Veeam';
 import { BaseLayer } from './BaseLayer';
-import httppromise from 'request-promise';
+import httppromise, { Options } from 'got';
 import sessionstorage from 'sessionstorage';
 import { Log } from '../class/Log'
 import { Logger } from '../class/Logger'
@@ -36,7 +36,7 @@ export class VeeamBaseLayer extends BaseLayer {
         //let body = "grant_type=password&username=TESTING.ASEIT.NET%5Cmunish.singla&password=munishtest2019";
         const body = "grant_type=password&username=" + this.environmentConfig.Veeam.Username + "&password=" + this.environmentConfig.Veeam.Password;
 
-        const options = {
+        const options: Options = {
             url: this.baseUrl(Constants.VeeamAuthURL),
             method: 'POST',
             body: body
@@ -48,7 +48,7 @@ export class VeeamBaseLayer extends BaseLayer {
     protected async authorizeVeeamGrid(): Promise<boolean> {
         if (sessionstorage.getItem(EnumToken.VeeamToken) == null) {
             try {
-                const response = await this.generateVeeamToken();
+                const response: any = await this.generateVeeamToken();
                 const veemAuthenticationResponse = JSON.parse(response);
                 sessionstorage.setItem(EnumToken.VeeamToken, "Bearer " + veemAuthenticationResponse.access_token)
                 Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Veeam, Constants.VeeamAuthSuccess, response, ""))

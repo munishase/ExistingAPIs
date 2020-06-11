@@ -1,5 +1,5 @@
 import { BaseLayer } from './BaseLayer';
-import request from 'request';
+import httppromise, { Options } from 'got';
 import sessionstorage from 'sessionstorage';
 import { Log } from '../class/Log'
 import { Logger } from '../class/Logger'
@@ -19,10 +19,10 @@ export class XcloudBaseLayer extends BaseLayer {
     }
 
     //Generate new Token for Xcloud
-    private generateXcloudToken() {
+    private generateXcloudToken(): Options {
         const body = "user=" + this.environmentConfig.Xcloud.Username + "&password=" + this.environmentConfig.Xcloud.Password + "&auth_scheme_id=" + this.environmentConfig.Xcloud.auth_scheme_id;
 
-        const options = {
+        return {
             url: this.baseUrl(Constants.XcloudAuthURL),
             method: 'POST',
             'headers': {
@@ -30,27 +30,21 @@ export class XcloudBaseLayer extends BaseLayer {
             },
             body: body
         };
-
-        return options;
     }
 
     //Check if Xcloud token already exists otherwise it will generate new Token for Xcloud
     protected async authorizeXcloudGrid(): Promise<any> {
 
         const options = this.generateXcloudToken();
-        return new Promise((resolve, reject) => {
-            request(options, function (error: any, response: any) {
-                if (error) {
-                    console.log('Error')
-                    throw new Error(error);
-                }
-                else {
-                    const cookie = ((response.headers["set-cookie"]).toString()).split(";")[0];
-                    sessionstorage.setItem(EnumToken.XcloudCookie, cookie)
-                    return resolve({ connect_sid: cookie })
-                }
-            });
-        })
+        try {
+            const response: any = await httppromise(options);
+            const cookie = ((response.headers["set-cookie"]).toString()).split(";")[0];
+            sessionstorage.setItem(EnumToken.XcloudCookie, cookie);
+            return { connect_sid: cookie };
+        } catch (err) {
+            console.log('Error')
+            throw new Error(err);
+        }
 
     }
 

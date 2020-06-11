@@ -1,6 +1,6 @@
 import { Stitchdata } from '../class/Stitchdata';
 import { BaseLayer } from './BaseLayer';
-import httppromise from 'request-promise';
+import httppromise, { Options } from 'got';
 import sessionstorage from 'sessionstorage';
 import { Log } from '../class/Log'
 import { Logger } from '../class/Logger'
@@ -28,7 +28,7 @@ export class StitchdataBaseLayer extends BaseLayer {
         this.stitchdata.GrantType = this.environmentConfig.Stitchdata.GrantType;
         this.stitchdata.ContentType = this.environmentConfig.Stitchdata.ContentType;
 
-        const options = {
+        const options: Options = {
             method: 'POST',
             url: this.baseUrl(Constants.StitchdataAuthURL),
             headers:
@@ -50,7 +50,7 @@ export class StitchdataBaseLayer extends BaseLayer {
     protected async authorizeStitchdata(stitchdata: Stitchdata): Promise<boolean> {
         if (sessionstorage.getItem(EnumToken.StitchdataToken) == null) {
             try {
-                const response = await this.generateStitchdataToken();
+                const response: any = await this.generateStitchdataToken();
                 const jsonResponse = JSON.parse(response);
                 stitchdata.AccountId = jsonResponse.stitch_account_id;
                 stitchdata.Token = jsonResponse.access_token;

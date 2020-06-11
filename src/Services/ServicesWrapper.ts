@@ -167,27 +167,27 @@ class ServicesWrapper {
         return Common.beautifyResult(xcloudResponse, webResponse, EnumPartOf.Individual);
     }
 
-    //update/PUT new circuits
-    async updateexistingcircuitforxcloud(requestBody: any, webResponse: any) {
-        Logger.cleanLogs();
-        const xcloudResponse = await XcloudHttpRequests.updateexistingcircuitforxcloud(requestBody);
-        return Common.beautifyResult(xcloudResponse, webResponse, EnumPartOf.Individual);
-    }
+    // //update/PUT new circuits
+    // async updateexistingcircuitforxcloud(requestBody: any, webResponse: any) {
+    //     Logger.cleanLogs();
+    //     const xcloudResponse = await XcloudHttpRequests.updateexistingcircuitforxcloud(requestBody);
+    //     return Common.beautifyResult(xcloudResponse, webResponse, EnumPartOf.Individual);
+    // }
 
-    //update/PUT new circuits
-    async validateexistingcircuitforxcloud(requestBody: any, webResponse: any) {
-        Logger.cleanLogs();
-        const xcloudResponse = await XcloudHttpRequests.validateexistingcircuitforxcloud(requestBody);
-        return Common.beautifyResult(xcloudResponse, webResponse, EnumPartOf.Individual);
-    }
+    // //update/PUT new circuits
+    // async validateexistingcircuitforxcloud(requestBody: any, webResponse: any) {
+    //     Logger.cleanLogs();
+    //     const xcloudResponse = await XcloudHttpRequests.validateexistingcircuitforxcloud(requestBody);
+    //     return Common.beautifyResult(xcloudResponse, webResponse, EnumPartOf.Individual);
+    // }
 
 
-    //delete existing circuits
-    async deletecircuitforxcloud(requestBody: any, webResponse: any) {
-        Logger.cleanLogs();
-        const xcloudResponse = await XcloudHttpRequests.deletecircuitforxcloud(requestBody);
-        return Common.beautifyResult(xcloudResponse, webResponse, EnumPartOf.Individual);
-    }
+    // //delete existing circuits
+    // async deletecircuitforxcloud(requestBody: any, webResponse: any) {
+    //     Logger.cleanLogs();
+    //     const xcloudResponse = await XcloudHttpRequests.deletecircuitforxcloud(requestBody);
+    //     return Common.beautifyResult(xcloudResponse, webResponse, EnumPartOf.Individual);
+    // }
 
     //retrieve NTU by ntu id
     async retrieveswitchportbyid(requestBody: any, webResponse: any) {

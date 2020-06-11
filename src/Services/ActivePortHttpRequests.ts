@@ -1,4 +1,4 @@
-import httppromise from 'request-promise';
+import httppromise, { Options } from 'got';
 import sessionstorage from 'sessionstorage';
 import { Log } from '../class/Log'
 import { Logger } from '../class/Logger'
@@ -33,18 +33,17 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
     if (await this.isActivePortAuthorized() == false)
       return;
 
-    const options = {
+    const options: Options = {
       url: this.baseUrl(Constants.ActivePortCreateTenantAccountURL),
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + sessionstorage.getItem(EnumToken.ActivePortToken),
         'content-type': 'application/json'
-      },
-      json: true
+      }
     };
 
     try {
-      const response = await httppromise(options);
+      const response: any = await httppromise(options);
       this.activePort.ActivePortTenants = response;
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortTenantAccountsSuccess, response, ''));
     } catch (err) {
@@ -72,21 +71,20 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
       "tiles": activePortTenant.tiles
     }
 
-    const options = {
+    const options: Options = {
       url: this.baseUrl(Constants.ActivePortCreateTenantAccountURL),
       method: 'POST',
       headers: {
         'Authorization': 'Bearer ' + sessionstorage.getItem(EnumToken.ActivePortToken),
         'content-type': 'application/json'
       },
-      body: body,
-      json: true
+      json: body
     };
 
     try {
-      const response = await httppromise(options);
-      activePortTenant.id = response.id
-      activePortTenant.tenantId = response.tenantId
+      const response: any = await httppromise(options);
+      activePortTenant.id = response.id;
+      activePortTenant.tenantId = response.tenantId;
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortTenantAccountCreationSuccess, response, body));
     } catch (err) {
       Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortTenantAccountCreationError, err, body));
@@ -116,19 +114,18 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
       "tenantId": activePortTenant.tenantId
     }
 
-    const options = {
+    const options: Options = {
       url: this.baseUrl(Constants.ActivePortCreateTenantAccountURL),
       method: 'PUT',
       headers: {
         'Authorization': 'Bearer ' + sessionstorage.getItem(EnumToken.ActivePortToken),
         'content-type': 'application/json'
       },
-      body: body,
-      json: true
+      json: body
     };
 
     try {
-      const response = await httppromise(options);
+      const response: any = await httppromise(options);
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortTenantAccountCreationSuccess, response, body));
     } catch (err) {
       Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortTenantAccountCreationError, err, body));
@@ -144,18 +141,17 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
     if (await this.isActivePortAuthorized() == false)
       return;
 
-    const options = {
+    const options: Options = {
       url: this.baseUrl(Constants.ActivePortNTUURL),
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + sessionstorage.getItem(EnumToken.ActivePortToken),
         'content-type': 'application/json'
-      },
-      json: true
+      }
     };
 
     try {
-      const response = await httppromise(options);
+      const response: any = await httppromise(options);
       this.activePort.ActivePortNTU = response;
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortNTUSuccess, response, ''));
     } catch (err) {
@@ -172,18 +168,17 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
     if (await this.isActivePortAuthorized() == false)
       return;
 
-    const options = {
+    const options: Options = {
       url: this.baseUrl(Constants.ActivePortNTUURL + "/" + params.ntuid),
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + sessionstorage.getItem(EnumToken.ActivePortToken),
         'content-type': 'application/json'
-      },
-      json: true
+      }
     };
 
     try {
-      const response = await httppromise(options);
+      const response: any = await httppromise(options);
       this.activePort.ActivePortNTU = response;
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortNTUSuccess, response, ''));
     } catch (err) {
@@ -255,19 +250,18 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
       "uplinkPort": activePortNTU.uplinkPort
     }
 
-    const options = {
+    const options: Options = {
       url: this.baseUrl(Constants.ActivePortNTUURL),
       method: 'PUT',
       headers: {
         'Authorization': 'Bearer ' + sessionstorage.getItem(EnumToken.ActivePortToken),
         'content-type': 'application/json'
       },
-      body: body,
-      json: true
+      json: body
     };
 
     try {
-      const response = await httppromise(options);
+      const response: any = await httppromise(options);
       activePortNTU.id = response.id
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortTenantAccountCreationSuccess, response, body));
     } catch (err) {
@@ -337,20 +331,19 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
       "uplinkPort": activePortNTU.uplinkPort
     }
 
-    const options = {
+    const options: Options = {
       url: this.baseUrl(Constants.ActivePortNTUURL),
       method: 'POST',
       headers: {
         'Authorization': 'Bearer ' + sessionstorage.getItem(EnumToken.ActivePortToken),
         'content-type': 'application/json'
       },
-      body: body,
-      json: true
+      json: body
     };
 
 
     try {
-      const response = await httppromise(options);
+      const response: any = await httppromise(options);
       activePortNTU.id = response.id
       DbCrudOperations.saveRecord(Common.createFluidDbObject(options, response, EnumResultType.success));
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortNTUCreationSuccess, response, body));
@@ -368,18 +361,17 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
     if (await this.isActivePortAuthorized() == false)
       return;
 
-    const options = {
+    const options: Options = {
       url: this.baseUrl(Constants.ActivePortNTUURL + "/" + params.ntuid),
       method: 'DELETE',
       headers: {
         'Authorization': 'Bearer ' + sessionstorage.getItem(EnumToken.ActivePortToken),
         'content-type': 'application/json'
-      },
-      json: true
+      }
     };
 
     try {
-      const response = await httppromise(options);
+      const response: any = await httppromise(options);
       this.activePort.ActivePortNTU = response;
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortTenantAccountDeletionSuccess, response, ''));
     } catch (err) {
@@ -423,19 +415,18 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
 
     }
 
-    const options = {
+    const options: Options = {
       url: this.baseUrl(Constants.ActivePortNTUPortURL),
       method: 'POST',
       headers: {
         'Authorization': 'Bearer ' + sessionstorage.getItem(EnumToken.ActivePortToken),
         'content-type': 'application/json'
       },
-      body: body,
-      json: true
+      json: body
     };
 
     try {
-      const response = await httppromise(options);
+      const response: any = await httppromise(options);
       DbCrudOperations.saveRecord(Common.createFluidDbObject(options, response, EnumResultType.success));
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortNTUPortCreationSuccess, response, body));
 
@@ -486,19 +477,18 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
       "downLinkPort": activePortServiceRequest.downLinkPort
     }
 
-    const options = {
+    const options: Options = {
       url: this.baseUrl(Constants.ActivePortValidateServiceRequestURL),
       method: 'POST',
       headers: {
         'Authorization': 'Bearer ' + sessionstorage.getItem(EnumToken.ActivePortToken),
         'content-type': 'application/json'
       },
-      body: body,
-      json: true
+      json: body
     };
 
     try {
-      const response = await httppromise(options);
+      const response: any = await httppromise(options);
       activePortServiceRequest.uuid = response.uuid;
       DbCrudOperations.saveRecord(Common.createFluidDbObject(options, response, EnumResultType.success));
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortValidateServiceRequestSuccess, response, body));
@@ -518,19 +508,18 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
       return;
 
     const body = {};
-    const options = {
+    const options: Options = {
       url: this.baseUrl(Constants.ActivePortCreateServiceByUUidRequestURL + requestBody.uuid),
       method: 'POST',
       headers: {
         'Authorization': 'Bearer ' + sessionstorage.getItem(EnumToken.ActivePortToken),
         'content-type': 'application/json'
       },
-      body: body,
-      json: true
+      json: body
     };
 
     try {
-      const response = await httppromise(options);
+      const response: any = await httppromise(options);
       DbCrudOperations.saveRecord(Common.createFluidDbObject(options, response, EnumResultType.success));
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortCreateServiceRequestSuccess, response, body));
       return response;

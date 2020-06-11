@@ -1,4 +1,4 @@
-import httppromise from 'request-promise';
+import httppromise, { Options } from 'got';
 import { Log } from '../class/Log'
 import { Logger } from '../class/Logger'
 import { EnumCurrentStatus } from '../Enum/EnumCurrentStatus'
@@ -20,15 +20,14 @@ class NetAppHttpRequests extends NetAppBaseLayer {
     if (await this.isNetAppAuthorized() == false)
       return;
 
-    const options = {
+    const options: Options = {
       url: this.baseUrl(Constants.NetAppClusters),
       method: 'GET',
-      headers: this.netAppHeader(),
-      json: true
+      headers: this.netAppHeader()
     };
 
     try {
-      const response = await httppromise(options);
+      const response: any = await httppromise(options);
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.NetApp, Constants.NetAppClusterRetrievalSuccess, response, ''));
       return new NetAppClustersRetrievalSuccessResponse(response);
     } catch (err) {
@@ -46,16 +45,15 @@ class NetAppHttpRequests extends NetAppBaseLayer {
 
     const body = requestBody;
 
-    const options = {
+    const options: Options = {
       url: this.baseUrl(Constants.NetAppClusters),
       method: 'POST',
       headers: this.netAppHeader(),
-      body: body,
-      json: true
+      json: body
     };
 
     try {
-      const response = await httppromise(options);
+      const response: any = await httppromise(options);
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.NetApp, Constants.NetAppClusterCreationSuccess, response, ''));
       return new NetAppClustersRetrievalSuccessResponse(response);
     } catch (err) {
@@ -72,15 +70,14 @@ class NetAppHttpRequests extends NetAppBaseLayer {
     if (await this.isNetAppAuthorized() == false)
       return;
 
-    const options = {
+    const options: Options = {
       url: this.baseUrl(Constants.NetAppClusters + "/" + param.clusterid),
       method: 'DELETE',
-      headers: this.netAppHeader(),
-      json: true
+      headers: this.netAppHeader()
     };
 
     try {
-      const response = await httppromise(options);
+      const response: any = await httppromise(options);
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.NetApp, Constants.NetAppClusterDeletionSuccess, response, ''));
       return new NetAppClustersRetrievalSuccessResponse(response);
     } catch (err) {

@@ -1,4 +1,4 @@
-import httppromise from 'request-promise';
+import httppromise, { Options } from 'got';
 import { Log } from '../class/Log'
 import { Logger } from '../class/Logger'
 import { EnumCurrentStatus } from '../Enum/EnumCurrentStatus'
@@ -21,7 +21,7 @@ class StitchdataHttpRequests extends StitchdataBaseLayer {
     this.stitchdata.AuthorizationCode = RequestBody.stitch_auth_code;
 
     try {
-      const response = await this.authorizeStitchdata(this.stitchdata);
+      const response: any = await this.authorizeStitchdata(this.stitchdata);
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Stitchdata, Constants.StitchdataAuthError, response, ""));
     } catch (err) {
       Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Stitchdata, Constants.StitchdataAuthSuccess, err, ""));
@@ -46,18 +46,17 @@ class StitchdataHttpRequests extends StitchdataBaseLayer {
       "email": RequestBody.email,
     }
 
-    const options = {
+    const options: Options = {
       url: this.baseUrl(Constants.StitchdataCreateAccountURL),
       method: 'POST',
       headers: {
         'content-type': 'application/json'
       },
-      body: body,
-      json: true
+      json: body
     };
 
     try {
-      const response = await httppromise(options);
+      const response: any = await httppromise(options);
       this.stitchdata.AccountId = response.stitch_account_id;
       this.stitchdata.Token = response.access_token;
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Stitchdata, Constants.StitchdataCreateAccountSuccess, response, body));

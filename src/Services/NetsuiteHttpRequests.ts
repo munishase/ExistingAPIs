@@ -1,7 +1,7 @@
 import { NetsuiteClient } from '../class/NetsuiteClient';
 import { NetsuiteSuccessResponse } from '../class/Response/NetsuiteSuccessResponse';
 import { NetsuiteBaseLayer } from './NetsuiteBaseLayer';
-import httppromise from 'request-promise';
+import httppromise, { Options } from 'got';
 import { Log } from '../class/Log'
 import { Logger } from '../class/Logger'
 import { EnumCurrentStatus } from '../Enum/EnumCurrentStatus'
@@ -31,16 +31,15 @@ class NetsuiteHttpRequests extends NetsuiteBaseLayer {
             "custentity_acn": netsuiteClient.ACN
         };
 
-        const options = {
+        const options: Options = {
             url: this.baseUrl(Constants.NetsuiteCreateClientURL),
             method: 'POST',
-            json: true,
             headers: this.header(),
-            body: body
+            json: body
         };
 
         try {
-            const response = await httppromise(options);
+            const response: any = await httppromise(options);
             const result = JSON.parse(response);
             netsuiteClient.EntityId = result.fields.entityid;
             netsuiteClient.ClientId = result.id;
@@ -60,16 +59,15 @@ class NetsuiteHttpRequests extends NetsuiteBaseLayer {
             "status": netsuiteClient.Status
         };
 
-        const options = {
+        const options: Options = {
             url: this.baseUrl(Constants.NetsuiteCreateClientURL),
             method: 'PUT',
-            json: true,
             headers: this.header(),
-            body: body
+            json: body
         };
 
         try {
-            const response = await httppromise(options);
+            const response: any = await httppromise(options);
             Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Netsuite, Constants.NetsuiteClientUpdationSuccess, response, body));
         } catch (err) {
             Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Netsuite, Constants.NetsuiteClientUpdationError, err, body));

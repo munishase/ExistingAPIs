@@ -1,4 +1,4 @@
-import httppromise from 'request-promise';
+import httppromise, { Options } from 'got';
 import sessionstorage from 'sessionstorage';
 import { Log } from '../class/Log'
 import { Logger } from '../class/Logger'
@@ -42,19 +42,18 @@ class StorageGridHttpRequests extends StorageGridBaseLayer {
       }
     }
 
-    const options = {
+    const options: Options = {
       url: this.baseUrl(Constants.StorageGridTenantAccountURL),
       method: 'POST',
       headers: {
         'Authorization': sessionstorage.getItem(EnumToken.StorageGridToken),
         'content-type': 'application/json'
       },
-      body: body,
-      json: true
+      json: body
     };
 
     try {
-      const response = await httppromise(options);
+      const response: any = await httppromise(options);
       this.storageGrid.Tenant.AccountId = response.data.id;
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Storagegrid, Constants.StorageGridTenantAccountCreationSuccess, response, body));
     } catch (err) {
@@ -69,18 +68,17 @@ class StorageGridHttpRequests extends StorageGridBaseLayer {
     if (await this.authorizeStorageGrid() == false)
       return;
 
-    const options = {
+    const options: Options = {
       url: this.baseUrl(Constants.StorageGridTenantAccountURL + "/" + TenantId),
       method: 'DELETE',
       headers: {
         'Authorization': sessionstorage.getItem(EnumToken.StorageGridToken),
         'content-type': 'application/json'
-      },
-      json: true
+      }
     };
 
     try {
-      const response = await httppromise(options);
+      const response: any = await httppromise(options);
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Storagegrid, Constants.StorageGridTenantAccountDeletionSuccess, response, "Tenant Id: " + TenantId));
     } catch (err) {
       Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Storagegrid, Constants.StorageGridTenantAccountDeletionError, err, "Tenant Id: " + TenantId));
@@ -102,19 +100,18 @@ class StorageGridHttpRequests extends StorageGridBaseLayer {
       //"expires": expirayDate.toISOString()
     };
 
-    const options = {
+    const options: Options = {
       url: this.baseUrl(Constants.StorageGridTenantAccountS3KeysURL),
       method: "POST",
       headers: {
         "Authorization": sessionstorage.getItem(EnumToken.TenantToken),
         'content-type': 'application/json'
       },
-      body: body,
-      json: true,
+      json: body
     };
 
     try {
-      const response = await httppromise(options);
+      const response: any = await httppromise(options);
       this.storageGrid.Tenant.AccessKey = response.data.accessKey;
       this.storageGrid.Tenant.SecretAccessKey = response.data.secretAccessKey;
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Storagegrid, Constants.StorageGridTenantKeyCreationSuccess, response, body));
@@ -143,19 +140,18 @@ class StorageGridHttpRequests extends StorageGridBaseLayer {
       "region": this.storageGrid.Tenant.Bucket.region
     };
 
-    const options = {
+    const options: Options = {
       url: this.baseUrl(Constants.StorageGridTenantBucketURL),
       method: "POST",
       headers: {
         "Authorization": sessionstorage.getItem(EnumToken.TenantToken),
         'content-type': 'application/json'
       },
-      body: body,
-      json: true,
+      json: body,
     };
 
     try {
-      const response = await httppromise(options);
+      const response: any = await httppromise(options);
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Storagegrid, Constants.StorageGridTenantBucketCreationSuccess, response, body));
     } catch (err) {
       Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Storagegrid, Constants.StorageGridTenantBucketCreationError, err, body));

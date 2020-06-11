@@ -1,4 +1,4 @@
-import httppromise from 'request-promise';
+import httppromise, { Options } from 'got';
 import { Log } from '../class/Log'
 import { Logger } from '../class/Logger'
 import { EnumCurrentStatus } from '../Enum/EnumCurrentStatus'
@@ -19,15 +19,15 @@ class DataikuHttpRequests extends DataikuBaseLayer {
   //prerequisite: dataiku Token in Header
   async listDataSetsFromDataiku(param: any) {
 
-    const options = {
+    const options: Options = {
       url: Common.replaceCurleBrasesInUrl(this.baseUrl(Constants.DataikuListDatasetsURL), param.projectkey),
       method: 'GET',
-      auth: this.dataikuHeader(),
-      json: true
+      username: this.dataikuHeader().user,
+      password: this.dataikuHeader().password
     };
 
     try {
-      const response = await httppromise(options);
+      const response: any = await httppromise(options);
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Dataiku, Constants.DataikuDatasetsRetrievalSuccess, response, ''));
       return new DataikuListDatasetsSuccessResponse(response);
     } catch (err) {
@@ -42,16 +42,16 @@ class DataikuHttpRequests extends DataikuBaseLayer {
 
     const body = requestBody;
 
-    const options = {
+    const options: Options = {
       url: Common.replaceCurleBrasesInUrl(this.baseUrl(Constants.DataikuListDatasetsURL), requestBody.projectKey),
       method: 'POST',
-      auth: this.dataikuHeader(),
-      body: body,
-      json: true
+      username: this.dataikuHeader().user,
+      password: this.dataikuHeader().password,
+      json: body
     };
 
     try {
-      const response = await httppromise(options);
+      const response: any = await httppromise(options);
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Dataiku, Constants.DataikuInsertDatasetSuccess, response, ''));
       return new DataikuListDatasetsSuccessResponse(response);
     } catch (err) {
@@ -66,16 +66,16 @@ class DataikuHttpRequests extends DataikuBaseLayer {
 
     const body = requestBody.dataset;
 
-    const options = {
+    const options: Options = {
       url: Common.replaceCurleBrasesInUrl(this.baseUrl(Constants.DataikuCreateManagedDatasetURL), requestBody.projectKey),
       method: 'POST',
-      auth: this.dataikuHeader(),
-      body: body,
-      json: true
+      username: this.dataikuHeader().user,
+      password: this.dataikuHeader().password,
+      json: body
     };
 
     try {
-      const response = await httppromise(options);
+      const response: any = await httppromise(options);
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Dataiku, Constants.DataikuInsertManagedDatasetSuccess, response, ''));
       return new DataikuListDatasetsSuccessResponse(response);
     } catch (err) {

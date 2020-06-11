@@ -1,5 +1,5 @@
 import { Veeam } from '../class/Veeam';
-import httppromise from 'request-promise';
+import httppromise, { Options } from 'got';
 import sessionstorage from 'sessionstorage';
 import { Log } from '../class/Log'
 import { Logger } from '../class/Logger'
@@ -34,19 +34,18 @@ export class VeeamHttpRequests extends VeeamBaseLayer {
             "expirationEnabled": this.veeam.ExpirationEnabled
         };
 
-        const options = {
+        const options: Options = {
             url: this.baseUrl(Constants.VeeamTenantURL),
             method: 'POST',
             headers: {
                 'Authorization': sessionstorage.getItem(EnumToken.VeeamToken),
                 'content-type': 'application/json'
             },
-            body: body,
-            json: true
+            json: body
         };
 
         try {
-            const response = await httppromise(options);
+            const response: any = await httppromise(options);
             veeam.Id = response.id;
             Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Veeam, Constants.VeeamAccountCreationSuccess, response, body));
         } catch (err) {

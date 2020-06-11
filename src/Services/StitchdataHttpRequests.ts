@@ -1,4 +1,4 @@
-import httppromise from 'request-promise';
+import httppromise, { Options } from 'got';
 import { Log } from '../class/Log'
 import { Logger } from '../class/Logger'
 import { EnumCurrentStatus } from '../Enum/EnumCurrentStatus'
@@ -22,7 +22,7 @@ class StitchdataHttpRequests extends StitchdataBaseLayer {
     this.removeToken();
     this.stitchdata.AuthorizationCode = requestBody.stitch_auth_code;
     try {
-      const response = await this.authorizeStitchdata(this.stitchdata);
+      const response: any = await this.authorizeStitchdata(this.stitchdata);
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Stitchdata, Constants.StitchdataAuthError, response as any, ""));
       return new StitchdataAccountAuthorizationSuccessResponse(this.stitchdata);
     } catch (err) {
@@ -52,18 +52,17 @@ class StitchdataHttpRequests extends StitchdataBaseLayer {
       "email": stitchdataCreateAccount.Email,
     }
 
-    const options = {
+    const options: Options = {
       url: this.baseUrl(Constants.StitchdataCreateAccountURL),
       method: 'POST',
       headers: {
         'content-type': 'application/json'
       },
-      body: body,
-      json: true
+      json: body
     };
 
     try {
-      const response = await httppromise(options)
+      const response: any = await httppromise(options)
       this.stitchdata.AccountId = response.stitch_account_id;
       this.stitchdata.Token = response.access_token;
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Stitchdata, Constants.StitchdataCreateAccountSuccess, response, body));
@@ -77,17 +76,16 @@ class StitchdataHttpRequests extends StitchdataBaseLayer {
   //Here we are retrieving all the sources from new Account
   async retrievesourcesfromstitchdata(requestBody: any) {
 
-    const options = {
+    const options: Options = {
       url: this.baseUrl(Constants.StitchdataRetrieveSourcesURL),
       method: 'GET',
       headers: {
         'Authorization': requestBody.access_token,
         'content-type': 'application/json'
-      },
-      json: true
+      }
     };
     try {
-      const response = await httppromise(options)
+      const response: any = await httppromise(options)
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Stitchdata, Constants.StitchdataRetrieveSourcesSuccess, response, options));
       return new StitchdataGetRequestSuccessResponse(requestBody.access_token, response);
     } catch (err) {
@@ -99,18 +97,17 @@ class StitchdataHttpRequests extends StitchdataBaseLayer {
   //Here we are retrieving all the sources from new Account
   async retrievedestinationfromstitchdata(requestBody: any) {
 
-    const options = {
+    const options: Options = {
       url: this.baseUrl(Constants.StitchdataRetrieveDestinationsURL),
       method: 'GET',
       headers: {
         'Authorization': requestBody.access_token,
         'content-type': 'application/json'
-      },
-      json: true
+      }
     };
 
     try {
-      const response = await httppromise(options);
+      const response: any = await httppromise(options);
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Stitchdata, Constants.StitchdataRetrieveSourcesSuccess, response, options));
       return new StitchdataGetRequestSuccessResponse(requestBody.access_token, response);
     } catch (err) {

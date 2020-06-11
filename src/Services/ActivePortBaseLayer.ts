@@ -1,6 +1,6 @@
 import { ActivePort } from '../class/ActivePort';
 import { BaseLayer } from './BaseLayer';
-import httppromise from 'request-promise';
+import httppromise, { Options } from 'got';
 import sessionstorage from 'sessionstorage';
 import { Log } from '../class/Log'
 import { Logger } from '../class/Logger'
@@ -33,11 +33,10 @@ export class ActivePortBaseLayer extends BaseLayer {
             "rememberMe": true
         };
 
-        const options = {
+        const options: Options = {
             url: this.baseUrl(Constants.ActivePortAuthURL),
             method: 'POST',
-            json: true,
-            body: body
+            json: body
         };
         return await httppromise(options);
     }
@@ -47,7 +46,7 @@ export class ActivePortBaseLayer extends BaseLayer {
     protected async authorizeActivePort(): Promise<boolean> {
         if (sessionstorage.getItem(EnumToken.ActivePortToken) == null) {
             try {
-                const response = await this.generateActivePortToken();
+                const response: any = await this.generateActivePortToken();
                 sessionstorage.setItem(EnumToken.ActivePortToken, response.id_token)
                 Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortAuthSuccess, response, ""))
                 return true;

@@ -1,6 +1,6 @@
 import { StorageGrid } from '../class/StorageGrid';
 import { BaseLayer } from './BaseLayer';
-import httppromise from 'request-promise';
+import httppromise, { Options } from 'got';
 import sessionstorage from 'sessionstorage';
 import { Log } from '../class/Log'
 import { Logger } from '../class/Logger'
@@ -36,11 +36,10 @@ export class StorageGridBaseLayer extends BaseLayer {
             "csrfToken": this.storageGrid.CsrfToken
         };
 
-        const options = {
+        const options: Options = {
             url: this.baseUrl(Constants.StorageGridAuthURL),
             method: 'POST',
-            json: true,
-            body: body
+            json: body
         };
 
         return httppromise(options);
@@ -50,7 +49,7 @@ export class StorageGridBaseLayer extends BaseLayer {
     protected async authorizeStorageGrid(): Promise<boolean> {
         if (sessionstorage.getItem(EnumToken.StorageGridToken) == null) {
             try {
-                const response = await this.generateStorageGridToken();
+                const response: any = await this.generateStorageGridToken();
                 sessionstorage.setItem(EnumToken.StorageGridToken, response.data)
                 Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Storagegrid, Constants.StorageGridAuthSuccess, response, ""))
                 return true;
@@ -72,15 +71,14 @@ export class StorageGridBaseLayer extends BaseLayer {
             "csrfToken": this.environmentConfig.StorageGrid.Tenant.CsrfToken
         };
 
-        const options = {
+        const options: Options = {
             url: this.baseUrl(Constants.StorageGridAuthURL),
             method: "POST",
-            json: true,
             headers: {
                 "Authorization": sessionstorage.getItem(EnumToken.StorageGridToken),
                 "content-type": "text/json"
             },
-            body: body
+            json: body
         };
         return httppromise(options);
     }
@@ -89,7 +87,7 @@ export class StorageGridBaseLayer extends BaseLayer {
     protected async authorizeTenantAccount(): Promise<boolean> {
         if (sessionstorage.getItem(EnumToken.TenantToken) == null) {
             try {
-                const response = await this.generateTenantToken();
+                const response: any = await this.generateTenantToken();
                 sessionstorage.setItem(EnumToken.TenantToken, response.data)
                 Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Storagegrid, Constants.StorageGridTenantAuthSuccess, response, ""));
             } catch (err) {
