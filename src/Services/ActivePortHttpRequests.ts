@@ -28,10 +28,10 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
 
   //Here we are creating tenant Account
   //prerequisite: ActivePort Token in Header
-  async retrieveAllTenants(requestBody: any) {
-
-    if (await this.isActivePortAuthorized() == false)
-      return;
+  async retrieveAllTenants() {
+    const isAuthorized = await this.isActivePortAuthorized();
+    if (!isAuthorized)
+        return;
 
     const options: Options = {
       url: this.baseUrl(Constants.ActivePortCreateTenantAccountURL),
@@ -56,9 +56,9 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
   //Here we are creating tenant Account
   //prerequisite: ActivePort Token in Header
   async createTenantAccount(requestBody: ActivePortTenant) {
-
-    if (await this.isActivePortAuthorized() == false)
-      return;
+    const isAuthorized = await this.isActivePortAuthorized();
+    if (!isAuthorized)
+        return;
 
     const activePortTenant = new ActivePortTenant();
     activePortTenant.name = requestBody.name;
@@ -96,8 +96,9 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
   //Here we are deleting ActivePort tenant Account
   //prerequisite: ActivePort Token in Header and ActivePort Tanent account with this id already there
   async updateTenantAccount(requestBody: ActivePortTenant) {
-    if (await this.isActivePortAuthorized() == false)
-      return;
+    const isAuthorized = await this.isActivePortAuthorized();
+    if (!isAuthorized)
+        return;
 
     const activePortTenant = new ActivePortTenant();
     activePortTenant.name = requestBody.name;
@@ -136,10 +137,10 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
 
   //Here we are retriving all ntu
   //prerequisite: ActivePort Token in Header
-  async retrieveAllNTUs(requestBody: any) {
-
-    if (await this.isActivePortAuthorized() == false)
-      return;
+  async retrieveAllNTUs() {
+    const isAuthorized = await this.isActivePortAuthorized();
+    if (!isAuthorized)
+        return;
 
     const options: Options = {
       url: this.baseUrl(Constants.ActivePortNTUURL),
@@ -164,9 +165,9 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
   //Here we are retriving ntu by id
   //prerequisite: ActivePort Token in Header
   async retrieveNTUById(params: any) {
-
-    if (await this.isActivePortAuthorized() == false)
-      return;
+    const isAuthorized = await this.isActivePortAuthorized();
+    if (!isAuthorized)
+        return;
 
     const options: Options = {
       url: this.baseUrl(Constants.ActivePortNTUURL + "/" + params.ntuid),
@@ -191,9 +192,9 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
   //Here we are updating NTU
   //prerequisite: ActivePort Token in Header
   async updateNTUById(requestBody: any) {
-
-    if (await this.isActivePortAuthorized() == false)
-      return;
+    const isAuthorized = await this.isActivePortAuthorized();
+    if (!isAuthorized)
+        return;
 
     const activePortNTU = new ActivePortNTU();
     activePortNTU.id = requestBody.id;
@@ -275,8 +276,9 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
   //Here we are creating NTU
   //prerequisite: ActivePort Token in Header
   async createNTU(requestBody: any) {
-    if (await this.isActivePortAuthorized() == false)
-      return;
+    const isAuthorized = await this.isActivePortAuthorized();
+    if (!isAuthorized)
+        return;
 
     const activePortNTU = new ActivePortNTU();
     activePortNTU.autoRollback = requestBody.autoRollback;
@@ -358,8 +360,9 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
   //Here we are retriving ntu by id
   //prerequisite: ActivePort Token in Header
   async deleteNTUById(params: any) {
-    if (await this.isActivePortAuthorized() == false)
-      return;
+    const isAuthorized = await this.isActivePortAuthorized();
+    if (!isAuthorized)
+        return;
 
     const options: Options = {
       url: this.baseUrl(Constants.ActivePortNTUURL + "/" + params.ntuid),
@@ -385,8 +388,9 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
   //Here we are creating NTU Port
   //prerequisite: ActivePort Token in Header
   async createNTUPort(requestBody: any) {
-    if (await this.isActivePortAuthorized() == false)
-      return;
+    const isAuthorized = await this.isActivePortAuthorized();
+    if (!isAuthorized)
+        return;
 
     const activePortNTUPort = new ActivePortNTUPort();
     activePortNTUPort.ntuId = requestBody.ntuId;
@@ -441,8 +445,9 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
   //Here we are creating validateServiceRequest
   //prerequisite: ActivePort Token in Header
   async validateServiceRequest(requestBody: any) {
-    if (await this.isActivePortAuthorized() == false)
-      return;
+    const isAuthorized = await this.isActivePortAuthorized();
+    if (!isAuthorized)
+        return;
 
     const activePortServiceRequest = new ActivePortServiceRequest();
     activePortServiceRequest.name = requestBody.name;
@@ -504,8 +509,9 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
   //Here we are creating validateServiceRequest
   //prerequisite: ActivePort Token in Header
   async createServiceByUUID(requestBody: any) {
-    if (await this.isActivePortAuthorized() == false)
-      return;
+    const isAuthorized = await this.isActivePortAuthorized();
+    if (!isAuthorized)
+        return;
 
     const body = {};
     const options: Options = {

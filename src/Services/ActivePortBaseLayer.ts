@@ -22,7 +22,7 @@ export class ActivePortBaseLayer extends BaseLayer {
     protected activePort: ActivePort = new ActivePort();
 
     //Generate new Token for ActivePort
-    private async generateActivePortToken() {
+    private async generateActivePortToken(): Promise<any> {
 
         this.activePort.Username = this.environmentConfig.ActivePort.Username;
         this.activePort.Password = this.environmentConfig.ActivePort.Password;
@@ -46,7 +46,7 @@ export class ActivePortBaseLayer extends BaseLayer {
     protected async authorizeActivePort(): Promise<boolean> {
         if (sessionstorage.getItem(EnumToken.ActivePortToken) == null) {
             try {
-                const response: any = await this.generateActivePortToken();
+                const response = await this.generateActivePortToken();
                 sessionstorage.setItem(EnumToken.ActivePortToken, response.id_token)
                 Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortAuthSuccess, response, ""))
                 return true;
@@ -62,12 +62,11 @@ export class ActivePortBaseLayer extends BaseLayer {
 
     //isActivePortAuthorized token
     protected async isActivePortAuthorized(): Promise<boolean> {
-        if (await Logger.hasErrorLogs() == true)
+        if (Logger.hasErrorLogs() == true){
             return false;
-        else if (await this.authorizeActivePort() == false)
-            return false;
-        else
-            return true;
+        }
+        const authorizeResult = await this.authorizeActivePort();
+        return !!authorizeResult;
     }
 
     //remove token

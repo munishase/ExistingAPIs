@@ -100,7 +100,7 @@ export class Logger {
         const filepath = this.dirname + "\\" + filename;
         this.createLogFileIfDoesNotExists(this.dirname, filepath);
 
-        fs.open(filepath, 'r', (err: any, fd: any) => {
+        fs.open(filepath, 'r', () => {
             fs.appendFile(filepath, JSON.stringify(this.getAllLogs()), (err: any) => {
                 if (err) {
                     console.log(err);
@@ -114,7 +114,7 @@ export class Logger {
             fs.mkdirSync(dirname);
         }
 
-        fs.open(filepath, 'r', function (err: any, fd: any) {
+        fs.open(filepath, 'r', function (err: any) {
             if (err) {
                 fs.writeFile(filepath, '', function (err: any) {
                     if (err) {

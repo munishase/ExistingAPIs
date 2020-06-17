@@ -26,9 +26,9 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
 
     //Here we are retriving all xcloud circuit
     //prerequisite: Xcloud cookie in Header
-    async getallcircuits(requestBody: any) {
-
-        if (await this.isAuthorized() == false)
+    async getallcircuits(): Promise<XcloudRetrieveSuccessResponse | undefined> {
+        const isAuthorized = await this.isAuthorized();
+        if (!isAuthorized)
             return;
 
         const options: Options = {
@@ -41,7 +41,7 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
         };
 
         try {
-            const response: any = await httppromise(options);
+            const response = await httppromise(options) as XCloudCircuitResponse;
             Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Xcloud, Constants.XcloudCreateNTUSuccess, response, ''));
             return new XcloudRetrieveSuccessResponse(response);
         } catch (err) {
@@ -52,9 +52,9 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
     }
 
     //Here we add new circuit in xcloud
-    async addnewcircuitforxcloud(requestBody: any) {
-
-        if (await this.isAuthorized() == false)
+    async addnewcircuitforxcloud(requestBody: any): Promise<XcloudRetrieveSuccessResponse | undefined> {
+        const isAuthorized = await this.isAuthorized();
+        if (!isAuthorized)
             return;
 
         const xcloudCircuit = new XcloudCircuit();
@@ -89,8 +89,8 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
         };
 
         try {
-            const response: any = await httppromise(options);
-            xcloudCircuit.id = response.circuitID;
+            const response = await httppromise(options) as XCloudCreateCircuitResponse;
+            xcloudCircuit.id = response.data.circuitID;
             Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Xcloud, Constants.XcloudCreateCircuitSuccess, response, ''));
         } catch (err) {
             Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Xcloud, Constants.XcloudCreateCircuitError, err, ''));
@@ -103,8 +103,8 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
     
         //Here  update existing circuit in xcloud
         async updateexistingcircuitforxcloud(requestBody: any) {
-    
-            if (await this.isAuthorized() == false)
+            const isAuthorized = await this.isAuthorized();
+            if (!isAuthorized)
                 return;
     
             let xcloud = new Xcloud();
@@ -173,8 +173,8 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
     
         //Here  validate existing circuit in xcloud
         async validateexistingcircuitforxcloud(requestBody: any) {
-    
-            if (await this.isAuthorized() == false)
+            const isAuthorized = await this.isAuthorized();
+            if (!isAuthorized)
                 return;
     
             let xcloud = new Xcloud();
@@ -186,7 +186,7 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
             xcloud.sites = requestBody.sites;
             xcloud.tenants = requestBody.tenants;
             xcloud.gateways = requestBody.gateways;
-            xcloud.members = requestBody.members;
+            xcloud.members = requestB;
             xcloud.mac_address = requestBody.mac_address;
             xcloud.sites_id = requestBody.sites_id;
             xcloud.sites_name = requestBody.sites_name;
@@ -233,8 +233,8 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
     
         //Here circuit deleted in xcloud
         async deletecircuitforxcloud(requestBody: any) {
-    
-            if (await this.isAuthorized() == false)
+            const isAuthorized = await this.isAuthorized();
+            if (!isAuthorized)
                 return;
     
             let xcloud = new Xcloud();
@@ -273,9 +273,9 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
     */
 
     //here to find switch port by id
-    async retrieveswitchportbyid(params: any) {
-
-        if (await this.isAuthorized() == false)
+    async retrieveswitchportbyid(params: any): Promise<XcloudSwitchPort | undefined> {
+        const isAuthorized = await this.isAuthorized();
+        if (!isAuthorized)
             return;
 
         const options: Options = {
@@ -310,9 +310,9 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
     }
 
     //add ebgp in xcloud
-    async addEbgpforxcloud(requestBody: any, activeportCreateServiceByUUID: any) {
-
-        if (await this.isAuthorized() == false)
+    async addEbgpforxcloud(requestBody: any, activeportCreateServiceByUUID: { uuid: string }): Promise<XcloudRetrieveSuccessResponse | undefined> {
+        const isAuthorized = await this.isAuthorized();
+        if (!isAuthorized)
             return;
 
         const xcloudEbgp = new XcloudEbgp();
@@ -370,7 +370,7 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
             "allowas_in": xcloudEbgp.allowas_in,
             "rcircuit_id": xcloudEbgp.rcircuit_id,
             "switch_port_id": xcloudEbgp.switch_port_id
-        };
+        } as XcloudEbgp;
 
         const options: Options = {
             url: this.baseUrl(Constants.XcloudEbgpURL),
@@ -383,7 +383,7 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
         };
 
         try {
-            const response: any = await httppromise(options);
+            const response = await httppromise(options) as XCloudCreateEbgpResponse;
             xcloudEbgp.id = response.data.id;
             DbCrudOperations.saveRecord(Common.createFluidDbObject(options, response, EnumResultType.success));
             Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Xcloud, Constants.XcloudCreateEbgpSuccess, response, ''));
@@ -401,19 +401,20 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
 
         const subnetName = uuidv1();
         const xcloudSubnetObject = new XcloudSubnet()
-        const xcloudSubnetResponse = await this.addSubnetforxcloud(requestBody, EnumXcloudSubnetType.allocation, subnetName, xcloudSubnetObject);
-        if (Logger.hasErrorLogs())
-            return xcloudSubnetResponse;
-        else {
-            const xcloudSubnetFinalResult = await this.addSubnetforxcloud(requestBody, EnumXcloudSubnetType.assignment, subnetName, xcloudSubnetObject.convertToXcloudSubnetObject(xcloudSubnetResponse));
-            return xcloudSubnetObject.convertToXcloudSubnetObject(xcloudSubnetFinalResult);
+        const xcloudSubnetResponse = await this.addSubnetforxcloud(requestBody, EnumXcloudSubnetType.allocation, subnetName, xcloudSubnetObject) as unknown as XcloudSubnet;
+        if (!Logger.hasErrorLogs() && !!xcloudSubnetResponse) {
+            const xcloudSubnetFinalResult = await this.addSubnetforxcloud(requestBody, EnumXcloudSubnetType.assignment, subnetName, xcloudSubnetObject.convertToXcloudSubnetObject(xcloudSubnetResponse)) as unknown as XcloudSubnet;
+            if (xcloudSubnetFinalResult) {
+                return xcloudSubnetObject.convertToXcloudSubnetObject(xcloudSubnetFinalResult);
+            }
         }
+        return xcloudSubnetResponse;
     }
 
     //add subet in xcloud
-    async addSubnetforxcloud(requestBody: any, xcloudSubnetType: EnumXcloudSubnetType, subnetName: string, xcloudSubnetObject: XcloudSubnet) {
-
-        if (await this.isAuthorized() == false)
+    async addSubnetforxcloud(requestBody: any, xcloudSubnetType: EnumXcloudSubnetType, subnetName: string, xcloudSubnetObject: XcloudSubnet): Promise<XCloudCreateSubnetResponse | undefined> {
+        const isAuthorized = await this.isAuthorized();
+        if (!isAuthorized)
             return;
 
         xcloudSubnetObject.name = subnetName;
@@ -442,7 +443,7 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
         };
 
         try {
-            const response: any = await httppromise(options);
+            const response = await httppromise(options) as XCloudCreateSubnetResponse;
             //this function runs two time so depending upon the type assign the result id
             if (xcloudSubnetType == EnumXcloudSubnetType.allocation) {
                 xcloudSubnetObject.allocationId = response.data.id;

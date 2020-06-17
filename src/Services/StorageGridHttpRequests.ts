@@ -9,6 +9,7 @@ import { StorageGridBaseLayer } from './StorageGridBaseLayer'
 import { StorageGridSuccessResponse } from '../class/Response/StorageGridSuccessResponse'
 import { EnumModule } from '../Enum/EnumModule';
 import { EnumToken } from '../Enum/EnumToken';
+import { NetsuiteSuccessResponse } from '../class/Response/NetsuiteSuccessResponse';
 
 class StorageGridHttpRequests extends StorageGridBaseLayer {
 
@@ -19,8 +20,8 @@ class StorageGridHttpRequests extends StorageGridBaseLayer {
   //Here we are creating tenant Account
   //prerequisite: Storage Grid Token in Header
   async createTenantAccount(TenantName: string) {
-
-    if (await this.isStoragegridAuthorized() == false)
+    const isAuthorized = await this.isStoragegridAuthorized();
+    if (!isAuthorized)
       return;
 
     this.storageGrid.Tenant.Name = TenantName;
@@ -64,8 +65,9 @@ class StorageGridHttpRequests extends StorageGridBaseLayer {
 
   //Here we are deleting tenant Account
   //prerequisite: Storage Grid Token in Header and Tanent account with this id already there
-  async deleteTenantAccount(TenantId: any) {
-    if (await this.authorizeStorageGrid() == false)
+  async deleteTenantAccount(TenantId: string) {
+    const isAuthorized = await this.authorizeStorageGrid();
+    if (!isAuthorized)
       return;
 
     const options: Options = {
@@ -89,8 +91,8 @@ class StorageGridHttpRequests extends StorageGridBaseLayer {
   //Here create new pair of keys
   //prerequisite: Tenant Token in Header
   async createKeysforNewlyCreatedTenantAccount() {
-
-    if (await this.isTenantAuthorized() == false)
+    const isAuthorized = await this.isTenantAuthorized();
+    if (!isAuthorized)
       return;
 
     await this.authorizeTenantAccount();
@@ -127,8 +129,8 @@ class StorageGridHttpRequests extends StorageGridBaseLayer {
   //It is giving error, because the global compliance rule are false and ILM also does not allow to change compliance,
   //so need to change ILM policy then compliance
   async createBucketForTenant(BucketName: string) {
-
-    if (await this.isTenantAuthorized() == false)
+    const isAuthorized = await this.isTenantAuthorized();
+    if (!isAuthorized)
       return;
 
     this.storageGrid.Tenant.Bucket.name = BucketName; // this.environmentConfig.StorageGrid.Tenant.Bucket.S3_Bucket_Name;
@@ -162,7 +164,7 @@ class StorageGridHttpRequests extends StorageGridBaseLayer {
 
   //here number of steps are called as 
   //createTenantAccount, createKeysforNewlyCreatedTenantAccount and createBucketForTenant
-  async processStorageGrid(RequestBody: any, webResponse: any) {
+  async processStorageGrid(RequestBody: StorageGridSuccessResponse) {
 
     sessionstorage.setItem(EnumToken.TenantToken, null);//setting tenant token as null as it will create new token
 
@@ -174,9 +176,9 @@ class StorageGridHttpRequests extends StorageGridBaseLayer {
   }
 
   //this is seprate when we want netsuite ASEC number to be tenant name
-  async processStorageGridWithNetsuite(netsuite: any, RequestBody: any, webResponse: any) {
-
-    if (await this.authorizeStorageGrid() == false || Logger.hasErrorLogs() == true)
+  async processStorageGridWithNetsuite(netsuite: NetsuiteSuccessResponse, RequestBody: StorageGridSuccessResponse) {
+    const isAuthorized = await this.authorizeStorageGrid();
+    if (!isAuthorized|| Logger.hasErrorLogs() == true)
       return;
 
     try {

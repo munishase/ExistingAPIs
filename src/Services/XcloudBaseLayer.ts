@@ -33,7 +33,7 @@ export class XcloudBaseLayer extends BaseLayer {
     }
 
     //Check if Xcloud token already exists otherwise it will generate new Token for Xcloud
-    protected async authorizeXcloudGrid(): Promise<any> {
+    protected async authorizeXcloudGrid(): Promise<{ connect_sid: string }> {
 
         const options = this.generateXcloudToken();
         try {
@@ -51,12 +51,11 @@ export class XcloudBaseLayer extends BaseLayer {
     //isAuthorized token
     protected async isAuthorized(): Promise<boolean> {
         sessionstorage.removeItem(EnumToken.XcloudCookie);
-        if (await Logger.hasErrorLogs() == true)
+        if (Logger.hasErrorLogs() == true){
             return false;
-        else if (await this.authorizeXcloudGrid() == false)
-            return false;
-        else
-            return true;
+        }
+        const authorizeResult = await this.authorizeXcloudGrid();
+        return !!authorizeResult;
     }
 
     //remove token

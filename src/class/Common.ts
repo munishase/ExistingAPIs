@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { EnumPartOf } from '../Enum/EnumPartOf'
 import { Logger } from './Logger'
 import { EnumModule } from '../Enum/EnumModule';

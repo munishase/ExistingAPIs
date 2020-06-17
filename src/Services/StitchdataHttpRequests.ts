@@ -9,6 +9,7 @@ import { StitchdataAccountCreationSuccessResponse } from '../class/Response/Stit
 import { EnumModule } from '../Enum/EnumModule';
 import { StitchdataCreateAccount } from '../class/StitchdataCreateAccount';
 import { StitchdataGetRequestSuccessResponse } from '../class/Response/StitchdataGetRequestSuccessResponse';
+import { StitchdataRegistrationRequest, StitchdataBaseAccessRequest, StitchdataTokenRequest } from '../types/StitchdataRequests';
 
 class StitchdataHttpRequests extends StitchdataBaseLayer {
 
@@ -17,7 +18,7 @@ class StitchdataHttpRequests extends StitchdataBaseLayer {
   }
 
   //Here we are generating token for existing account
-  async generateTokenForExistingStitchdataAccount(requestBody: any) {
+  async generateTokenForExistingStitchdataAccount(requestBody: StitchdataTokenRequest) {
 
     this.removeToken();
     this.stitchdata.AuthorizationCode = requestBody.stitch_auth_code;
@@ -33,7 +34,7 @@ class StitchdataHttpRequests extends StitchdataBaseLayer {
 
 
   //Here we are creating new Account
-  async registerAccountForStitchdata(requestBody: any) {
+  async registerAccountForStitchdata(requestBody: StitchdataRegistrationRequest) {
 
     this.assignStitchdataEssentials();
     const stitchdataCreateAccount = new StitchdataCreateAccount();
@@ -74,7 +75,7 @@ class StitchdataHttpRequests extends StitchdataBaseLayer {
   }
 
   //Here we are retrieving all the sources from new Account
-  async retrievesourcesfromstitchdata(requestBody: any) {
+  async retrievesourcesfromstitchdata(requestBody: StitchdataBaseAccessRequest) {
 
     const options: Options = {
       url: this.baseUrl(Constants.StitchdataRetrieveSourcesURL),
@@ -95,7 +96,7 @@ class StitchdataHttpRequests extends StitchdataBaseLayer {
   }
 
   //Here we are retrieving all the sources from new Account
-  async retrievedestinationfromstitchdata(requestBody: any) {
+  async retrievedestinationfromstitchdata(requestBody: StitchdataBaseAccessRequest) {
 
     const options: Options = {
       url: this.baseUrl(Constants.StitchdataRetrieveDestinationsURL),

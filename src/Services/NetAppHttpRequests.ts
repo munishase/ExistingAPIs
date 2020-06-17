@@ -16,14 +16,15 @@ class NetAppHttpRequests extends NetAppBaseLayer {
 
   //Here we are retrieving new nks cluster
   //prerequisite: NetApp Token in Header
-  async retrieveClustersFromNetapp(requestBody: any) {
-    if (await this.isNetAppAuthorized() == false)
+  async retrieveClustersFromNetapp() {
+    const isAuthorized = await this.isNetAppAuthorized();
+    if (!isAuthorized)
       return;
 
     const options: Options = {
       url: this.baseUrl(Constants.NetAppClusters),
       method: 'GET',
-      headers: this.netAppHeader()
+      headers: { ...this.netAppHeader() }
     };
 
     try {
@@ -39,8 +40,8 @@ class NetAppHttpRequests extends NetAppBaseLayer {
   //Here we are creating new NKS cluster
   //prerequisite: NetApp Token in Header
   async createNKSCluster(requestBody: any) {
-
-    if (await this.isNetAppAuthorized() == false)
+    const isAuthorized = await this.isNetAppAuthorized();
+    if (!isAuthorized)
       return;
 
     const body = requestBody;
@@ -48,7 +49,7 @@ class NetAppHttpRequests extends NetAppBaseLayer {
     const options: Options = {
       url: this.baseUrl(Constants.NetAppClusters),
       method: 'POST',
-      headers: this.netAppHeader(),
+      headers: { ...this.netAppHeader() },
       json: body
     };
 
@@ -65,15 +66,15 @@ class NetAppHttpRequests extends NetAppBaseLayer {
 
   //Here we are deleting NKS cluster
   //prerequisite: NetApp Token in Header
-  async deleteNKSCluster(param: any) {
-
-    if (await this.isNetAppAuthorized() == false)
+  async deleteNKSCluster(param: { clusterId: string }) {
+    const isAuthorized = await this.isNetAppAuthorized();
+    if (!isAuthorized)
       return;
 
     const options: Options = {
-      url: this.baseUrl(Constants.NetAppClusters + "/" + param.clusterid),
+      url: this.baseUrl(Constants.NetAppClusters + "/" + param.clusterId),
       method: 'DELETE',
-      headers: this.netAppHeader()
+      headers: { ...this.netAppHeader() }
     };
 
     try {

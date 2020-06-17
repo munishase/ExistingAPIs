@@ -1,7 +1,5 @@
 import { EnumModule } from '../../Enum/EnumModule'
-import { BaseResponse } from '../BaseResponse'
 import { ActivePortNTUPort } from '../ActivePortNTUPort';
-import { basename } from 'path';
 
 export class ActivePortNTUPortCreationSuccessResponse extends ActivePortNTUPort {
     module: string;

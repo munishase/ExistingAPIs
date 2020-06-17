@@ -7,6 +7,7 @@ import { EnumModule } from '../Enum/EnumModule';
 import { DataikuBaseLayer } from './DataikuBaseLayer';
 import { DataikuListDatasetsSuccessResponse } from '../class/Response/DataikuListDatasetsSuccessResponse';
 import Common from '../class/Common';
+import { DataikuProjectRequest } from '../types/DataikuProjectRequest';
 
 
 class DataikuHttpRequests extends DataikuBaseLayer {
@@ -17,10 +18,10 @@ class DataikuHttpRequests extends DataikuBaseLayer {
 
   //Here we are retrieving all datasets in dataiku
   //prerequisite: dataiku Token in Header
-  async listDataSetsFromDataiku(param: any) {
+  async listDataSetsFromDataiku(param: DataikuProjectRequest) {
 
     const options: Options = {
-      url: Common.replaceCurleBrasesInUrl(this.baseUrl(Constants.DataikuListDatasetsURL), param.projectkey),
+      url: Common.replaceCurleBrasesInUrl(this.baseUrl(Constants.DataikuListDatasetsURL), param.projectKey),
       method: 'GET',
       username: this.dataikuHeader().user,
       password: this.dataikuHeader().password
@@ -38,7 +39,7 @@ class DataikuHttpRequests extends DataikuBaseLayer {
 
   //Here we are creating new NKS cluster
   //prerequisite: dataiku Token in Header
-  async createDatasetForDataiku(requestBody: any) {
+  async createDatasetForDataiku(requestBody: DataikuProjectRequest) {
 
     const body = requestBody;
 
@@ -62,7 +63,7 @@ class DataikuHttpRequests extends DataikuBaseLayer {
 
   //Here we are creating new NKS cluster
   //prerequisite: dataiku Token in Header
-  async createManagedDatasetForDataiku(requestBody: any) {
+  async createManagedDatasetForDataiku(requestBody: DataikuProjectRequest) {
 
     const body = requestBody.dataset;
 
@@ -71,7 +72,7 @@ class DataikuHttpRequests extends DataikuBaseLayer {
       method: 'POST',
       username: this.dataikuHeader().user,
       password: this.dataikuHeader().password,
-      json: body
+      body
     };
 
     try {

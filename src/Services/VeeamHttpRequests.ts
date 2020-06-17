@@ -10,6 +10,7 @@ import { VeeamBaseLayer } from './VeeamBaseLayer';
 import Common from '../class/Common';
 import { VeeamSuccessResponse } from '../class/Response/VeeamSuccessResponse';
 import { EnumToken } from '../Enum/EnumToken';
+import { NetsuiteSuccessResponse } from '../class/Response/NetsuiteSuccessResponse';
 
 export class VeeamHttpRequests extends VeeamBaseLayer {
 
@@ -56,28 +57,29 @@ export class VeeamHttpRequests extends VeeamBaseLayer {
 
     }
 
-    //async createVeeamWithStoragegridAsync(netSuite: NetsuiteSuccessResponse, RequestBody: any, webResponse: any) {
-    async createVeeamWithStoragegridAsync(netSuite: any, RequestBody: any, webResponse: any): Promise<unknown> {
+    async createVeeamWithStoragegridAsync(netSuite: NetsuiteSuccessResponse, requestBody: VeeamStorageRequest): Promise<VeeamSuccessResponse | undefined> {
 
         //if veeam authentication is incorrect
-        if (await this.isAuthorized() == false)
+        const isAuthorized = await this.isAuthorized();
+        if (!isAuthorized)
             return;
 
         this.veeam.Name = netSuite.entityId;
         this.veeam.Username = netSuite.entityId;
         this.veeam.Password = Common.randomPassword(12);
-        this.veeam.VMsBackedUp = RequestBody.vmsbackedup;
-        this.veeam.VMsBackedUpToCloud = RequestBody.vmsbackeduptocloud;
-        this.veeam.ManagedPhysicalServers = RequestBody.managedphysicalservers;
+        this.veeam.VMsBackedUp = requestBody.vmsbackedup;
+        this.veeam.VMsBackedUpToCloud = requestBody.vmsbackeduptocloud;
+        this.veeam.ManagedPhysicalServers = requestBody.managedphysicalservers;
 
         await this.createVeeamWithStoragegrid(this.veeam);
         return new VeeamSuccessResponse(this.veeam);
     }
 
-    async createVeeam(RequestBody: any, webResponse: any): Promise<unknown> {
+    async createVeeam(RequestBody: VeeamStorageRequest): Promise<VeeamSuccessResponse | undefined> {
 
         //if veeam authentication is incorrect
-        if (await this.isAuthorized() == false)
+        const isAuthorized = await this.isAuthorized();
+        if (!isAuthorized)
             return;
 
         try {

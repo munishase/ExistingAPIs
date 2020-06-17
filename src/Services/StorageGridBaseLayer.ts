@@ -100,24 +100,29 @@ export class StorageGridBaseLayer extends BaseLayer {
 
     //isTenantAuthorized token
     protected async isStoragegridAuthorized(): Promise<boolean> {
-        if (await Logger.hasErrorLogs() == true)
+        if (Logger.hasErrorLogs() == true) {
             return false;
-        else if (await this.authorizeStorageGrid() == false)
-            return false;
-        else
-            return true;
+        }
+        const authorizeResult = await this.authorizeStorageGrid();
+        return !!authorizeResult;
     }
 
     //isTenantAuthorized token
     protected async isTenantAuthorized(): Promise<boolean> {
-        if (await Logger.hasErrorLogs() == true)
+        if (Logger.hasErrorLogs() == true) {
             return false;
-        else if (await this.authorizeStorageGrid() == false)
+        }
+        const authorizeStorageResult = await this.authorizeStorageGrid();
+        if (!authorizeStorageResult) {
             return false;
-        else if (await this.authorizeTenantAccount() == false)
+        }
+
+        const authorizeTenantResult = await this.authorizeTenantAccount();
+        if (!authorizeTenantResult) {
             return false;
-        else
-            return true;
+        }
+
+        return true;
     }
 
     //remove token

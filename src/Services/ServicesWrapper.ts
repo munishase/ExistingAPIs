@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import StorageGridHttpRequests from './StorageGridHttpRequests';
 import VeeamHttpRequests from './VeeamHttpRequests';
 import NetsuiteHttpRequests from './NetsuiteHttpRequests';
@@ -10,6 +11,7 @@ import NetAppHttpRequests from './NetAppHttpRequests';
 import DataikuHttpRequests from './DataikuHttpRequests';
 import XcloudHttpRequests from './XcloudHttpRequests';
 import { ActivePortNTUandNTUPortCreationSuccessResponse } from '../class/Response/ActivePortNTUandNTUPortCreationSuccessResponse';
+import { NetsuiteSuccessResponse } from '../class/Response/NetsuiteSuccessResponse';
 
 
 // this class is wrapper to call other services methods
@@ -23,18 +25,18 @@ class ServicesWrapper {
         const results: any[] = [];
 
         //create netsuite
-        const netsuite = await NetsuiteHttpRequests.createnetsuiteclientAsync(requestBody, webResponse);
+        const netsuite = await NetsuiteHttpRequests.createnetsuiteclientAsync(requestBody) as NetsuiteSuccessResponse;
         Common.pushtoCollectionResult(results, netsuite);
 
         //create storagegrid
-        const storageGrid = await StorageGridHttpRequests.processStorageGridWithNetsuite(netsuite, requestBody, webResponse);
+        const storageGrid = await StorageGridHttpRequests.processStorageGridWithNetsuite(netsuite, requestBody);
         Common.pushtoCollectionResult(results, storageGrid);
 
         //if no error update netsuite with storagegrid
-        await NetsuiteHttpRequests.updatenetsuiteclientAsync(storageGrid, requestBody, webResponse)
+        await NetsuiteHttpRequests.updatenetsuiteclientAsync(storageGrid)
 
         //create veeam with storagegrid imput like entity id
-        const veeam = await VeeamHttpRequests.createVeeamWithStoragegridAsync(netsuite, requestBody, webResponse);
+        const veeam = await VeeamHttpRequests.createVeeamWithStoragegridAsync(netsuite, requestBody);
         Common.pushtoCollectionResult(results, veeam);
 
         return Common.beautifyResult(results, webResponse, EnumPartOf.Group);
@@ -43,21 +45,21 @@ class ServicesWrapper {
     //call storageGrid processStorageGrid
     async createStorageGridTanent(requestBody: any, webResponse: any) {
         Logger.cleanLogs();
-        const storagegridResponse = await StorageGridHttpRequests.processStorageGrid(requestBody, webResponse)
+        const storagegridResponse = await StorageGridHttpRequests.processStorageGrid(requestBody)
         return Common.beautifyResult(storagegridResponse, webResponse, EnumPartOf.Individual);
     }
 
     //call Netsuite createnetsuiteclientAsync
     async createVeeam(requestBody: any, webResponse: any) {
         Logger.cleanLogs();
-        const veeamResponse = await VeeamHttpRequests.createVeeam(requestBody, webResponse);
+        const veeamResponse = await VeeamHttpRequests.createVeeam(requestBody);
         return Common.beautifyResult(veeamResponse, webResponse, EnumPartOf.Individual);
     }
 
     //call Netsuite createnetsuiteclientAsync
     async createNetsuiteClient(requestBody: any, webResponse: any) {
         Logger.cleanLogs();
-        const netsuiteResponse = await NetsuiteHttpRequests.createnetsuiteclientAsync(requestBody, webResponse);
+        const netsuiteResponse = await NetsuiteHttpRequests.createnetsuiteclientAsync(requestBody);
         return Common.beautifyResult(netsuiteResponse, webResponse, EnumPartOf.Individual);
     }
 
@@ -96,7 +98,7 @@ class ServicesWrapper {
     //retreive all tenants from ActivePort
     async retrievetenantsforactiveport(requestBody: any, webResponse: any) {
         Logger.cleanLogs();
-        const activeportResponse = await ActivePortHttpRequests.retrieveAllTenants(requestBody);
+        const activeportResponse = await ActivePortHttpRequests.retrieveAllTenants();
         return Common.beautifyResult(activeportResponse, webResponse, EnumPartOf.Individual);
     }
 
@@ -117,7 +119,7 @@ class ServicesWrapper {
     //List all NTU from Activeport
     async retrieveallntu(requestBody: any, webResponse: any) {
         Logger.cleanLogs();
-        const activeportResponse = await ActivePortHttpRequests.retrieveAllNTUs(requestBody);
+        const activeportResponse = await ActivePortHttpRequests.retrieveAllNTUs();
         return Common.beautifyResult(activeportResponse, webResponse, EnumPartOf.Individual);
     }
 
@@ -156,7 +158,7 @@ class ServicesWrapper {
     //get all circuits
     async getallcircuits(requestBody: any, webResponse: any) {
         Logger.cleanLogs();
-        const xcloudResponse = await XcloudHttpRequests.getallcircuits(requestBody);
+        const xcloudResponse = await XcloudHttpRequests.getallcircuits();
         return Common.beautifyResult(xcloudResponse, webResponse, EnumPartOf.Individual);
     }
 
@@ -202,7 +204,7 @@ class ServicesWrapper {
     //retrieve new existing Clusters in NetApp
     async retrieveclustersfromnetapp(requestBody: any, webResponse: any) {
         Logger.cleanLogs();
-        const netappResponse = await NetAppHttpRequests.retrieveClustersFromNetapp(requestBody);
+        const netappResponse = await NetAppHttpRequests.retrieveClustersFromNetapp();
         return Common.beautifyResult(netappResponse, webResponse, EnumPartOf.Individual);
     }
 

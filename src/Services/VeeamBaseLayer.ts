@@ -62,12 +62,11 @@ export class VeeamBaseLayer extends BaseLayer {
 
     //isAuthorized token
     protected async isAuthorized(): Promise<boolean> {
-        if (await Logger.hasErrorLogs() == true)
+        if (Logger.hasErrorLogs() == true) {
             return false;
-        else if (await this.authorizeVeeamGrid() == false)
-            return false;
-        else
-            return true;
+        }
+        const authorizeResult = await this.authorizeVeeamGrid();
+        return !!authorizeResult;
     }
 
 

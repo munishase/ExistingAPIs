@@ -34,7 +34,7 @@ class NetsuiteHttpRequests extends NetsuiteBaseLayer {
         const options: Options = {
             url: this.baseUrl(Constants.NetsuiteCreateClientURL),
             method: 'POST',
-            headers: this.header(),
+            headers: { ...this.header() },
             json: body
         };
 
@@ -62,7 +62,7 @@ class NetsuiteHttpRequests extends NetsuiteBaseLayer {
         const options: Options = {
             url: this.baseUrl(Constants.NetsuiteCreateClientURL),
             method: 'PUT',
-            headers: this.header(),
+            headers: { ...this.header() },
             json: body
         };
 
@@ -76,7 +76,7 @@ class NetsuiteHttpRequests extends NetsuiteBaseLayer {
     }
 
     //setup netsuite client details with storagegrid details & call create netsuite client
-    async createnetsuiteclientAsync(RequestBody: any, webResponse: any) {
+    async createnetsuiteclientAsync(RequestBody: any) {
 
         if (Logger.hasErrorLogs() == true)
             return;
@@ -91,7 +91,7 @@ class NetsuiteHttpRequests extends NetsuiteBaseLayer {
     }
 
     //async updatenetsuiteclientAsync(storageGrid: StorageGridSuccessResponse, RequestBody: any, webResponse: any) {
-    async updatenetsuiteclientAsync(storageGrid: any, RequestBody: any, webResponse: any) {
+    async updatenetsuiteclientAsync(storageGrid: any) {
 
         if (Logger.hasErrorLogs() == true)
             return;

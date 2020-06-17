@@ -1,5 +1,6 @@
 import { NetsuiteCredentials } from '../class/NetsuiteCredentials';
 import { BaseLayer } from './BaseLayer';
+import { BearerHeader } from '../types/AuthorizationHeader';
 
 
 export class NetsuiteBaseLayer extends BaseLayer {
@@ -21,7 +22,7 @@ export class NetsuiteBaseLayer extends BaseLayer {
     }
 
     //return header for netsuite
-    header(): any {
+    header(): BearerHeader {
         return {
             'Authorization': "NLAuth nlauth_account=" + this.netsuiteCredentials.AccountNumber + ", nlauth_email=" + this.netsuiteCredentials.Username + ", nlauth_signature="
                 + this.netsuiteCredentials.Password + ", nlauth_role=" + this.netsuiteCredentials.RoleId,

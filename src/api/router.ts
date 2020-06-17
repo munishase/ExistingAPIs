@@ -264,8 +264,8 @@ class Router {
     });
 
 
-    router.delete('/deletenkscluster/:clusterid', (req, res) => {
-      if (!req.params.clusterid) {
+    router.delete('/deletenkscluster/:clusterId', (req, res) => {
+      if (!req.params.clusterId) {
         return res.status(400).send({
           message: 'Cluster id is required.'
         });
@@ -274,8 +274,8 @@ class Router {
     });
 
 
-    router.get('/listdataikudatasets/:projectkey', (req, res) => {
-      if (!req.params.projectkey) {
+    router.get('/listdataikudatasets/:projectKey', (req, res) => {
+      if (!req.params.projectKey) {
         return res.status(400).send({
           message: 'Project key is required.'
         });

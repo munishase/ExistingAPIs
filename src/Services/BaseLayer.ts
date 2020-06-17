@@ -2,6 +2,7 @@ import config from 'config';
 
 //this baselayer is used to inherit all common things for entire application
 export class BaseLayer {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     protected environmentConfig: any = config;
 
     constructor() {

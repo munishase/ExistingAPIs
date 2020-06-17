@@ -8,17 +8,17 @@ export class DataikuBaseLayer extends BaseLayer {
         super();
     }
 
-    baseUrl(url: string) {
+    baseUrl(url: string): string {
         return this.environmentConfig.Dataiku.Urls.BaseUrl + url;
     }
 
     //retrieve new Token for Dataiku
-    protected authorizeDataiku() {
+    protected authorizeDataiku(): boolean {
         sessionstorage.setItem(EnumToken.DataikuToken, this.environmentConfig.Dataiku.Secret)
         return true;
     }
 
-    protected dataikuHeader() {
+    protected dataikuHeader(): { user: string, password: string } {
         return {
             user: '6SBXJWiJWg7BUAiKcgodLwXEczrIL3pf',
             password: ''

@@ -6,6 +6,7 @@ import { EnumCurrentStatus } from '../Enum/EnumCurrentStatus'
 import Constants from '../class/Constants'
 import { EnumModule } from '../Enum/EnumModule';
 import { EnumToken } from '../Enum/EnumToken';
+import { BearerHeader } from '../types/AuthorizationHeader';
 
 export class NetAppBaseLayer extends BaseLayer {
 
@@ -25,18 +26,17 @@ export class NetAppBaseLayer extends BaseLayer {
 
     //isNetAppAuthorized token
     protected async isNetAppAuthorized(): Promise<boolean> {
-        if (await Logger.hasErrorLogs() == true)
+        if (Logger.hasErrorLogs() == true) {
             return false;
-        else if (await this.authorizeNetApp() == false)
-            return false;
-        else
-            return true;
+        }
+        const authorizeResult = await this.authorizeNetApp();
+        return !!authorizeResult;
     }
 
-    protected netAppHeader(): any {
+    protected netAppHeader(): BearerHeader {
         return {
             'Authorization': 'Bearer ' + sessionstorage.getItem(EnumToken.NetAppToken),
-            'content-type': 'application/json'
+            'Content-Type': 'application/json'
         }
     }
     //remove token
