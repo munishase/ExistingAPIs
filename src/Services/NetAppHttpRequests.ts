@@ -24,7 +24,8 @@ class NetAppHttpRequests extends NetAppBaseLayer {
     const options: Options = {
       url: this.baseUrl(Constants.NetAppClusters),
       method: 'GET',
-      headers: { ...this.netAppHeader() }
+      headers: { ...this.netAppHeader() },
+      responseType: 'json'
     };
 
     try {
@@ -50,7 +51,8 @@ class NetAppHttpRequests extends NetAppBaseLayer {
       url: this.baseUrl(Constants.NetAppClusters),
       method: 'POST',
       headers: { ...this.netAppHeader() },
-      json: body
+      json: body,
+      responseType: 'json'
     };
 
     try {
@@ -74,7 +76,8 @@ class NetAppHttpRequests extends NetAppBaseLayer {
     const options: Options = {
       url: this.baseUrl(Constants.NetAppClusters + "/" + param.clusterId),
       method: 'DELETE',
-      headers: { ...this.netAppHeader() }
+      headers: { ...this.netAppHeader() },
+      responseType: 'json'
     };
 
     try {

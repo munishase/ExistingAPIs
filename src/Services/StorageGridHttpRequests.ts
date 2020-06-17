@@ -50,7 +50,8 @@ class StorageGridHttpRequests extends StorageGridBaseLayer {
         'Authorization': sessionstorage.getItem(EnumToken.StorageGridToken),
         'content-type': 'application/json'
       },
-      json: body
+      json: body,
+      responseType: 'json'
     };
 
     try {
@@ -76,7 +77,8 @@ class StorageGridHttpRequests extends StorageGridBaseLayer {
       headers: {
         'Authorization': sessionstorage.getItem(EnumToken.StorageGridToken),
         'content-type': 'application/json'
-      }
+      },
+      responseType: 'json'
     };
 
     try {
@@ -109,7 +111,8 @@ class StorageGridHttpRequests extends StorageGridBaseLayer {
         "Authorization": sessionstorage.getItem(EnumToken.TenantToken),
         'content-type': 'application/json'
       },
-      json: body
+      json: body,
+      responseType: 'json'
     };
 
     try {
@@ -150,6 +153,7 @@ class StorageGridHttpRequests extends StorageGridBaseLayer {
         'content-type': 'application/json'
       },
       json: body,
+      responseType: 'json'
     };
 
     try {

@@ -59,7 +59,8 @@ class StitchdataHttpRequests extends StitchdataBaseLayer {
       headers: {
         'content-type': 'application/json'
       },
-      json: body
+      json: body,
+      responseType: 'json'
     };
 
     try {
@@ -83,7 +84,8 @@ class StitchdataHttpRequests extends StitchdataBaseLayer {
       headers: {
         'Authorization': requestBody.access_token,
         'content-type': 'application/json'
-      }
+      },
+      responseType: 'json'
     };
     try {
       const response: any = await httppromise(options)
@@ -104,7 +106,8 @@ class StitchdataHttpRequests extends StitchdataBaseLayer {
       headers: {
         'Authorization': requestBody.access_token,
         'content-type': 'application/json'
-      }
+      },
+      responseType: 'json'
     };
 
     try {

@@ -42,7 +42,8 @@ export class VeeamHttpRequests extends VeeamBaseLayer {
                 'Authorization': sessionstorage.getItem(EnumToken.VeeamToken),
                 'content-type': 'application/json'
             },
-            json: body
+            json: body,
+            responseType: 'json'
         };
 
         try {

@@ -36,7 +36,8 @@ export class ActivePortBaseLayer extends BaseLayer {
         const options: Options = {
             url: this.baseUrl(Constants.ActivePortAuthURL),
             method: 'POST',
-            json: body
+            json: body,
+            responseType: 'json'
         };
         return await httppromise(options);
     }

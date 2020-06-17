@@ -37,7 +37,8 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
             headers: {
                 'Cookie': sessionstorage.getItem(EnumToken.XcloudCookie),
                 'content-type': 'application/json'
-            }
+            },
+            responseType: 'json'
         };
 
         try {
@@ -85,7 +86,8 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
                 'Cookie': sessionstorage.getItem(EnumToken.XcloudCookie),
                 'content-type': 'application/json'
             },
-            json: body
+            json: body,
+            responseType: 'json'
         };
 
         try {
@@ -284,7 +286,8 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
             headers: {
                 Cookie: sessionstorage.getItem(EnumToken.XcloudCookie),
                 'content-type': 'application/json'
-            }
+            },
+            responseType: 'json'
         };
 
         try {
@@ -379,7 +382,8 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
                 'Cookie': sessionstorage.getItem(EnumToken.XcloudCookie),
                 'content-type': 'application/json'
             },
-            json: body
+            json: body,
+            responseType: 'json'
         };
 
         try {
@@ -439,7 +443,8 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
                 'Cookie': sessionstorage.getItem(EnumToken.XcloudCookie),
                 'content-type': 'application/json'
             },
-            json: body
+            json: body,
+            responseType: 'json'
         };
 
         try {

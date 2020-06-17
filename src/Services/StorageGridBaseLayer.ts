@@ -39,7 +39,8 @@ export class StorageGridBaseLayer extends BaseLayer {
         const options: Options = {
             url: this.baseUrl(Constants.StorageGridAuthURL),
             method: 'POST',
-            json: body
+            json: body,
+            responseType: 'json'
         };
 
         return httppromise(options);
@@ -78,7 +79,8 @@ export class StorageGridBaseLayer extends BaseLayer {
                 "Authorization": sessionstorage.getItem(EnumToken.StorageGridToken),
                 "content-type": "text/json"
             },
-            json: body
+            json: body,
+            responseType: 'json'
         };
         return httppromise(options);
     }

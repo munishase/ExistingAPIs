@@ -40,7 +40,8 @@ export class StitchdataBaseLayer extends BaseLayer {
                 client_secret: this.stitchdata.PartnerSecret,
                 code: this.stitchdata.AuthorizationCode,
                 grant_type: this.stitchdata.GrantType
-            }
+            },
+            responseType: 'json'
         };
 
         return httppromise(options);

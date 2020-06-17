@@ -39,7 +39,8 @@ export class VeeamBaseLayer extends BaseLayer {
         const options: Options = {
             url: this.baseUrl(Constants.VeeamAuthURL),
             method: 'POST',
-            body: body
+            body: body,
+            responseType: 'json'
         };
         return httppromise(options);
     }

@@ -24,7 +24,8 @@ class DataikuHttpRequests extends DataikuBaseLayer {
       url: Common.replaceCurleBrasesInUrl(this.baseUrl(Constants.DataikuListDatasetsURL), param.projectKey),
       method: 'GET',
       username: this.dataikuHeader().user,
-      password: this.dataikuHeader().password
+      password: this.dataikuHeader().password,
+      responseType: 'json'
     };
 
     try {
@@ -48,7 +49,8 @@ class DataikuHttpRequests extends DataikuBaseLayer {
       method: 'POST',
       username: this.dataikuHeader().user,
       password: this.dataikuHeader().password,
-      json: body
+      json: body,
+      responseType: 'json'
     };
 
     try {
@@ -72,7 +74,8 @@ class DataikuHttpRequests extends DataikuBaseLayer {
       method: 'POST',
       username: this.dataikuHeader().user,
       password: this.dataikuHeader().password,
-      body
+      body,
+      responseType: 'json'
     };
 
     try {

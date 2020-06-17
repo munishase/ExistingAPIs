@@ -35,7 +35,8 @@ class NetsuiteHttpRequests extends NetsuiteBaseLayer {
             url: this.baseUrl(Constants.NetsuiteCreateClientURL),
             method: 'POST',
             headers: { ...this.header() },
-            json: body
+            json: body,
+            responseType: 'json'
         };
 
         try {
@@ -63,7 +64,8 @@ class NetsuiteHttpRequests extends NetsuiteBaseLayer {
             url: this.baseUrl(Constants.NetsuiteCreateClientURL),
             method: 'PUT',
             headers: { ...this.header() },
-            json: body
+            json: body,
+            responseType: 'json'
         };
 
         try {

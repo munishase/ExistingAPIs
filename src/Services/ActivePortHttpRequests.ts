@@ -39,7 +39,8 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
       headers: {
         'Authorization': 'Bearer ' + sessionstorage.getItem(EnumToken.ActivePortToken),
         'content-type': 'application/json'
-      }
+      },
+      responseType: 'json'
     };
 
     try {
@@ -78,7 +79,8 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
         'Authorization': 'Bearer ' + sessionstorage.getItem(EnumToken.ActivePortToken),
         'content-type': 'application/json'
       },
-      json: body
+      json: body,
+      responseType: 'json'
     };
 
     try {
@@ -122,7 +124,8 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
         'Authorization': 'Bearer ' + sessionstorage.getItem(EnumToken.ActivePortToken),
         'content-type': 'application/json'
       },
-      json: body
+      json: body,
+      responseType: 'json'
     };
 
     try {
@@ -148,7 +151,8 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
       headers: {
         'Authorization': 'Bearer ' + sessionstorage.getItem(EnumToken.ActivePortToken),
         'content-type': 'application/json'
-      }
+      },
+      responseType: 'json'
     };
 
     try {
@@ -175,7 +179,8 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
       headers: {
         'Authorization': 'Bearer ' + sessionstorage.getItem(EnumToken.ActivePortToken),
         'content-type': 'application/json'
-      }
+      },
+      responseType: 'json'
     };
 
     try {
@@ -258,7 +263,8 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
         'Authorization': 'Bearer ' + sessionstorage.getItem(EnumToken.ActivePortToken),
         'content-type': 'application/json'
       },
-      json: body
+      json: body,
+      responseType: 'json'
     };
 
     try {
@@ -340,7 +346,8 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
         'Authorization': 'Bearer ' + sessionstorage.getItem(EnumToken.ActivePortToken),
         'content-type': 'application/json'
       },
-      json: body
+      json: body,
+      responseType: 'json'
     };
 
 
@@ -370,7 +377,8 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
       headers: {
         'Authorization': 'Bearer ' + sessionstorage.getItem(EnumToken.ActivePortToken),
         'content-type': 'application/json'
-      }
+      },
+      responseType: 'json'
     };
 
     try {
@@ -426,7 +434,8 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
         'Authorization': 'Bearer ' + sessionstorage.getItem(EnumToken.ActivePortToken),
         'content-type': 'application/json'
       },
-      json: body
+      json: body,
+      responseType: 'json'
     };
 
     try {
@@ -489,7 +498,8 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
         'Authorization': 'Bearer ' + sessionstorage.getItem(EnumToken.ActivePortToken),
         'content-type': 'application/json'
       },
-      json: body
+      json: body,
+      responseType: 'json'
     };
 
     try {
@@ -521,7 +531,8 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
         'Authorization': 'Bearer ' + sessionstorage.getItem(EnumToken.ActivePortToken),
         'content-type': 'application/json'
       },
-      json: body
+      json: body,
+      responseType: 'json'
     };
 
     try {
