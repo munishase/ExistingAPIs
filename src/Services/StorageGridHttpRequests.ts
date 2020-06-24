@@ -1,4 +1,4 @@
-import httppromise, { Options } from 'got';
+import httppromise, { Options, Response } from 'got';
 import sessionstorage from 'sessionstorage';
 import { Log } from '../class/Log'
 import { Logger } from '../class/Logger'
@@ -55,7 +55,7 @@ class StorageGridHttpRequests extends StorageGridBaseLayer {
     };
 
     try {
-      const response: any = await httppromise(options);
+      const { body: response}: any = await httppromise(options) as Response;
       this.storageGrid.Tenant.AccountId = response.data.id;
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Storagegrid, Constants.StorageGridTenantAccountCreationSuccess, response, body));
     } catch (err) {
@@ -82,7 +82,7 @@ class StorageGridHttpRequests extends StorageGridBaseLayer {
     };
 
     try {
-      const response: any = await httppromise(options);
+      const { body: response}: any = await httppromise(options) as Response;
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Storagegrid, Constants.StorageGridTenantAccountDeletionSuccess, response, "Tenant Id: " + TenantId));
     } catch (err) {
       Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Storagegrid, Constants.StorageGridTenantAccountDeletionError, err, "Tenant Id: " + TenantId));
@@ -116,7 +116,7 @@ class StorageGridHttpRequests extends StorageGridBaseLayer {
     };
 
     try {
-      const response: any = await httppromise(options);
+      const { body: response}: any = await httppromise(options) as Response;
       this.storageGrid.Tenant.AccessKey = response.data.accessKey;
       this.storageGrid.Tenant.SecretAccessKey = response.data.secretAccessKey;
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Storagegrid, Constants.StorageGridTenantKeyCreationSuccess, response, body));
@@ -157,7 +157,7 @@ class StorageGridHttpRequests extends StorageGridBaseLayer {
     };
 
     try {
-      const response: any = await httppromise(options);
+      const { body: response}: any = await httppromise(options) as Response;
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Storagegrid, Constants.StorageGridTenantBucketCreationSuccess, response, body));
     } catch (err) {
       Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Storagegrid, Constants.StorageGridTenantBucketCreationError, err, body));

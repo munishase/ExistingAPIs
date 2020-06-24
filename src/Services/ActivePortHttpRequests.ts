@@ -1,4 +1,4 @@
-import httppromise, { Options } from 'got';
+import httppromise, { Options, Response } from 'got';
 import sessionstorage from 'sessionstorage';
 import { Log } from '../class/Log'
 import { Logger } from '../class/Logger'
@@ -31,7 +31,7 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
   async retrieveAllTenants() {
     const isAuthorized = await this.isActivePortAuthorized();
     if (!isAuthorized)
-        return;
+      return;
 
     const options: Options = {
       url: this.baseUrl(Constants.ActivePortCreateTenantAccountURL),
@@ -44,7 +44,7 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
     };
 
     try {
-      const response: any = await httppromise(options);
+      const { body: response}: any = await httppromise(options) as Response;
       this.activePort.ActivePortTenants = response;
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortTenantAccountsSuccess, response, ''));
     } catch (err) {
@@ -59,7 +59,7 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
   async createTenantAccount(requestBody: ActivePortTenant) {
     const isAuthorized = await this.isActivePortAuthorized();
     if (!isAuthorized)
-        return;
+      return;
 
     const activePortTenant = new ActivePortTenant();
     activePortTenant.name = requestBody.name;
@@ -84,7 +84,7 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
     };
 
     try {
-      const response: any = await httppromise(options);
+      const { body: response}: any = await httppromise(options) as Response;
       activePortTenant.id = response.id;
       activePortTenant.tenantId = response.tenantId;
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortTenantAccountCreationSuccess, response, body));
@@ -100,7 +100,7 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
   async updateTenantAccount(requestBody: ActivePortTenant) {
     const isAuthorized = await this.isActivePortAuthorized();
     if (!isAuthorized)
-        return;
+      return;
 
     const activePortTenant = new ActivePortTenant();
     activePortTenant.name = requestBody.name;
@@ -129,7 +129,7 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
     };
 
     try {
-      const response: any = await httppromise(options);
+      const { body: response}: any = await httppromise(options) as Response;
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortTenantAccountCreationSuccess, response, body));
     } catch (err) {
       Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortTenantAccountCreationError, err, body));
@@ -143,7 +143,7 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
   async retrieveAllNTUs() {
     const isAuthorized = await this.isActivePortAuthorized();
     if (!isAuthorized)
-        return;
+      return;
 
     const options: Options = {
       url: this.baseUrl(Constants.ActivePortNTUURL),
@@ -156,7 +156,7 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
     };
 
     try {
-      const response: any = await httppromise(options);
+      const { body: response}: any = await httppromise(options) as Response;
       this.activePort.ActivePortNTU = response;
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortNTUSuccess, response, ''));
     } catch (err) {
@@ -171,7 +171,7 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
   async retrieveNTUById(params: any) {
     const isAuthorized = await this.isActivePortAuthorized();
     if (!isAuthorized)
-        return;
+      return;
 
     const options: Options = {
       url: this.baseUrl(Constants.ActivePortNTUURL + "/" + params.ntuid),
@@ -184,7 +184,7 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
     };
 
     try {
-      const response: any = await httppromise(options);
+      const { body: response}: any = await httppromise(options) as Response;
       this.activePort.ActivePortNTU = response;
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortNTUSuccess, response, ''));
     } catch (err) {
@@ -199,7 +199,7 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
   async updateNTUById(requestBody: any) {
     const isAuthorized = await this.isActivePortAuthorized();
     if (!isAuthorized)
-        return;
+      return;
 
     const activePortNTU = new ActivePortNTU();
     activePortNTU.id = requestBody.id;
@@ -268,7 +268,7 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
     };
 
     try {
-      const response: any = await httppromise(options);
+      const { body: response}: any = await httppromise(options) as Response;
       activePortNTU.id = response.id
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortTenantAccountCreationSuccess, response, body));
     } catch (err) {
@@ -284,7 +284,7 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
   async createNTU(requestBody: any) {
     const isAuthorized = await this.isActivePortAuthorized();
     if (!isAuthorized)
-        return;
+      return;
 
     const activePortNTU = new ActivePortNTU();
     activePortNTU.autoRollback = requestBody.autoRollback;
@@ -352,7 +352,7 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
 
 
     try {
-      const response: any = await httppromise(options);
+      const { body: response}: any = await httppromise(options) as Response;
       activePortNTU.id = response.id
       DbCrudOperations.saveRecord(Common.createFluidDbObject(options, response, EnumResultType.success));
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortNTUCreationSuccess, response, body));
@@ -369,7 +369,7 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
   async deleteNTUById(params: any) {
     const isAuthorized = await this.isActivePortAuthorized();
     if (!isAuthorized)
-        return;
+      return;
 
     const options: Options = {
       url: this.baseUrl(Constants.ActivePortNTUURL + "/" + params.ntuid),
@@ -382,7 +382,7 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
     };
 
     try {
-      const response: any = await httppromise(options);
+      const { body: response}: any = await httppromise(options) as Response;
       this.activePort.ActivePortNTU = response;
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortTenantAccountDeletionSuccess, response, ''));
     } catch (err) {
@@ -398,7 +398,7 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
   async createNTUPort(requestBody: any) {
     const isAuthorized = await this.isActivePortAuthorized();
     if (!isAuthorized)
-        return;
+      return;
 
     const activePortNTUPort = new ActivePortNTUPort();
     activePortNTUPort.ntuId = requestBody.ntuId;
@@ -439,7 +439,7 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
     };
 
     try {
-      const response: any = await httppromise(options);
+      const { body: response}: any = await httppromise(options) as Response;
       DbCrudOperations.saveRecord(Common.createFluidDbObject(options, response, EnumResultType.success));
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortNTUPortCreationSuccess, response, body));
 
@@ -456,7 +456,7 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
   async validateServiceRequest(requestBody: any) {
     const isAuthorized = await this.isActivePortAuthorized();
     if (!isAuthorized)
-        return;
+      return;
 
     const activePortServiceRequest = new ActivePortServiceRequest();
     activePortServiceRequest.name = requestBody.name;
@@ -503,7 +503,7 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
     };
 
     try {
-      const response: any = await httppromise(options);
+      const {body: response}: any = await httppromise(options);
       activePortServiceRequest.uuid = response.uuid;
       DbCrudOperations.saveRecord(Common.createFluidDbObject(options, response, EnumResultType.success));
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortValidateServiceRequestSuccess, response, body));
@@ -519,9 +519,9 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
   //Here we are creating validateServiceRequest
   //prerequisite: ActivePort Token in Header
   async createServiceByUUID(requestBody: any) {
-    const isAuthorized = await this.isActivePortAuthorized();
-    if (!isAuthorized)
-        return;
+    // const isAuthorized = await this.isActivePortAuthorized();
+    // if (!isAuthorized)
+    //   return;
 
     const body = {};
     const options: Options = {
@@ -536,7 +536,7 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
     };
 
     try {
-      const response: any = await httppromise(options);
+      const { body: response }: any = await httppromise(options);
       DbCrudOperations.saveRecord(Common.createFluidDbObject(options, response, EnumResultType.success));
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortCreateServiceRequestSuccess, response, body));
       return response;

@@ -1,5 +1,5 @@
 import { BaseLayer } from './BaseLayer';
-import httppromise, { Options } from 'got';
+import httppromise, { Options, Response } from 'got';
 import sessionstorage from 'sessionstorage';
 import { Log } from '../class/Log'
 import { Logger } from '../class/Logger'
@@ -37,7 +37,7 @@ export class XcloudBaseLayer extends BaseLayer {
 
         const options = this.generateXcloudToken();
         try {
-            const response: any = await httppromise(options);
+            const { body: response}: any = await httppromise(options) as Response;
             const cookie = ((response.headers["set-cookie"]).toString()).split(";")[0];
             sessionstorage.setItem(EnumToken.XcloudCookie, cookie);
             return { connect_sid: cookie };

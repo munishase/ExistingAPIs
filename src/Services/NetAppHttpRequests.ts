@@ -1,4 +1,4 @@
-import httppromise, { Options } from 'got';
+import httppromise, { Options, Response } from 'got';
 import { Log } from '../class/Log'
 import { Logger } from '../class/Logger'
 import { EnumCurrentStatus } from '../Enum/EnumCurrentStatus'
@@ -29,7 +29,7 @@ class NetAppHttpRequests extends NetAppBaseLayer {
     };
 
     try {
-      const response: any = await httppromise(options);
+      const { body: response}: any = await httppromise(options) as Response;
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.NetApp, Constants.NetAppClusterRetrievalSuccess, response, ''));
       return new NetAppClustersRetrievalSuccessResponse(response);
     } catch (err) {
@@ -56,7 +56,7 @@ class NetAppHttpRequests extends NetAppBaseLayer {
     };
 
     try {
-      const response: any = await httppromise(options);
+      const { body: response}: any = await httppromise(options) as Response;
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.NetApp, Constants.NetAppClusterCreationSuccess, response, ''));
       return new NetAppClustersRetrievalSuccessResponse(response);
     } catch (err) {
@@ -81,7 +81,7 @@ class NetAppHttpRequests extends NetAppBaseLayer {
     };
 
     try {
-      const response: any = await httppromise(options);
+      const { body: response}: any = await httppromise(options) as Response;
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.NetApp, Constants.NetAppClusterDeletionSuccess, response, ''));
       return new NetAppClustersRetrievalSuccessResponse(response);
     } catch (err) {

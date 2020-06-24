@@ -1,7 +1,7 @@
 import { NetsuiteClient } from '../class/NetsuiteClient';
 import { NetsuiteSuccessResponse } from '../class/Response/NetsuiteSuccessResponse';
 import { NetsuiteBaseLayer } from './NetsuiteBaseLayer';
-import httppromise, { Options } from 'got';
+import httppromise, { Options, Response } from 'got';
 import { Log } from '../class/Log'
 import { Logger } from '../class/Logger'
 import { EnumCurrentStatus } from '../Enum/EnumCurrentStatus'
@@ -40,7 +40,7 @@ class NetsuiteHttpRequests extends NetsuiteBaseLayer {
         };
 
         try {
-            const response: any = await httppromise(options);
+            const { body: response}: any = await httppromise(options) as Response;
             const result = JSON.parse(response);
             netsuiteClient.EntityId = result.fields.entityid;
             netsuiteClient.ClientId = result.id;
@@ -69,7 +69,7 @@ class NetsuiteHttpRequests extends NetsuiteBaseLayer {
         };
 
         try {
-            const response: any = await httppromise(options);
+            const { body: response}: any = await httppromise(options) as Response;
             Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Netsuite, Constants.NetsuiteClientUpdationSuccess, response, body));
         } catch (err) {
             Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Netsuite, Constants.NetsuiteClientUpdationError, err, body));

@@ -1,6 +1,6 @@
 import { Veeam } from '../class/Veeam';
 import { BaseLayer } from './BaseLayer';
-import httppromise, { Options } from 'got';
+import httppromise, { Options, Response } from 'got';
 import sessionstorage from 'sessionstorage';
 import { Log } from '../class/Log'
 import { Logger } from '../class/Logger'
@@ -32,7 +32,7 @@ export class VeeamBaseLayer extends BaseLayer {
     }
 
     //Generate new Token for veeam
-    private generateVeeamToken() {
+    private async generateVeeamToken() {
         //let body = "grant_type=password&username=TESTING.ASEIT.NET%5Cmunish.singla&password=munishtest2019";
         const body = "grant_type=password&username=" + this.environmentConfig.Veeam.Username + "&password=" + this.environmentConfig.Veeam.Password;
 
@@ -42,7 +42,8 @@ export class VeeamBaseLayer extends BaseLayer {
             body: body,
             responseType: 'json'
         };
-        return httppromise(options);
+        const { body: response}: any = await httppromise(options) as Response;
+        return response;
     }
 
     //Check if Veeam token already exists otherwise it will generate new Token for Veeam

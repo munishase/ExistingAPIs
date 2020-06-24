@@ -1,6 +1,6 @@
 import { StorageGrid } from '../class/StorageGrid';
 import { BaseLayer } from './BaseLayer';
-import httppromise, { Options } from 'got';
+import httppromise, { Options, Response } from 'got';
 import sessionstorage from 'sessionstorage';
 import { Log } from '../class/Log'
 import { Logger } from '../class/Logger'
@@ -22,7 +22,7 @@ export class StorageGridBaseLayer extends BaseLayer {
     protected storageGrid: StorageGrid = new StorageGrid();
 
     //Generate new Token for StorageGrid
-    private generateStorageGridToken() {
+    private async generateStorageGridToken() {
 
         this.storageGrid.Username = this.environmentConfig.StorageGrid.Username;
         this.storageGrid.Password = this.environmentConfig.StorageGrid.Password;
@@ -42,8 +42,8 @@ export class StorageGridBaseLayer extends BaseLayer {
             json: body,
             responseType: 'json'
         };
-
-        return httppromise(options);
+        const { body: response}: any = await httppromise(options) as Response;
+        return response;
     }
 
     //Check if StorageGrid token already exists otherwise it will generate new Token for StorageGrid
@@ -62,7 +62,7 @@ export class StorageGridBaseLayer extends BaseLayer {
     }
 
     //Generate new Token for Tenant, but it require StorageGrid Token in Bearer Header
-    private generateTenantToken() {
+    private async generateTenantToken() {
 
         const body = {
             "accountId": this.storageGrid.Tenant.AccountId,
@@ -82,7 +82,8 @@ export class StorageGridBaseLayer extends BaseLayer {
             json: body,
             responseType: 'json'
         };
-        return httppromise(options);
+        const { body: response}: any = await httppromise(options) as Response;
+        return response;
     }
 
     //Check if Tenant token already exists in session storage otherwise it will generate new Token for Tenant

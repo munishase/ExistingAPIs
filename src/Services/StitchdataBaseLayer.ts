@@ -1,6 +1,6 @@
 import { Stitchdata } from '../class/Stitchdata';
 import { BaseLayer } from './BaseLayer';
-import httppromise, { Options } from 'got';
+import httppromise, { Options, Response } from 'got';
 import sessionstorage from 'sessionstorage';
 import { Log } from '../class/Log'
 import { Logger } from '../class/Logger'
@@ -22,7 +22,7 @@ export class StitchdataBaseLayer extends BaseLayer {
     protected stitchdata: Stitchdata = new Stitchdata();
 
     //Generate new Token for Stitch
-    private generateStitchdataToken() {
+    private async generateStitchdataToken() {
 
         this.assignStitchdataEssentials();
         this.stitchdata.GrantType = this.environmentConfig.Stitchdata.GrantType;
@@ -43,8 +43,8 @@ export class StitchdataBaseLayer extends BaseLayer {
             },
             responseType: 'json'
         };
-
-        return httppromise(options);
+        const { body: response}: any = await httppromise(options) as Response;
+        return response;
     }
 
     //Check if Stitchdata token already exists otherwise it will generate new Token for Stitchdata

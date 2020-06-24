@@ -8,6 +8,7 @@ import { EnumCurrentStatus } from '../Enum/EnumCurrentStatus'
 import Constants from '../class/Constants'
 import { EnumModule } from '../Enum/EnumModule';
 import { EnumToken } from '../Enum/EnumToken';
+import { Response } from 'got/dist/source/core';
 
 export class ActivePortBaseLayer extends BaseLayer {
 
@@ -39,7 +40,8 @@ export class ActivePortBaseLayer extends BaseLayer {
             json: body,
             responseType: 'json'
         };
-        return await httppromise(options);
+        const { body: result }: any = await httppromise(options) as Response;
+        return result;
     }
 
 
@@ -63,7 +65,7 @@ export class ActivePortBaseLayer extends BaseLayer {
 
     //isActivePortAuthorized token
     protected async isActivePortAuthorized(): Promise<boolean> {
-        if (Logger.hasErrorLogs() == true){
+        if (Logger.hasErrorLogs() == true) {
             return false;
         }
         const authorizeResult = await this.authorizeActivePort();

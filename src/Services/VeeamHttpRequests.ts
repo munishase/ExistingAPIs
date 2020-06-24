@@ -1,5 +1,5 @@
 import { Veeam } from '../class/Veeam';
-import httppromise, { Options } from 'got';
+import httppromise, { Options, Response } from 'got';
 import sessionstorage from 'sessionstorage';
 import { Log } from '../class/Log'
 import { Logger } from '../class/Logger'
@@ -47,7 +47,7 @@ export class VeeamHttpRequests extends VeeamBaseLayer {
         };
 
         try {
-            const response: any = await httppromise(options);
+            const { body: response}: any = await httppromise(options) as Response;
             veeam.Id = response.id;
             Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Veeam, Constants.VeeamAccountCreationSuccess, response, body));
         } catch (err) {

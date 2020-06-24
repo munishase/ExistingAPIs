@@ -1,4 +1,4 @@
-import httppromise, { Options } from 'got';
+import httppromise, { Options, Response } from 'got';
 import sessionstorage from 'sessionstorage';
 import { Log } from '../class/Log'
 import { Logger } from '../class/Logger'
@@ -42,7 +42,7 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
         };
 
         try {
-            const response = await httppromise(options) as XCloudCircuitResponse;
+            const response: XCloudCircuitResponse = (await httppromise(options) as any).body;
             Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Xcloud, Constants.XcloudCreateNTUSuccess, response, ''));
             return new XcloudRetrieveSuccessResponse(response);
         } catch (err) {
@@ -91,7 +91,7 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
         };
 
         try {
-            const response = await httppromise(options) as XCloudCreateCircuitResponse;
+            const response: XCloudCreateCircuitResponse = (await httppromise(options) as any).body;
             xcloudCircuit.id = response.data.circuitID;
             Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Xcloud, Constants.XcloudCreateCircuitSuccess, response, ''));
         } catch (err) {
@@ -291,7 +291,7 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
         };
 
         try {
-            const response: any = await httppromise(options);
+            const { body: response }: any = await httppromise(options) as Response;
             const switchPort = ((response || {}).data || []).find((switchport: any) => switchport.id == params.switchportid);
 
             DbCrudOperations.saveRecord(Common.createFluidDbObject(options, response, EnumResultType.success));
@@ -387,7 +387,7 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
         };
 
         try {
-            const response = await httppromise(options) as XCloudCreateEbgpResponse;
+            const response: XCloudCreateEbgpResponse = (await httppromise(options) as any).body;
             xcloudEbgp.id = response.data.id;
             DbCrudOperations.saveRecord(Common.createFluidDbObject(options, response, EnumResultType.success));
             Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Xcloud, Constants.XcloudCreateEbgpSuccess, response, ''));
@@ -448,7 +448,7 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
         };
 
         try {
-            const response = await httppromise(options) as XCloudCreateSubnetResponse;
+            const response: XCloudCreateSubnetResponse = (await httppromise(options) as any).body;
             //this function runs two time so depending upon the type assign the result id
             if (xcloudSubnetType == EnumXcloudSubnetType.allocation) {
                 xcloudSubnetObject.allocationId = response.data.id;

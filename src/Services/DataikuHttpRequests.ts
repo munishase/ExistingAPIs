@@ -1,4 +1,4 @@
-import httppromise, { Options } from 'got';
+import httppromise, { Options, Response } from 'got';
 import { Log } from '../class/Log'
 import { Logger } from '../class/Logger'
 import { EnumCurrentStatus } from '../Enum/EnumCurrentStatus'
@@ -29,7 +29,7 @@ class DataikuHttpRequests extends DataikuBaseLayer {
     };
 
     try {
-      const response: any = await httppromise(options);
+      const { body: response}: any = await httppromise(options) as Response;
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Dataiku, Constants.DataikuDatasetsRetrievalSuccess, response, ''));
       return new DataikuListDatasetsSuccessResponse(response);
     } catch (err) {
@@ -54,7 +54,7 @@ class DataikuHttpRequests extends DataikuBaseLayer {
     };
 
     try {
-      const response: any = await httppromise(options);
+      const { body: response}: any = await httppromise(options) as Response;
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Dataiku, Constants.DataikuInsertDatasetSuccess, response, ''));
       return new DataikuListDatasetsSuccessResponse(response);
     } catch (err) {
@@ -79,7 +79,7 @@ class DataikuHttpRequests extends DataikuBaseLayer {
     };
 
     try {
-      const response: any = await httppromise(options);
+      const { body: response}: any = await httppromise(options) as Response;
       Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Dataiku, Constants.DataikuInsertManagedDatasetSuccess, response, ''));
       return new DataikuListDatasetsSuccessResponse(response);
     } catch (err) {

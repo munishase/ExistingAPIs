@@ -1,4 +1,4 @@
-// import httppromise, { Options } from 'got';
+// import httppromise, { Options, Response } from 'got';
 // import { Log } from '../class/Log'
 // import { Logger } from '../class/Logger'
 // import { EnumCurrentStatus } from '../Enum/EnumCurrentStatus'
@@ -56,7 +56,7 @@ class StitchdataHttpRequests extends StitchdataBaseLayer {
   //   };
 
   //   try {
-  //     const response: any = await httppromise(options);
+  //     const { body: response}: any = await httppromise(options) as Response;
   //     this.stitchdata.AccountId = response.stitch_account_id;
   //     this.stitchdata.Token = response.access_token;
   //     Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Stitchdata, Constants.StitchdataCreateAccountSuccess, response, body));
