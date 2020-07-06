@@ -37,7 +37,7 @@ export class XcloudBaseLayer extends BaseLayer {
 
         const options = this.generateXcloudToken();
         try {
-            const { body: response}: any = await httppromise(options) as Response;
+            const response = await httppromise(options) as Response;
             const cookie = ((response.headers["set-cookie"]).toString()).split(";")[0];
             sessionstorage.setItem(EnumToken.XcloudCookie, cookie);
             return { connect_sid: cookie };

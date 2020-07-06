@@ -26,30 +26,20 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
 
     //Here we are retriving all xcloud circuit
     //prerequisite: Xcloud cookie in Header
-    async getallcircuits(): Promise<XcloudRetrieveSuccessResponse | undefined> {
-        const isAuthorized = await this.isAuthorized();
-        if (!isAuthorized)
-            return;
+    async getallcircuits(): Promise<XCloudCircuitResponse> {
+        const token = (await this.authorizeXcloudGrid()).connect_sid;
 
         const options: Options = {
             url: this.baseUrl(Constants.XcloudCircuitURL),
             method: 'GET',
             headers: {
                 'Cookie': sessionstorage.getItem(EnumToken.XcloudCookie),
-                'content-type': 'application/json'
             },
             responseType: 'json'
         };
 
-        try {
-            const response: XCloudCircuitResponse = (await httppromise(options) as any).body;
-            Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Xcloud, Constants.XcloudCreateNTUSuccess, response, ''));
-            return new XcloudRetrieveSuccessResponse(response);
-        } catch (err) {
-            Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Xcloud, Constants.XcloudCreateNTUError, err, ''));
-            return new XcloudRetrieveSuccessResponse(err);
-        }
-
+        const response: XCloudCircuitResponse = (await httppromise(options) as any).body;
+        return response;
     }
 
     //Here we add new circuit in xcloud
@@ -313,91 +303,38 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
     }
 
     //add ebgp in xcloud
-    async addEbgpforxcloud(requestBody: any, activeportCreateServiceByUUID: { uuid: string }): Promise<XcloudRetrieveSuccessResponse | undefined> {
-        const isAuthorized = await this.isAuthorized();
-        if (!isAuthorized)
-            return;
-
-        const xcloudEbgp = new XcloudEbgp();
-        xcloudEbgp.name = activeportCreateServiceByUUID.uuid;
-        //xcloudEbgp.site_id = activeportCreateServiceByUUID.locationId;
-        xcloudEbgp.site_id = requestBody.site_id;
-
-        //set for testing environment
-        //start
-        const customerIp = "40.40.40.1/30";
-        const ipDetails = customerIp.split("/");
-        xcloudEbgp.neighbor_as = "65999"; //requestBody.neighbor_as;
-        xcloudEbgp.vlan = 3; //activeportCreateServiceByUUID.vlanIdB;
-        xcloudEbgp.remote_ip = "40.40.40.2"; //activeportCreateServiceByUUID.providerIp;
-        xcloudEbgp.local_ip = ipDetails[0]; //activeportCreateServiceByUUID.customerIp;
-        xcloudEbgp.prefix_length = parseInt(ipDetails[1]);//requestBody.prefix_length;
-        xcloudEbgp.term_switch_id = 143;//requestBody.term_switch_id;
-        xcloudEbgp.switch_port_id = 18663;//requestBody.switch_port_id;
-        //end
-
-        //values set in class as default so no need to asign from any request
-        //xcloudEbgp.prefix_list_outbound = requestBody.prefix_list_outbound;
-        //xcloudEbgp.prefix_list_inbound = requestBody.prefix_list_inbound;
-        //xcloudEbgp.status = requestBody.status;
-        //xcloudEbgp.originate = requestBody.originate;
-        //xcloudEbgp.local_preference = activeportCreateServiceByUUID.bgpAuthKey;
-        //xcloudEbgp.terminate_on_switch = requestBody.terminate_on_switch;
-        //xcloudEbgp.ip_version = requestBody.ip_version;
-        //xcloudEbgp.multihop = requestBody.multihop;
-        //xcloudEbgp.weight = requestBody.weight;
-        //xcloudEbgp.community = requestBody.community;
-        //xcloudEbgp.allowas_in = requestBody.allowas_in;
-        //xcloudEbgp.rcircuit_id = requestBody.rcircuit_id;
-
-
-        const body = {
-            "name": xcloudEbgp.name,
-            "terminate_on_switch": xcloudEbgp.terminate_on_switch,
-            "neighbor_as": xcloudEbgp.neighbor_as,
-            "ip_version": xcloudEbgp.ip_version,
-            "status": xcloudEbgp.status,
-            "originate": xcloudEbgp.originate,
-            "vlan": xcloudEbgp.vlan,
-            "site_id": xcloudEbgp.site_id,
-            "local_ip": xcloudEbgp.local_ip,
-            "remote_ip": xcloudEbgp.remote_ip,
-            "local_preference": xcloudEbgp.local_preference,
-            "prefix_length": xcloudEbgp.prefix_length,
-            "prefix_list_outbound": xcloudEbgp.prefix_list_outbound,
-            "prefix_list_inbound": xcloudEbgp.prefix_list_inbound,
-            "multihop": xcloudEbgp.multihop,
-            "weight": xcloudEbgp.weight,
-            "community": xcloudEbgp.community,
-            "term_switch_id": xcloudEbgp.term_switch_id,
-            "allowas_in": xcloudEbgp.allowas_in,
-            "rcircuit_id": xcloudEbgp.rcircuit_id,
-            "switch_port_id": xcloudEbgp.switch_port_id
-        } as XcloudEbgp;
+    async addEbgpforxcloud(request: XcloudEbgp) {
+        const token = (await this.authorizeXcloudGrid()).connect_sid;
 
         const options: Options = {
             url: this.baseUrl(Constants.XcloudEbgpURL),
             method: 'POST',
             headers: {
-                'Cookie': sessionstorage.getItem(EnumToken.XcloudCookie),
-                'content-type': 'application/json'
+                'Cookie': token
             },
-            json: body,
+            json: request,
             responseType: 'json'
         };
 
-        try {
-            const response: XCloudCreateEbgpResponse = (await httppromise(options) as any).body;
-            xcloudEbgp.id = response.data.id;
-            DbCrudOperations.saveRecord(Common.createFluidDbObject(options, response, EnumResultType.success));
-            Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Xcloud, Constants.XcloudCreateEbgpSuccess, response, ''));
-            return new XcloudRetrieveSuccessResponse(xcloudEbgp);
-        } catch (err) {
-            DbCrudOperations.saveRecord(Common.createFluidDbObject(options, err, EnumResultType.fail));
-            Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Xcloud, Constants.XcloudCreateEbgpError, err, ''));
-            return new XcloudRetrieveSuccessResponse(err); // is this correct?
-        }
+        const response: XCloudCreateEbgpResponse = (await httppromise(options) as any).body;
+        return response;
+    }
 
+    async removeEbgp(request: XcloudEbgp) {
+        const token = (await this.authorizeXcloudGrid()).connect_sid;
+
+        const options: Options = {
+            url: this.baseUrl(Constants.XcloudEbgpURL),
+            method: 'DELETE',
+            headers: {
+                'Cookie': token
+            },
+            json: request,
+            responseType: 'json'
+        };
+
+        const response: XCloudCreateEbgpResponse = (await httppromise(options) as any).body;
+        return response;
     }
 
     //add subet proxy in xcloud

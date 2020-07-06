@@ -1,8 +1,9 @@
 export class XcloudEbgp {
-    id = 0;
+    id!: number;
     name = "";
-    terminate_on_switch = "yes";
-    neighbor_as = "";
+    terminate_on_switch = "no";
+    neighbor_as = 0;
+    bgp_password = "";
     ip_version = "ipv4";
     status = "enabled";
     originate = "disabled";
@@ -21,4 +22,5 @@ export class XcloudEbgp {
     allowas_in = 0;
     rcircuit_id = 0;
     switch_port_id = 0;
+    nfv_port_id!: number;
 }

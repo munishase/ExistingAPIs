@@ -23,7 +23,7 @@ export class ActivePortBaseLayer extends BaseLayer {
     protected activePort: ActivePort = new ActivePort();
 
     //Generate new Token for ActivePort
-    private async generateActivePortToken(): Promise<any> {
+    protected async generateActivePortToken(): Promise<any> {
 
         this.activePort.Username = this.environmentConfig.ActivePort.Username;
         this.activePort.Password = this.environmentConfig.ActivePort.Password;
@@ -65,11 +65,11 @@ export class ActivePortBaseLayer extends BaseLayer {
 
     //isActivePortAuthorized token
     protected async isActivePortAuthorized(): Promise<boolean> {
-        if (Logger.hasErrorLogs() == true) {
-            return false;
-        }
         const authorizeResult = await this.authorizeActivePort();
-        return !!authorizeResult;
+        if (!authorizeResult) {
+            throw new Error('No authorisation found');
+        }
+        return true;
     }
 
     //remove token
