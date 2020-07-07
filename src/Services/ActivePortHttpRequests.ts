@@ -1,14 +1,9 @@
 import httppromise, { Options, Response } from 'got';
 import sessionstorage from 'sessionstorage';
-import { Log } from '../class/Log'
-import { Logger } from '../class/Logger'
-import { EnumCurrentStatus } from '../Enum/EnumCurrentStatus'
 import Constants from '../class/Constants'
-import Common from '../class/Common';
 import { ActivePortBaseLayer } from './ActivePortBaseLayer'
 import { ActivePortTenantCreationSuccessResponse } from '../class/Response/ActivePortTenantCreationSuccessResponse'
 import { ActivePortNTUCreationSuccessResponse } from '../class/Response/ActivePortNTUCreationSuccessResponse'
-import { EnumModule } from '../Enum/EnumModule';
 import { EnumToken } from '../Enum/EnumToken';
 import { ActivePortNtuRetrieveSuccessResponse } from '../class/Response/ActivePortNtuRetrieveSuccessResponse';
 import { ActivePortTenantRetrieveSuccessResponse } from '../class/Response/ActivePortTenantRetrieveSuccessResponse';
@@ -17,8 +12,6 @@ import { ActivePortNTU } from '../class/ActivePortNTU';
 import { ActivePortNTUPort } from '../class/ActivePortNTUPort';
 import { ActivePortNTUPortCreationSuccessResponse } from '../class/Response/ActivePortNTUPortCreationSuccessResponse'
 import { ActivePortServiceRequest } from '../class/ActivePortServiceRequest';
-import DbCrudOperations from './DbCrudOperations';
-import { EnumResultType } from '../Enum/EnumResultType';
 
 class ActivePortHttpRequests extends ActivePortBaseLayer {
 
@@ -46,9 +39,9 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
     try {
       const { body: response }: any = await httppromise(options) as Response;
       this.activePort.ActivePortTenants = response;
-      Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortTenantAccountsSuccess, response, ''));
+      // Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortTenantAccountsSuccess, response, ''));
     } catch (err) {
-      Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortTenantAccountsError, err, ''));
+      // Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortTenantAccountsError, err, ''));
     }
 
     return new ActivePortTenantRetrieveSuccessResponse(this.activePort.ActivePortTenants);
@@ -87,9 +80,9 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
       const { body: response }: any = await httppromise(options) as Response;
       activePortTenant.id = response.id;
       activePortTenant.tenantId = response.tenantId;
-      Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortTenantAccountCreationSuccess, response, body));
+      // Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortTenantAccountCreationSuccess, response, body));
     } catch (err) {
-      Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortTenantAccountCreationError, err, body));
+      // Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortTenantAccountCreationError, err, body));
     }
 
     return new ActivePortTenantCreationSuccessResponse(activePortTenant);
@@ -130,9 +123,9 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
 
     try {
       const { body: response }: any = await httppromise(options) as Response;
-      Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortTenantAccountCreationSuccess, response, body));
+      // Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortTenantAccountCreationSuccess, response, body));
     } catch (err) {
-      Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortTenantAccountCreationError, err, body));
+      // Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortTenantAccountCreationError, err, body));
     }
 
     return new ActivePortTenantCreationSuccessResponse(activePortTenant);
@@ -158,9 +151,9 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
     try {
       const { body: response }: any = await httppromise(options) as Response;
       this.activePort.ActivePortNTU = response;
-      Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortNTUSuccess, response, ''));
+      // Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortNTUSuccess, response, ''));
     } catch (err) {
-      Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortNTUError, err, ''));
+      // Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortNTUError, err, ''));
     }
 
     return new ActivePortNtuRetrieveSuccessResponse(this.activePort.ActivePortNTU);
@@ -186,9 +179,9 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
     try {
       const { body: response }: any = await httppromise(options) as Response;
       this.activePort.ActivePortNTU = response;
-      Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortNTUSuccess, response, ''));
+      // Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortNTUSuccess, response, ''));
     } catch (err) {
-      Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortNTUError, err, ''));
+      // Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortNTUError, err, ''));
     }
 
     return new ActivePortNtuRetrieveSuccessResponse(this.activePort.ActivePortNTU);
@@ -270,9 +263,9 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
     try {
       const { body: response }: any = await httppromise(options) as Response;
       activePortNTU.id = response.id
-      Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortTenantAccountCreationSuccess, response, body));
+      // Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortTenantAccountCreationSuccess, response, body));
     } catch (err) {
-      Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortTenantAccountCreationError, err, body));
+      // Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortTenantAccountCreationError, err, body));
     }
 
     return new ActivePortNTUCreationSuccessResponse(activePortNTU);
@@ -354,11 +347,11 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
     try {
       const { body: response }: any = await httppromise(options) as Response;
       activePortNTU.id = response.id
-      DbCrudOperations.saveRecord(Common.createFluidDbObject(options, response, EnumResultType.success));
-      Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortNTUCreationSuccess, response, body));
+      // DbCrudOperations.saveRecord(Common.createFluidDbObject(options, response, EnumResultType.success));
+      // Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortNTUCreationSuccess, response, body));
     } catch (err) {
-      DbCrudOperations.saveRecord(Common.createFluidDbObject(options, err, EnumResultType.fail));
-      Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortNTUCreationError, err, body));
+      // DbCrudOperations.saveRecord(Common.createFluidDbObject(options, err, EnumResultType.fail));
+      // Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortNTUCreationError, err, body));
     }
 
     return new ActivePortNTUCreationSuccessResponse(activePortNTU);
@@ -384,9 +377,9 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
     try {
       const { body: response }: any = await httppromise(options) as Response;
       this.activePort.ActivePortNTU = response;
-      Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortTenantAccountDeletionSuccess, response, ''));
+      // Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortTenantAccountDeletionSuccess, response, ''));
     } catch (err) {
-      Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortTenantAccountDeletionError, err, ''));
+      // Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortTenantAccountDeletionError, err, ''));
     }
 
     return new ActivePortNtuRetrieveSuccessResponse(this.activePort.ActivePortNTU);
@@ -440,14 +433,14 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
 
     try {
       const { body: response }: any = await httppromise(options) as Response;
-      DbCrudOperations.saveRecord(Common.createFluidDbObject(options, response, EnumResultType.success));
-      Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortNTUPortCreationSuccess, response, body));
+      // DbCrudOperations.saveRecord(Common.createFluidDbObject(options, response, EnumResultType.success));
+      // Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortNTUPortCreationSuccess, response, body));
 
       if (response != undefined)
         return new ActivePortNTUPortCreationSuccessResponse(activePortNTUPort, response);
     } catch (err) {
-      DbCrudOperations.saveRecord(Common.createFluidDbObject(options, err, EnumResultType.fail));
-      Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortNTUPortCreationError, err, body));
+      // DbCrudOperations.saveRecord(Common.createFluidDbObject(options, err, EnumResultType.fail));
+      // Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortNTUPortCreationError, err, body));
     }
   }
 
@@ -494,7 +487,7 @@ class ActivePortHttpRequests extends ActivePortBaseLayer {
       retry: 0
     };
 
-    const { body } = await httppromise(options);
+    const { body }: any = await httppromise(options) as Response;
     // DbCrudOperations.saveRecord(Common.createFluidDbObject(options, response, EnumResultType.success));
     // Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortCreateServiceRequestSuccess, response, body));
     return body;

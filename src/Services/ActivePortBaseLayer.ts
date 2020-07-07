@@ -2,11 +2,7 @@ import { ActivePort } from '../class/ActivePort';
 import { BaseLayer } from './BaseLayer';
 import httppromise, { Options } from 'got';
 import sessionstorage from 'sessionstorage';
-import { Log } from '../class/Log'
-import { Logger } from '../class/Logger'
-import { EnumCurrentStatus } from '../Enum/EnumCurrentStatus'
 import Constants from '../class/Constants'
-import { EnumModule } from '../Enum/EnumModule';
 import { EnumToken } from '../Enum/EnumToken';
 import { Response } from 'got/dist/source/core';
 
@@ -51,11 +47,11 @@ export class ActivePortBaseLayer extends BaseLayer {
             try {
                 const response = await this.generateActivePortToken();
                 sessionstorage.setItem(EnumToken.ActivePortToken, response.id_token)
-                Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortAuthSuccess, response, ""))
+                // Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortAuthSuccess, response, ""))
                 return true;
             } catch (err) {
                 console.error(err)
-                Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortAuthError, err, ""));
+                // Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortAuthError, err, ""));
                 return false;
             }
         }
@@ -76,10 +72,10 @@ export class ActivePortBaseLayer extends BaseLayer {
     protected removeToken(): void {
         try {
             sessionstorage.removeItem(EnumToken.ActivePortToken);
-            Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortTokenRemovedSuccess, "", ""))
+            // Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.ActivePort, Constants.ActivePortTokenRemovedSuccess, "", ""))
         } catch (error) {
             console.error(error);
-            Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortTokenRemovedError, "", ""));
+            // Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.ActivePort, Constants.ActivePortTokenRemovedError, "", ""));
         }
     }
 }

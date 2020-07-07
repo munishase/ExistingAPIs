@@ -1,5 +1,4 @@
 import express from 'express';
-import Router from './api/router';
 import swaggerUi from 'swagger-ui-express';
 import * as mainSwaggerDocument from '../swagger/openapi.json';
 import * as fluidSwaggerDocument from '../swagger/openapi_fluid.json';

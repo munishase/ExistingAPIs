@@ -1,9 +1,0 @@
-{
-    "projectKey": "MUNISHEXAMKAGGLETELSTRANETWORKCHALLENGE",
-    "dataset": {
-      "name": "ManagedDS2",
-      "creationSettings": {
-        "connectionId": "PostgreSQL"
-      }
-    }
-  }

@@ -1,20 +1,13 @@
 import httppromise, { Options, Response } from 'got';
 import sessionstorage from 'sessionstorage';
-import { Log } from '../class/Log'
-import { Logger } from '../class/Logger'
-import { EnumCurrentStatus } from '../Enum/EnumCurrentStatus'
 import Constants from '../class/Constants'
-import { EnumModule } from '../Enum/EnumModule';
 import { XcloudBaseLayer } from './XcloudBaseLayer';
 import { EnumToken } from '../Enum/EnumToken';
 import { XcloudCircuit } from '../class/XcloudCircuit';
-import Common from '../class/Common'
 import { XcloudRetrieveSuccessResponse } from '../class/Response/XcloudRetrieveSuccessResponse';
 import { XcloudSwitchPort } from '../class/Response/XcloudSwitchPort';
 import { XcloudEbgp } from '../class/XcloudEbgp';
-import DbCrudOperations from './DbCrudOperations';
 import { XcloudSubnet } from '../class/XcloudSubnet';
-import { EnumResultType } from '../Enum/EnumResultType';
 import { EnumXcloudSubnetType } from '../Enum/EnumXcloudSubnetType';
 import { v1 as uuidv1 } from 'uuid';
 
@@ -33,7 +26,7 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
             url: this.baseUrl(Constants.XcloudCircuitURL),
             method: 'GET',
             headers: {
-                'Cookie': sessionstorage.getItem(EnumToken.XcloudCookie),
+                'Cookie': token,
             },
             responseType: 'json'
         };
@@ -83,9 +76,9 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
         try {
             const response: XCloudCreateCircuitResponse = (await httppromise(options) as any).body;
             xcloudCircuit.id = response.data.circuitID;
-            Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Xcloud, Constants.XcloudCreateCircuitSuccess, response, ''));
+            // Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Xcloud, Constants.XcloudCreateCircuitSuccess, response, ''));
         } catch (err) {
-            Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Xcloud, Constants.XcloudCreateCircuitError, err, ''));
+            // Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Xcloud, Constants.XcloudCreateCircuitError, err, ''));
         }
 
         return new XcloudRetrieveSuccessResponse(xcloudCircuit);
@@ -284,20 +277,22 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
             const { body: response }: any = await httppromise(options) as Response;
             const switchPort = ((response || {}).data || []).find((switchport: any) => switchport.id == params.switchportid);
 
-            DbCrudOperations.saveRecord(Common.createFluidDbObject(options, response, EnumResultType.success));
-            Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.fluid, Constants.XcloudGetSwitchPortSuccess, response, ''));
+            // DbCrudOperations.saveRecord(Common.createFluidDbObject(options, response, EnumResultType.success));
+            // Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.fluid, Constants.XcloudGetSwitchPortSuccess, response, ''));
 
             //if there is no switchport with the id then
             if (!switchPort) {
-                Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.fluid, Constants.XcloudGetSwitchPortError, Constants.XcloudNoSwitchPortError, ''));
+                console.error(Constants.XcloudGetSwitchPortError);
+                // Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.fluid, Constants.XcloudGetSwitchPortError, Constants.XcloudNoSwitchPortError, ''));
                 return;
             } else {
                 return new XcloudSwitchPort(switchPort);
             }
 
         } catch (err) {
-            DbCrudOperations.saveRecord(Common.createFluidDbObject(options, err, EnumResultType.fail));
-            Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.fluid, Constants.XcloudGetSwitchPortError, err, ''));
+            console.error(Constants.XcloudGetSwitchPortError);
+            // DbCrudOperations.saveRecord(Common.createFluidDbObject(options, err, EnumResultType.fail));
+            // Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.fluid, Constants.XcloudGetSwitchPortError, err, ''));
         }
 
     }
@@ -343,7 +338,7 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
         const subnetName = uuidv1();
         const xcloudSubnetObject = new XcloudSubnet()
         const xcloudSubnetResponse = await this.addSubnetforxcloud(requestBody, EnumXcloudSubnetType.allocation, subnetName, xcloudSubnetObject) as unknown as XcloudSubnet;
-        if (!Logger.hasErrorLogs() && !!xcloudSubnetResponse) {
+        if (xcloudSubnetResponse) {
             const xcloudSubnetFinalResult = await this.addSubnetforxcloud(requestBody, EnumXcloudSubnetType.assignment, subnetName, xcloudSubnetObject.convertToXcloudSubnetObject(xcloudSubnetResponse)) as unknown as XcloudSubnet;
             if (xcloudSubnetFinalResult) {
                 return xcloudSubnetObject.convertToXcloudSubnetObject(xcloudSubnetFinalResult);
@@ -393,12 +388,13 @@ export class XcloudHttpRequests extends XcloudBaseLayer {
                 xcloudSubnetObject.assignmentId = response.data.id;
             }
 
-            DbCrudOperations.saveRecord(Common.createFluidDbObject(options, response, EnumResultType.success));
-            Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Xcloud, Constants.XcloudCreateSubnetSuccess, response, ''));
+            // DbCrudOperations.saveRecord(Common.createFluidDbObject(options, response, EnumResultType.success));
+            // Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Xcloud, Constants.XcloudCreateSubnetSuccess, response, ''));
             return response;
         } catch (err) {
-            DbCrudOperations.saveRecord(Common.createFluidDbObject(options, err, EnumResultType.fail));
-            Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Xcloud, Constants.XcloudCreateSubnetError, err, ''));
+            console.error(err);
+            // DbCrudOperations.saveRecord(Common.createFluidDbObject(options, err, EnumResultType.fail));
+            // Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Xcloud, Constants.XcloudCreateSubnetError, err, ''));
             return err;
         }
 

@@ -1,11 +1,7 @@
 import { BaseLayer } from './BaseLayer';
 import httppromise, { Options, Response } from 'got';
 import sessionstorage from 'sessionstorage';
-import { Log } from '../class/Log'
-import { Logger } from '../class/Logger'
-import { EnumCurrentStatus } from '../Enum/EnumCurrentStatus'
 import Constants from '../class/Constants'
-import { EnumModule } from '../Enum/EnumModule';
 import { EnumToken } from '../Enum/EnumToken';
 
 export class XcloudBaseLayer extends BaseLayer {
@@ -38,22 +34,20 @@ export class XcloudBaseLayer extends BaseLayer {
         const options = this.generateXcloudToken();
         try {
             const response = await httppromise(options) as Response;
-            const cookie = ((response.headers["set-cookie"]).toString()).split(";")[0];
-            sessionstorage.setItem(EnumToken.XcloudCookie, cookie);
-            return { connect_sid: cookie };
+            if (response.headers && response.headers["set-cookie"]) {
+                const cookie = ((response.headers["set-cookie"]).toString()).split(";")[0];
+                sessionstorage.setItem(EnumToken.XcloudCookie, cookie);
+                return { connect_sid: cookie };
+            }
         } catch (err) {
-            console.log('Error')
-            throw new Error(err);
+            console.error(err)
         }
-
+        throw new Error("Could not authorise XCloud");
     }
 
     //isAuthorized token
     protected async isAuthorized(): Promise<boolean> {
         sessionstorage.removeItem(EnumToken.XcloudCookie);
-        if (Logger.hasErrorLogs() == true){
-            return false;
-        }
         const authorizeResult = await this.authorizeXcloudGrid();
         return !!authorizeResult;
     }
@@ -62,11 +56,11 @@ export class XcloudBaseLayer extends BaseLayer {
     protected removeToken(): void {
         try {
             sessionstorage.removeItem(EnumToken.XcloudCookie);
-            Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Xcloud, Constants.XcloudTokenRemovedSuccess, "", ""))
+            // Logger.updateLogs(new Log(EnumCurrentStatus.Success, EnumModule.Xcloud, Constants.XcloudTokenRemovedSuccess, "", ""))
         }
         catch (error) {
             console.error(error);
-            Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Xcloud, Constants.XcloudTokenRemovedFailure, "", ""));
+            // Logger.updateLogs(new Log(EnumCurrentStatus.Error, EnumModule.Xcloud, Constants.XcloudTokenRemovedFailure, "", ""));
         }
     }
 
